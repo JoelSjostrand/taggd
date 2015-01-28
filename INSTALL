@@ -1,0 +1,17 @@
+REQUIREMENTS:
+
+See setup.py.
+
+
+
+INSTALLATION:
+
+cd <taggd demultiplexer root>
+python setup.py build
+python setup.py install
+
+
+
+RUNNING:
+
+taggd_demultiplex.py -h
