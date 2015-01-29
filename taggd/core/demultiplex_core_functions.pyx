@@ -194,7 +194,7 @@ def __listener():
 
     # Open files.
     cdef object f_res, f_match, f_ambig, f_unmatch
-    f_res = open(outfile_prefix + ".result", 'w')
+    f_res = open(outfile_prefix + ".results.tsv", 'w')
     f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
     f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
     f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
