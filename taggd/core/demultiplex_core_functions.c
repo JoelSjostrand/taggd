@@ -884,7 +884,7 @@ static char __pyx_k_value[] = "value";
 static char __pyx_k_write[] = "write";
 static char __pyx_k_import[] = "__import__";
 static char __pyx_k_random[] = "random";
-static char __pyx_k_result[] = ".result";
+static char __pyx_k_result[] = "result";
 static char __pyx_k_seed_2[] = "seed";
 static char __pyx_k_xrange[] = "xrange";
 static char __pyx_k_Counter[] = "Counter";
@@ -896,7 +896,6 @@ static char __pyx_k_s_s_s_s[] = "%s\t%s\t%s\t%s\n";
 static char __pyx_k_shuffle[] = "shuffle";
 static char __pyx_k_add_tags[] = "add_tags";
 static char __pyx_k_listener[] = "__listener";
-static char __pyx_k_result_2[] = "result";
 static char __pyx_k_sequence[] = "sequence";
 static char __pyx_k_UNMATCHED[] = "UNMATCHED";
 static char __pyx_k_ambiguous[] = ".ambiguous.";
@@ -911,6 +910,7 @@ static char __pyx_k_get_writer[] = "get_writer";
 static char __pyx_k_apply_async[] = "apply_async";
 static char __pyx_k_demultiplex[] = "demultiplex";
 static char __pyx_k_reader_open[] = "reader_open";
+static char __pyx_k_results_tsv[] = ".results.tsv";
 static char __pyx_k_Reads_format[] = "# Reads format: ";
 static char __pyx_k_matched_unam[] = "matched_unam";
 static char __pyx_k_pre_overhang[] = "pre_overhang_";
@@ -1040,8 +1040,8 @@ static PyObject *__pyx_n_s_reader_close;
 static PyObject *__pyx_n_s_reader_open;
 static PyObject *__pyx_n_s_reads_infile;
 static PyObject *__pyx_n_s_rec;
-static PyObject *__pyx_kp_s_result;
-static PyObject *__pyx_n_s_result_2;
+static PyObject *__pyx_n_s_result;
+static PyObject *__pyx_kp_s_results_tsv;
 static PyObject *__pyx_kp_s_s_s_s_s;
 static PyObject *__pyx_n_s_seed;
 static PyObject *__pyx_n_s_seed_2;
@@ -2810,11 +2810,11 @@ static PyObject *__pyx_pf_5taggd_4core_26demultiplex_core_functions_8__listener(
   /* "taggd/core/demultiplex_core_functions.pyx":197
  *     # Open files.
  *     cdef object f_res, f_match, f_ambig, f_unmatch
- *     f_res = open(outfile_prefix + ".result", 'w')             # <<<<<<<<<<<<<<
+ *     f_res = open(outfile_prefix + ".results.tsv", 'w')             # <<<<<<<<<<<<<<
  *     f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
  *     f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
  */
-  __pyx_t_1 = PyNumber_Add(__pyx_v_5taggd_4core_26demultiplex_core_functions_outfile_prefix, __pyx_kp_s_result); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Add(__pyx_v_5taggd_4core_26demultiplex_core_functions_outfile_prefix, __pyx_kp_s_results_tsv); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -2832,7 +2832,7 @@ static PyObject *__pyx_pf_5taggd_4core_26demultiplex_core_functions_8__listener(
 
   /* "taggd/core/demultiplex_core_functions.pyx":198
  *     cdef object f_res, f_match, f_ambig, f_unmatch
- *     f_res = open(outfile_prefix + ".result", 'w')
+ *     f_res = open(outfile_prefix + ".results.tsv", 'w')
  *     f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")             # <<<<<<<<<<<<<<
  *     f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
  *     f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
@@ -2845,7 +2845,7 @@ static PyObject *__pyx_pf_5taggd_4core_26demultiplex_core_functions_8__listener(
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "taggd/core/demultiplex_core_functions.pyx":199
- *     f_res = open(outfile_prefix + ".result", 'w')
+ *     f_res = open(outfile_prefix + ".results.tsv", 'w')
  *     f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
  *     f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())             # <<<<<<<<<<<<<<
  *     f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
@@ -6496,8 +6496,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_reader_open, __pyx_k_reader_open, sizeof(__pyx_k_reader_open), 0, 0, 1, 1},
   {&__pyx_n_s_reads_infile, __pyx_k_reads_infile, sizeof(__pyx_k_reads_infile), 0, 0, 1, 1},
   {&__pyx_n_s_rec, __pyx_k_rec, sizeof(__pyx_k_rec), 0, 0, 1, 1},
-  {&__pyx_kp_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 0},
-  {&__pyx_n_s_result_2, __pyx_k_result_2, sizeof(__pyx_k_result_2), 0, 0, 1, 1},
+  {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
+  {&__pyx_kp_s_results_tsv, __pyx_k_results_tsv, sizeof(__pyx_k_results_tsv), 0, 0, 1, 0},
   {&__pyx_kp_s_s_s_s_s, __pyx_k_s_s_s_s, sizeof(__pyx_k_s_s_s_s), 0, 0, 1, 0},
   {&__pyx_n_s_seed, __pyx_k_seed, sizeof(__pyx_k_seed), 0, 0, 1, 1},
   {&__pyx_n_s_seed_2, __pyx_k_seed_2, sizeof(__pyx_k_seed_2), 0, 0, 1, 1},
@@ -6617,7 +6617,7 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "taggd/core/demultiplex_core_functions.pyx":198
  *     cdef object f_res, f_match, f_ambig, f_unmatch
- *     f_res = open(outfile_prefix + ".result", 'w')
+ *     f_res = open(outfile_prefix + ".results.tsv", 'w')
  *     f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")             # <<<<<<<<<<<<<<
  *     f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
  *     f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
@@ -6678,7 +6678,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     '''Opens files, listens for messages on the q, writes output to files. '''
  * 
  */
-  __pyx_tuple__24 = PyTuple_Pack(11, __pyx_n_s_f_res, __pyx_n_s_f_match, __pyx_n_s_f_ambig, __pyx_n_s_f_unmatch, __pyx_n_s_rec, __pyx_n_s_result_2, __pyx_n_s_bcseq, __pyx_n_s_bc, __pyx_n_s_props, __pyx_n_s_tags, __pyx_n_s_i); if (unlikely(!__pyx_tuple__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__24 = PyTuple_Pack(11, __pyx_n_s_f_res, __pyx_n_s_f_match, __pyx_n_s_f_ambig, __pyx_n_s_f_unmatch, __pyx_n_s_rec, __pyx_n_s_result, __pyx_n_s_bcseq, __pyx_n_s_bc, __pyx_n_s_props, __pyx_n_s_tags, __pyx_n_s_i); if (unlikely(!__pyx_tuple__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
   __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(0, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_listener, 192, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
