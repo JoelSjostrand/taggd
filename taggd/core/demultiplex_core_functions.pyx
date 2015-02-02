@@ -144,7 +144,9 @@ def demultiplex():
 
 
 def __demultiplex_linearly():
-    """Demultiplexes the contents of a reads file in a linear manner."""
+    """
+    Demultiplexes the contents of a reads file in a linear manner.
+    """
     global manager
     manager = mp.Manager()
     global q
@@ -196,7 +198,9 @@ def __demultiplex_mp():
 
 
 def __listener():
-    '''Opens files, listens for messages on the q, writes output to files. '''
+    """
+    Opens files, listens for messages on the q, writes output to files.
+    """
 
     # Open files.
     cdef object f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
@@ -261,7 +265,9 @@ def __listener():
 
 
 def __demultiplex_record_wrapper(object rec):
-    """Wrapper for cdef:ed multithreading function."""
+    """
+    Wrapper for cdef:ed multithreading function.
+    """
     return __demultiplex_record(rec)
 
 
@@ -270,6 +276,7 @@ def __demultiplex_record_wrapper(object rec):
 cdef bool __demultiplex_record(object rec):
     """
     Demultiplexes a record.
+    :param rec: the record.
     :return: true if mapped.
     """
     stats_total_reads.increment()
@@ -329,7 +336,9 @@ cdef bool __demultiplex_record(object rec):
 
 
 def print_pre_stats():
-    """Prints pre stats"""
+    """
+    Prints pre stats
+    """
     if only_output_matched:
         print "# Only writing matched reads."
     print "# Reads format: " + reader_writer.get_format()
@@ -339,7 +348,9 @@ def print_pre_stats():
 
 
 def print_post_stats():
-    """Prints post stats"""
+    """
+    Prints post stats
+    """
     print "# Total reads processed: " + str(stats_total_reads.value())
     cdef int matched_unam = stats_total_reads.value() - stats_unmatched.value() - stats_imperfect_ambiguous_matches.value()
     cdef float tot = float(stats_total_reads.value())
@@ -357,7 +368,9 @@ def print_post_stats():
 
 
 cdef str __match_type_to_str(int match_type):
-    '''Simple converter.'''
+    """
+    Simple converter.
+    """
     if match_type == UNMATCHED:
         return "UNMATCHED"
     elif match_type == MATCHED_PERFECTLY:
