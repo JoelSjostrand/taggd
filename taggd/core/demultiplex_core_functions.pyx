@@ -22,7 +22,8 @@ cdef unsigned int barcode_length
 cdef unsigned int pre_overhang
 cdef unsigned int post_overhang
 cdef str seed
-cdef bool no_mp
+cdef bool no_multiprocessing
+cdef bool only_output_matched
 
 
 # Reader-writer
@@ -58,7 +59,9 @@ def init(\
         unsigned int pre_overhang_, \
         unsigned int post_overhang_, \
         str seed_, \
-        bool no_multiprocessing_):
+        bool no_multiprocessing_,\
+        bool only_output_matched_\
+    ):
     """
     Initializes settings (global variables).
     :param true_barcodes_: barcodes dict to attributes.
@@ -70,6 +73,7 @@ def init(\
     :param post_overhang_: how many flanking bases post for indels. Not applicable for Hamming distance.
     :param seed_: PRNG seed.
     :param no_multiprocessing: No multiprocessing.
+    :param only_output_matched: Only matched file out.
     """
 
     global true_barcodes
@@ -91,6 +95,8 @@ def init(\
     random.seed(seed)
     global no_multiprocessing
     no_multiprocessing = no_multiprocessing_
+    global only_output_matched
+    only_output_matched = only_output_matched_
 
     # Read chip file
     global barcode_length
@@ -144,7 +150,7 @@ def __demultiplex_linearly():
     global q
     q = manager.Queue()
 
-    cdef object rec
+    cdef object rec = None
     for rec in reader_writer.reader_open():
         __demultiplex_record_wrapper(rec)
     reader_writer.reader_close()
@@ -172,8 +178,8 @@ def __demultiplex_mp():
 
     # Fire off workers
     cdef list jobs = []
-    cdef object job
-    cdef object rec
+    cdef object job = None
+    cdef object rec = None
     for rec in reader_writer.reader_open():
         job = pool.apply_async(__demultiplex_record_wrapper, (rec,))
         jobs.append(job)
@@ -193,20 +199,23 @@ def __listener():
     '''Opens files, listens for messages on the q, writes output to files. '''
 
     # Open files.
-    cdef object f_res, f_match, f_ambig, f_unmatch
-    f_res = open(outfile_prefix + ".results.tsv", 'w')
-    f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
-    f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
-    f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
-    f_unmatch = reader_writer.get_writer(outfile_prefix + ".unmatched." + reader_writer.get_format())
+    cdef object f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
+    cdef object f_res = None
+    cdef object f_ambig = None
+    cdef object f_unmatch = None
+    if not only_output_matched:
+        f_res = open(outfile_prefix + ".results.tsv", 'w')
+        f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
+        f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
+        f_unmatch = reader_writer.get_writer(outfile_prefix + ".unmatched." + reader_writer.get_format())
 
-    cdef object rec
-    cdef int result
-    cdef str bcseq
-    cdef object bc
-    cdef list props
-    cdef list tags
-    cdef unsigned int i
+    cdef object rec = None
+    cdef int result = -1
+    cdef str bcseq = None
+    cdef object bc = None
+    cdef list props = []
+    cdef list tags = []
+    cdef unsigned int i = 0
     while True:
         # Extract record
         (rec, result, bcseq, props) = q.get()
@@ -216,11 +225,13 @@ def __listener():
             break
 
         # Write to info file.
-        f_res.write("%s\t%s\t%s\t%s\n" % (rec.annotation, __match_type_to_str(result), bcseq, "\t".join(props)))
+        if not only_output_matched:
+            f_res.write("%s\t%s\t%s\t%s\n" % (rec.annotation, __match_type_to_str(result), bcseq, "\t".join(props)))
 
         # No match.
         if result == UNMATCHED:
-            reader_writer.write_record(f_unmatch, rec)
+            if not only_output_matched:
+                reader_writer.write_record(f_unmatch, rec)
             continue
 
         # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
@@ -236,14 +247,17 @@ def __listener():
             reader_writer.write_record(f_match, rec)
         elif result == MATCHED_UNAMBIGUOUSLY:
             reader_writer.write_record(f_match, rec)
-        elif result == MATCHED_AMBIGUOUSLY:
+        elif result == MATCHED_AMBIGUOUSLY and not only_output_matched:
             reader_writer.write_record(f_ambig, rec)
+        else:
+            continue
 
     # Close all files.
-    f_res.close()
     f_match.close()
-    f_ambig.close()
-    f_unmatch.close()
+    if not only_output_matched:
+        f_res.close()
+        f_ambig.close()
+        f_unmatch.close()
 
 
 def __demultiplex_record_wrapper(object rec):
@@ -316,6 +330,8 @@ cdef bool __demultiplex_record(object rec):
 
 def print_pre_stats():
     """Prints pre stats"""
+    if only_output_matched:
+        print "# Only writing matched reads."
     print "# Reads format: " + reader_writer.get_format()
     print "# True barcodes length: " + str(barcode_length)
     print "# Read barcodes length when overhang added: " + str(barcode_length + pre_overhang + post_overhang)

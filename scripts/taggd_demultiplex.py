@@ -34,6 +34,7 @@ def main(argv):
     parser.add_argument('--metric', help= "Distance metric: Subglobal, Levenshtein or Hamming (default: %(default)s)", default="Subglobal", metavar="[string]")
     parser.add_argument('--slider_increment', type=int, help="Space between kmer searches, 0 yields kmer length (default: %(default)d)", default=0, metavar="[int]")
     parser.add_argument('--overhang', type=int, help="Additional flanking bases around read barcode to allow for insertions (default: %(default)d)", default=2, metavar="[int]")
+    parser.add_argument('--only_output_matched', help="Suppresses writing of output to only file with matched reads.", default=False, action='store_true')
     parser.add_argument('--seed', help="Random number generator seed for shuffling ambiguous hits (default: %(default)s)", default=None, metavar="[string]")
     parser.add_argument('--no_multiprocessing', help="If set, turns off multiprocessing of reads", default=False, action='store_true')
     parser.add_argument('--estimate_min_edit_distance', type=int, help="If set, estimates the min edit distance among true barcodes by comparing the specified number of pairs, 0 means no estimation (default: %(default)d)", default=0, metavar="[int]")
@@ -87,7 +88,7 @@ def main(argv):
     # Initialize.
     core.init(true_barcodes, options.reads_infile, options.outfile_prefix, options.max_edit_distance, \
               options.start_position, min(options.start_position, options.overhang), options.overhang, options.seed, \
-              options.no_multiprocessing)
+              options.no_multiprocessing, options.only_output_matched)
     srch.init(true_barcodes, options.k, options.max_edit_distance, options.metric, options.slider_increment, \
               min(options.start_position, options.overhang), options.overhang)
 
