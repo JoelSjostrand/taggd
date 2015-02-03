@@ -57,8 +57,11 @@ setup(
 	author = 'Joel Sjostrand',
 	author_email = 'joel.sjostrand@scilifelab.se',
 	license = 'Open BSD',
+    description = 'Bioinformatics genetic barcode demultiplexing',
+    url = 'https://github.com/JoelSjostrand/taggd',
+    download_url = 'https://github.com/JoelSjostrand/taggd/0.1',
 	scripts = glob("scripts/*.py"),
-    packages = find_packages(exclude=('tests', 'dependencies')),
+    packages = ['taggd'],
 	install_requires = [
 	    'setuptools',
 	    'pysam',
@@ -68,5 +71,5 @@ setup(
 	cmdclass = cmdclass,
     ext_modules=ext_modules,
 	include_dirs = [numpy.get_include(), '.'],
-    keywords = 'bioinformatics demultiplexing'
+    keywords = ['bioinformatics', 'demultiplexing']
     )
