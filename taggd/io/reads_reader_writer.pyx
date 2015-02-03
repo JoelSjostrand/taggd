@@ -1,4 +1,5 @@
 import pysam as ps
+import sys
 import taggd.io.fastq_utils as fu
 from taggd.io.sam_record import *
 from taggd.io.fasta_record import *
@@ -42,6 +43,16 @@ class ReadsReaderWriter():
         else:
             raise ValueError("Unsupported reads file format!")
 
+        # Read header.
+        if self.file_type == SAM:
+            self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
+            self.infile_header = self.infile.header
+            self.infile.close()
+        elif self.file_type == BAM:
+            self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
+            self.infile_header = self.infile.header
+            self.infile.close()
+
 
 
     def reader_open(self):
@@ -53,13 +64,9 @@ class ReadsReaderWriter():
         elif self.file_type == SAM:
             self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
         elif self.file_type == BAM:
-            self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
+            self.infile = ps.AlignmentFile(self.infile_name, "rb", check_header=True, check_sq=False)
         else:
             raise ValueError("Unsupported reads file format!")
-
-        # Read header.
-        if self.file_type == SAM or self.file_type == BAM:
-            self.infile_header = self.infile.header
 
         cdef object rec, last
         while True:
@@ -112,16 +119,20 @@ class ReadsReaderWriter():
 
 
     def get_writer(self, str outfile_name):
-        """Returns a writer."""
-
+        """
+        Returns a writer.
+        """
         if self.file_type == FASTA or self.file_type == FASTQ:
             return open(outfile_name, "w")
-        elif self.file_type == SAM:
-            return ps.AlignmentFile(outfile_name, "wh", header=self.infile_header)
-        elif self.file_type == BAM:
-            return ps.AlignmentFile(outfile_name, "wb", header=self.infile_header)
         else:
-            return None
+            if self.infile_header == None:
+                raise ValueError("Error: lacking header")
+            if self.file_type == SAM:
+                return ps.AlignmentFile(outfile_name, "wh", header=self.infile_header)
+            if self.file_type == BAM:
+                return ps.AlignmentFile(outfile_name, "wb", header=self.infile_header)
+            else:
+                return None
 
 
 

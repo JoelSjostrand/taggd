@@ -3,11 +3,12 @@ Main functions for carrying out the demultiplexing with
 multithreading.
 """
 
+import sys
 import multiprocessing as mp
 import random
 import taggd.core.demultiplex_search_functions as srch
 cimport taggd.core.demultiplex_search_functions as srch
-from taggd.io.reads_reader_writer import *
+import taggd.io.reads_reader_writer as rw
 from taggd.misc.counter import *
 from cpython cimport bool
 
@@ -27,7 +28,11 @@ cdef bool only_output_matched
 
 
 # Reader-writer
-cdef object reader_writer
+cdef object re_wr
+cdef object f_match = None
+cdef object f_res = None
+cdef object f_ambig = None
+cdef object f_unmatch = None
 
 
 # Global variables for stats
@@ -103,8 +108,8 @@ def init(\
     barcode_length = len(true_barcodes.keys()[0])
 
     # Reader writer
-    global reader_writer
-    reader_writer = ReadsReaderWriter(reads_infile)
+    global re_wr
+    re_wr = rw.ReadsReaderWriter(reads_infile)
 
     # Stats
     global stats_total_reads
@@ -136,6 +141,28 @@ def init(\
 
 def demultiplex():
     """Demultiplexes the contents of a reads file."""
+
+    # Open files.
+    global f_match
+    f_match = re_wr.get_writer(outfile_prefix + ".matched." + re_wr.get_format())
+    if not only_output_matched:
+        global f_res
+        f_res = open(outfile_prefix + ".results.tsv", 'w')
+        global f_res
+        f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
+        global f_ambig
+        f_ambig = re_wr.get_writer(outfile_prefix + ".ambiguous." + re_wr.get_format())
+        global f_unmatch
+        f_unmatch = re_wr.get_writer(outfile_prefix + ".unmatched." + re_wr.get_format())
+    else:
+        global f_res
+        f_res = None
+        global f_ambig
+        f_ambig = None
+        global f_unmatch
+        f_unmatch = None
+
+    # Demultiplex
     if no_multiprocessing:
         __demultiplex_linearly()
     else:
@@ -153,9 +180,9 @@ def __demultiplex_linearly():
     q = manager.Queue()
 
     cdef object rec = None
-    for rec in reader_writer.reader_open():
+    for rec in re_wr.reader_open():
         __demultiplex_record_wrapper(rec)
-    reader_writer.reader_close()
+    re_wr.reader_close()
     q.put((None, KILL, None, None))
     __listener()
 
@@ -182,10 +209,10 @@ def __demultiplex_mp():
     cdef list jobs = []
     cdef object job = None
     cdef object rec = None
-    for rec in reader_writer.reader_open():
+    for rec in re_wr.reader_open():
         job = pool.apply_async(__demultiplex_record_wrapper, (rec,))
         jobs.append(job)
-    reader_writer.reader_close()
+    re_wr.reader_close()
 
     # Collect results from the workers through the pool result queue
     for job in jobs:
@@ -202,17 +229,6 @@ def __listener():
     Opens files, listens for messages on the q, writes output to files.
     """
 
-    # Open files.
-    cdef object f_match = reader_writer.get_writer(outfile_prefix + ".matched." + reader_writer.get_format())
-    cdef object f_res = None
-    cdef object f_ambig = None
-    cdef object f_unmatch = None
-    if not only_output_matched:
-        f_res = open(outfile_prefix + ".results.tsv", 'w')
-        f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
-        f_ambig = reader_writer.get_writer(outfile_prefix + ".ambiguous." + reader_writer.get_format())
-        f_unmatch = reader_writer.get_writer(outfile_prefix + ".unmatched." + reader_writer.get_format())
-
     cdef object rec = None
     cdef int result = -1
     cdef str bcseq = None
@@ -221,6 +237,7 @@ def __listener():
     cdef list tags = []
     cdef unsigned int i = 0
     while True:
+
         # Extract record
         (rec, result, bcseq, props) = q.get()
 
@@ -235,7 +252,7 @@ def __listener():
         # No match.
         if result == UNMATCHED:
             if not only_output_matched:
-                reader_writer.write_record(f_unmatch, rec)
+                re_wr.write_record(f_unmatch, rec)
             continue
 
         # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
@@ -248,20 +265,21 @@ def __listener():
 
         # Write to file.
         if result == MATCHED_PERFECTLY:
-            reader_writer.write_record(f_match, rec)
+            re_wr.write_record(f_match, rec)
         elif result == MATCHED_UNAMBIGUOUSLY:
-            reader_writer.write_record(f_match, rec)
+            re_wr.write_record(f_match, rec)
         elif result == MATCHED_AMBIGUOUSLY and not only_output_matched:
-            reader_writer.write_record(f_ambig, rec)
+            re_wr.write_record(f_ambig, rec)
         else:
             continue
 
-    # Close all files.
+    # Close all files. DO HERE, WHEN WE'RE SURE MP IS FINISHED!
     f_match.close()
     if not only_output_matched:
         f_res.close()
         f_ambig.close()
         f_unmatch.close()
+
 
 
 def __demultiplex_record_wrapper(object rec):
@@ -293,7 +311,6 @@ cdef bool __demultiplex_record(object rec):
     if read_barcode in true_barcodes:
         # PERFECT MATCH
         # Record   Match type   Barcode   [Edit distance, Ambiguous top hits, Qualified candidates, Raw candidates, Last_pos, Insertions read, Insertions true]
-        #print "PER_MATCH" + str(rec)
         q.put((rec, MATCHED_PERFECTLY, read_barcode, ["0", "1", "1", "-", str(barcode_length-1), "0", "0"]))
         stats_perfect_matches.increment()
         stats_edit_distance_counts[0].increment()
@@ -339,9 +356,10 @@ def print_pre_stats():
     """
     Prints pre stats
     """
+    print "# Absolute output prefix path: " + outfile_prefix
     if only_output_matched:
         print "# Only writing matched reads."
-    print "# Reads format: " + reader_writer.get_format()
+    print "# Reads format: " + re_wr.get_format()
     print "# True barcodes length: " + str(barcode_length)
     print "# Read barcodes length when overhang added: " + str(barcode_length + pre_overhang + post_overhang)
 

@@ -86,7 +86,7 @@ def main(argv):
 
 
     # Initialize.
-    core.init(true_barcodes, options.reads_infile, options.outfile_prefix, options.max_edit_distance, \
+    core.init(true_barcodes, options.reads_infile, os.path.abspath(options.outfile_prefix), options.max_edit_distance, \
               options.start_position, min(options.start_position, options.overhang), options.overhang, options.seed, \
               options.no_multiprocessing, options.only_output_matched)
     srch.init(true_barcodes, options.k, options.max_edit_distance, options.metric, options.slider_increment, \
