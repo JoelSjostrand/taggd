@@ -148,7 +148,6 @@ def demultiplex():
     if not only_output_matched:
         global f_res
         f_res = open(outfile_prefix + ".results.tsv", 'w')
-        global f_res
         f_res.write("#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\tQualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions\n")
         global f_ambig
         f_ambig = re_wr.get_writer(outfile_prefix + ".ambiguous." + re_wr.get_format())
