@@ -62,6 +62,7 @@ setup(
     download_url = 'https://github.com/JoelSjostrand/taggd/0.1.2',
 	scripts = glob("scripts/*.py"),
     packages = ['taggd', 'taggd.core', 'taggd.io', 'taggd.misc'],
+    package_data = {'': ['*.pyx', '*.pxd', '*.h', '*.c'], },
 	install_requires = [
 	    'setuptools',
 	    'pysam',
