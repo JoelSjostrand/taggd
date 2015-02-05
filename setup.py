@@ -53,13 +53,13 @@ else:
 
 setup(
 	name="taggd",
-	version = '0.1.1',
+	version = '0.1.2',
 	author = 'Joel Sjostrand',
 	author_email = 'joel.sjostrand@scilifelab.se',
 	license = 'Open BSD',
     description = 'Bioinformatics genetic barcode demultiplexing',
     url = 'https://github.com/JoelSjostrand/taggd',
-    download_url = 'https://github.com/JoelSjostrand/taggd/0.1',
+    download_url = 'https://github.com/JoelSjostrand/taggd/0.1.2',
 	scripts = glob("scripts/*.py"),
     packages = ['taggd', 'taggd.core', 'taggd.io', 'taggd.misc'],
 	install_requires = [

@@ -11,8 +11,6 @@ for the peer-reviewed reference to the program.
 
 import taggd.core.demultiplex as deplex
 
-
-
 if __name__ == "__main__":
     deplex.main()
 

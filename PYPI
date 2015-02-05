@@ -1,0 +1,19 @@
+When updating for a new version on PyPI, do the following:
+
+1) Make code changes.
+
+2) Update version in setup.py. Notice there are two spots.
+
+3) Push to git.
+
+4) git tag <version> -m "Adds a tag so that we can put this on PyPI."
+
+5) git push --tags origin master
+
+6) Upload to PYPI test:   python setup.py register -r pypitest
+
+7) Test on PYPI test:     python setup.py sdist upload -r pypitest
+
+8) Upload to PyPI Live:   python setup.py register -r pypi
+
+9) Test on PYPI Live:     python setup.py sdist upload -r pypi
