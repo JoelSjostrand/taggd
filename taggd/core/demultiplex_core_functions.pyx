@@ -37,6 +37,7 @@ cdef object f_unmatch = None
 
 # Global variables for stats
 cdef object stats_total_reads
+cdef object stats_total_reads_wr
 cdef object stats_unmatched
 cdef object stats_perfect_matches
 cdef object stats_imperfect_unambiguous_matches
@@ -114,6 +115,8 @@ def init(\
     # Stats
     global stats_total_reads
     stats_total_reads = Counter(0)
+    global stats_total_reads_wr
+    stats_total_reads_wr = Counter(0)
     global stats_unmatched
     stats_unmatched = Counter(0)
     global stats_perfect_matches
@@ -198,7 +201,7 @@ def __demultiplex_mp():
     global q
     q = manager.Queue()
     global pool
-    pool = mp.Pool(mp.cpu_count())
+    pool = mp.Pool(mp.cpu_count() - 1)
 
     # Put listener to work first
     global watcher
@@ -220,7 +223,7 @@ def __demultiplex_mp():
     # Now we are done, kill the listener
     q.put((None, KILL, None, None))
     pool.close()
-
+    pool.join()
 
 
 def __listener():
@@ -252,6 +255,7 @@ def __listener():
         if result == UNMATCHED:
             if not only_output_matched:
                 re_wr.write_record(f_unmatch, rec)
+                stats_total_reads_wr.increment()
             continue
 
         # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
@@ -265,10 +269,13 @@ def __listener():
         # Write to file.
         if result == MATCHED_PERFECTLY:
             re_wr.write_record(f_match, rec)
+            stats_total_reads_wr.increment()
         elif result == MATCHED_UNAMBIGUOUSLY:
             re_wr.write_record(f_match, rec)
+            stats_total_reads_wr.increment()
         elif result == MATCHED_AMBIGUOUSLY and not only_output_matched:
             re_wr.write_record(f_ambig, rec)
+            stats_total_reads_wr.increment()
         else:
             continue
 
@@ -369,13 +376,14 @@ def print_post_stats():
     Prints post stats
     """
     print "# Total reads processed: " + str(stats_total_reads.value())
-    cdef int matched_unam = stats_total_reads.value() - stats_unmatched.value() - stats_imperfect_ambiguous_matches.value()
+    print "# Total reads written (including multiple ambiguities): " + str(stats_total_reads_wr.value())
+    cdef int matched_unam = int(stats_total_reads.value()) - int(stats_unmatched.value()) - int(stats_imperfect_ambiguous_matches.value())
     cdef float tot = float(stats_total_reads.value())
-    print "# Reads matched unambiguously: " + str(matched_unam) + " [" + str(100 * matched_unam / tot) + "%]"
-    print "#    - Reads matched perfectly: " + str(stats_perfect_matches.value()) + " [" + str(100* stats_perfect_matches.value() / tot) + "%]"
-    print "#    - Reads matched imperfectly: " + str(stats_imperfect_unambiguous_matches.value()) + " [" + str(100* stats_imperfect_unambiguous_matches.value() / tot) + "%]"
-    print "# Reads matched ambiguously: " + str(stats_imperfect_ambiguous_matches.value()) + " [" + str(100* stats_imperfect_ambiguous_matches.value() / tot) + "%]"
-    print "# Reads unmatched: " + str(stats_unmatched.value()) + " [" + str(100* stats_unmatched.value() / tot) + "%]"
+    print "# Reads matched unambiguously: " + str(matched_unam) + " [" + str(matched_unam / tot * 100) + "%]"
+    print "#    - Reads matched perfectly: " + str(stats_perfect_matches.value()) + " [" + str(stats_perfect_matches.value() / tot * 100) + "%]"
+    print "#    - Reads matched imperfectly: " + str(stats_imperfect_unambiguous_matches.value()) + " [" + str(stats_imperfect_unambiguous_matches.value() / tot * 100) + "%]"
+    print "# Reads matched ambiguously: " + str(stats_imperfect_ambiguous_matches.value()) + " [" + str(stats_imperfect_ambiguous_matches.value() / tot * 100) + "%]"
+    print "# Reads unmatched: " + str(stats_unmatched.value()) + " [" + str(stats_unmatched.value() / tot * 100) + "%]"
     cdef list distr = []
     cdef unsigned int i = 0
     for i in xrange(max_edit_distance+1):
