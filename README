@@ -3,12 +3,12 @@ TagGD barcode demultiplexing utilities.
 This is the Python version, which is a generalized and more
 up-to-date version of the C++ demultiplexer named "findIndexes".
 
-See https://github.com/pelinakan/UBD for manual and the most recent source code.
-
 See http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0057521
 for the peer-reviewed reference to the program.
 
 See INSTALL for installation instructions.
 
-Contact: {joel.sjostrand, pelin.sahlen, jose.fernandez.navarro}@scilifelab.se.
+Contact: {joel.sjostrand, jose.fernandez.navarro}@scilifelab.se.
 
+See https://github.com/pelinakan/UBD for the manual and the most recent source code
+of the corresponding multiplexer.

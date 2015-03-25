@@ -25,6 +25,7 @@ cdef unsigned int post_overhang
 cdef str seed
 cdef bool no_multiprocessing
 cdef bool only_output_matched
+cdef unsigned int max_chunk_size
 
 
 # Reader-writer
@@ -66,7 +67,8 @@ def init(\
         unsigned int post_overhang_, \
         str seed_, \
         bool no_multiprocessing_,\
-        bool only_output_matched_\
+        bool only_output_matched_,\
+        unsigned int max_chunk_size_\
     ):
     """
     Initializes settings (global variables).
@@ -103,6 +105,8 @@ def init(\
     no_multiprocessing = no_multiprocessing_
     global only_output_matched
     only_output_matched = only_output_matched_
+    global max_chunk_size
+    max_chunk_size = max_chunk_size_
 
     # Read chip file
     global barcode_length
@@ -165,36 +169,54 @@ def demultiplex():
         f_unmatch = None
 
     # Demultiplex
+    cdef unsigned int lncnt = 0
+    cdef list chunk = list()
+    cdef object rec
+    for rec in re_wr.reader_open():
+        chunk.append(rec)
+        lncnt += 1
+        if lncnt % max_chunk_size == 0:
+            if no_multiprocessing:
+                __demultiplex_linearly_chunk(chunk)
+            else:
+                __demultiplex_mp_chunk(chunk)
+            chunk = list()
     if no_multiprocessing:
-        __demultiplex_linearly()
+        __demultiplex_linearly_chunk(chunk)
     else:
-        __demultiplex_mp()
+        __demultiplex_mp_chunk(chunk)
+    re_wr.reader_close()
+
+     # Close all files.
+    f_match.close()
+    if not only_output_matched:
+        f_res.close()
+        f_ambig.close()
+        f_unmatch.close()
 
 
 
-def __demultiplex_linearly():
+def __demultiplex_linearly_chunk(list chunk):
     """
-    Demultiplexes the contents of a reads file in a linear manner.
+    Demultiplexes a chunk linearly.
     """
     global manager
     manager = mp.Manager()
     global q
     q = manager.Queue()
-
     cdef object rec = None
-    for rec in re_wr.reader_open():
+    for rec in chunk:
         __demultiplex_record_wrapper(rec)
-    re_wr.reader_close()
     q.put((None, KILL, None, None))
     __listener()
 
 
 
-def __demultiplex_mp():
-    """
-    Demultiplexes the contents of a reads file in a multithreaded manner.
-    """
 
+def __demultiplex_mp_chunk(list chunk):
+    """
+    Demultiplexes a chunk of records.
+    """
     # Must use Manager queue here, or will not work
     global manager
     manager = mp.Manager()
@@ -211,10 +233,9 @@ def __demultiplex_mp():
     cdef list jobs = []
     cdef object job = None
     cdef object rec = None
-    for rec in re_wr.reader_open():
+    for rec in chunk:
         job = pool.apply_async(__demultiplex_record_wrapper, (rec,))
         jobs.append(job)
-    re_wr.reader_close()
 
     # Collect results from the workers through the pool result queue
     for job in jobs:
@@ -224,6 +245,7 @@ def __demultiplex_mp():
     q.put((None, KILL, None, None))
     pool.close()
     pool.join()
+
 
 
 def __listener():
@@ -279,12 +301,6 @@ def __listener():
         else:
             continue
 
-    # Close all files. DO HERE, WHEN WE'RE SURE MP IS FINISHED!
-    f_match.close()
-    if not only_output_matched:
-        f_res.close()
-        f_ambig.close()
-        f_unmatch.close()
 
 
 

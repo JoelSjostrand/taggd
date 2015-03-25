@@ -11,6 +11,7 @@ cdef str metric
 cdef unsigned int slider_increment
 cdef unsigned int pre_overhang
 cdef unsigned int post_overhang
+cdef bool no_offset_speedup
 
 
 # Dictionary
@@ -32,7 +33,8 @@ def init(\
         str metric_, \
         unsigned int slider_increment_, \
         unsigned int pre_overhang_, \
-        unsigned int post_overhang_\
+        unsigned int post_overhang_,\
+        bool no_offset_speedup_\
     ):
     """
     Initializes settings (global variables).
@@ -59,6 +61,8 @@ def init(\
     pre_overhang = pre_overhang_
     global post_overhang
     post_overhang = post_overhang_
+    global no_offset_speedup
+    no_offset_speedup = no_offset_speedup_
 
 
     # Create k-mer mappings with ALL kmers
@@ -99,12 +103,28 @@ cdef dict get_candidates(str read_barcode):
     cdef unsigned int hit_offset
     cdef unsigned int penalty = 0
     cdef unsigned int min_penalty = 0
+
+    # NON-OPTIMIZED CASE
+    # For each kmer in read (typically incremented by k positions at a time).
+    if no_offset_speedup:
+        for kmer, offset in kmers_offsets:
+            if kmer in kmer2seq:
+                hits = kmer2seq[kmer]
+            else:
+                continue
+            # For each true barcode containing read's kmer.
+            for hit, hit_offsets in hits.iteritems():
+                candidates[hit] = 0
+        return candidates
+
+    # OPTIMIZED CASE
     # For each kmer in read (typically incremented by k positions at a time).
     for kmer, offset in kmers_offsets:
         if kmer in kmer2seq:
             hits = kmer2seq[kmer]
         else:
             continue
+
         # For each true barcode containing read's kmer.
         for hit, hit_offsets in hits.iteritems():
             min_penalty = 100000000
@@ -115,9 +135,10 @@ cdef dict get_candidates(str read_barcode):
                 if penalty < min_penalty:
                     min_penalty = penalty
             if hit in candidates:
-                candidates[hit] += min_penalty
+                candidates[hit] = max(min_penalty, candidates[hit])
             else:
                 candidates[hit] = min_penalty
+
     # Clear out all candidates with a forced offset penalty greater than the max edit distance:
     for hit in candidates.keys():
         if candidates[hit] > max_edit_distance:

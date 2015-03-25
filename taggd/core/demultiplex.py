@@ -12,21 +12,23 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
 
     # Needed parameters
-    parser.add_argument('barcodes_infile', help="The file with true barcode IDs and other properties.")
-    parser.add_argument('reads_infile', help="The FASTQ, FASTA, SAM or BAM file with reads.")
-    parser.add_argument('outfile_prefix', help="The output files prefix.")
+    parser.add_argument('barcodes_infile', metavar='barcodes-infile', help="The file with true barcode IDs and other properties.")
+    parser.add_argument('reads_infile', metavar='reads-infile', help="The FASTQ, FASTA, SAM or BAM file with reads.")
+    parser.add_argument('outfile_prefix', metavar='outfile-prefix', help="The output files prefix.")
 
     # Optional arguments.
-    parser.add_argument('--start_position', type=int, help='The start position for barcodes in reads (default: %(default)d)', default=0, metavar="[int]")
+    parser.add_argument('--start-position', type=int, help='The start position for barcodes in reads (default: %(default)d)', default=0, metavar="[int]")
     parser.add_argument('--k', type=int, help='The kmer length (default: %(default)d)', default=7, metavar="[int]")
-    parser.add_argument('--max_edit_distance', type=int, help='The max edit distance for allowing hits (default: %(default)d)', default=5, metavar="[int]")
+    parser.add_argument('--max-edit-distance', type=int, help='The max edit distance for allowing hits (default: %(default)d)', default=5, metavar="[int]")
     parser.add_argument('--metric', help= "Distance metric: Subglobal, Levenshtein or Hamming (default: %(default)s)", default="Subglobal", metavar="[string]")
-    parser.add_argument('--slider_increment', type=int, help="Space between kmer searches, 0 yields kmer length (default: %(default)d)", default=0, metavar="[int]")
+    parser.add_argument('--slider-increment', type=int, help="Space between kmer searches, 0 yields kmer length (default: %(default)d)", default=0, metavar="[int]")
     parser.add_argument('--overhang', type=int, help="Additional flanking bases around read barcode to allow for insertions (default: %(default)d)", default=2, metavar="[int]")
-    parser.add_argument('--only_output_matched', help="Suppresses writing of output to only file with matched reads.", default=False, action='store_true')
+    parser.add_argument('--only-output-matched', help="Suppresses writing of output to only file with matched reads.", default=False, action='store_true')
     parser.add_argument('--seed', help="Random number generator seed for shuffling ambiguous hits (default: %(default)s)", default=None, metavar="[string]")
-    parser.add_argument('--no_multiprocessing', help="If set, turns off multiprocessing of reads", default=False, action='store_true')
-    parser.add_argument('--estimate_min_edit_distance', type=int, help="If set, estimates the min edit distance among true barcodes by comparing the specified number of pairs, 0 means no estimation (default: %(default)d)", default=0, metavar="[int]")
+    parser.add_argument('--no-multiprocessing', help="If set, turns off multiprocessing of reads", default=False, action='store_true')
+    parser.add_argument('--estimate-min-edit-distance', type=int, help="If set, estimates the min edit distance among true barcodes by comparing the specified number of pairs, 0 means no estimation (default: %(default)d)", default=0, metavar="[int]")
+    parser.add_argument('--max-chunk-size', type=int, help="Chunk of maximum number of simultaneously processed reads (default: %(default)d)", default=500000, metavar="[int]")
+    parser.add_argument('--no-offset-speedup', help="Turns off an offset speedup routine, increasing time but may yield more hits.", default=False, action='store_true')
 
     # Parse
     if argv == None:
@@ -64,6 +66,8 @@ def main(argv=None):
         raise ValueError("Invalid overhang. Must be >= 0.")
     if options.metric == "Hamming" and options.overhang > 0:
         raise ValueError("Invalid overhang. Must be 0 for Hamming metric.")
+    if options.max_chunk_size <= 0:
+        raise ValueError("Invalid max chunk size. Must be > 0.")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -79,9 +83,9 @@ def main(argv=None):
     # Initialize.
     core.init(true_barcodes, options.reads_infile, os.path.abspath(options.outfile_prefix), options.max_edit_distance, \
               options.start_position, min(options.start_position, options.overhang), options.overhang, options.seed, \
-              options.no_multiprocessing, options.only_output_matched)
+              options.no_multiprocessing, options.only_output_matched, options.max_chunk_size)
     srch.init(true_barcodes, options.k, options.max_edit_distance, options.metric, options.slider_increment, \
-              min(options.start_position, options.overhang), options.overhang)
+              min(options.start_position, options.overhang), options.overhang, options.no_offset_speedup)
 
     # Demultiplex
     core.print_pre_stats()
