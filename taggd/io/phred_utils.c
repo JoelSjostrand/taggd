@@ -569,9 +569,9 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
 
@@ -580,8 +580,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_char(char value);
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 static int __Pyx_check_binary_version(void);
 
@@ -660,12 +658,12 @@ static PyObject *__pyx_int_neg_10;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 
-/* "taggd/io/phred_utils.pyx":11
- * 
+/* "taggd/io/phred_utils.pyx":9
+ * import math
  * 
  * cpdef double probability_to_phred(double p):             # <<<<<<<<<<<<<<
- *     '''Returns the Phred score of a probability.'''
- *     if p < 0 or p > 1:
+ *     """
+ *     Returns the Phred score of a probability.
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_1probability_to_phred(PyObject *__pyx_self, PyObject *__pyx_arg_p); /*proto*/
@@ -686,8 +684,8 @@ static double __pyx_f_5taggd_2io_11phred_utils_probability_to_phred(double __pyx
   __Pyx_RefNannySetupContext("probability_to_phred", 0);
 
   /* "taggd/io/phred_utils.pyx":13
- * cpdef double probability_to_phred(double p):
- *     '''Returns the Phred score of a probability.'''
+ *     Returns the Phred score of a probability.
+ *     """
  *     if p < 0 or p > 1:             # <<<<<<<<<<<<<<
  *         raise ValueError("Probability must be in range [0,1]")
  *     return (-10 * math.log10(p))
@@ -706,7 +704,7 @@ static double __pyx_f_5taggd_2io_11phred_utils_probability_to_phred(double __pyx
   if (__pyx_t_1) {
 
     /* "taggd/io/phred_utils.pyx":14
- *     '''Returns the Phred score of a probability.'''
+ *     """
  *     if p < 0 or p > 1:
  *         raise ValueError("Probability must be in range [0,1]")             # <<<<<<<<<<<<<<
  *     return (-10 * math.log10(p))
@@ -724,7 +722,7 @@ static double __pyx_f_5taggd_2io_11phred_utils_probability_to_phred(double __pyx
  *         raise ValueError("Probability must be in range [0,1]")
  *     return (-10 * math.log10(p))             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef double phred_to_probability(double q):
  */
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -767,12 +765,12 @@ static double __pyx_f_5taggd_2io_11phred_utils_probability_to_phred(double __pyx
   __pyx_r = __pyx_t_8;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":11
- * 
+  /* "taggd/io/phred_utils.pyx":9
+ * import math
  * 
  * cpdef double probability_to_phred(double p):             # <<<<<<<<<<<<<<
- *     '''Returns the Phred score of a probability.'''
- *     if p < 0 or p > 1:
+ *     """
+ *     Returns the Phred score of a probability.
  */
 
   /* function exit code */
@@ -791,7 +789,7 @@ static double __pyx_f_5taggd_2io_11phred_utils_probability_to_phred(double __pyx
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_1probability_to_phred(PyObject *__pyx_self, PyObject *__pyx_arg_p); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_probability_to_phred[] = "Returns the Phred score of a probability.";
+static char __pyx_doc_5taggd_2io_11phred_utils_probability_to_phred[] = "\n    Returns the Phred score of a probability.\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_1probability_to_phred(PyObject *__pyx_self, PyObject *__pyx_arg_p) {
   double __pyx_v_p;
   int __pyx_lineno = 0;
@@ -801,7 +799,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_1probability_to_phred(PyObjec
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("probability_to_phred (wrapper)", 0);
   assert(__pyx_arg_p); {
-    __pyx_v_p = __pyx_PyFloat_AsDouble(__pyx_arg_p); if (unlikely((__pyx_v_p == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_p = __pyx_PyFloat_AsDouble(__pyx_arg_p); if (unlikely((__pyx_v_p == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -825,7 +823,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_probability_to_phred(CYTHON_U
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("probability_to_phred", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_5taggd_2io_11phred_utils_probability_to_phred(__pyx_v_p, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_5taggd_2io_11phred_utils_probability_to_phred(__pyx_v_p, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -842,12 +840,12 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_probability_to_phred(CYTHON_U
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":18
- * 
+/* "taggd/io/phred_utils.pyx":17
+ *     return (-10 * math.log10(p))
  * 
  * cpdef double phred_to_probability(double q):             # <<<<<<<<<<<<<<
- *     '''Returns the probability of a Phred score.'''
- *     if q < 0:
+ *     """
+ *     Returns the probability of a Phred score.
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_3phred_to_probability(PyObject *__pyx_self, PyObject *__pyx_arg_q); /*proto*/
@@ -867,9 +865,9 @@ static double __pyx_f_5taggd_2io_11phred_utils_phred_to_probability(double __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("phred_to_probability", 0);
 
-  /* "taggd/io/phred_utils.pyx":20
- * cpdef double phred_to_probability(double q):
- *     '''Returns the probability of a Phred score.'''
+  /* "taggd/io/phred_utils.pyx":21
+ *     Returns the probability of a Phred score.
+ *     """
  *     if q < 0:             # <<<<<<<<<<<<<<
  *         raise ValueError("Phred score must be in [0,inf).")
  *     return (math.pow(10, (-q/10)))
@@ -877,33 +875,33 @@ static double __pyx_f_5taggd_2io_11phred_utils_phred_to_probability(double __pyx
   __pyx_t_1 = ((__pyx_v_q < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "taggd/io/phred_utils.pyx":21
- *     '''Returns the probability of a Phred score.'''
+    /* "taggd/io/phred_utils.pyx":22
+ *     """
  *     if q < 0:
  *         raise ValueError("Phred score must be in [0,inf).")             # <<<<<<<<<<<<<<
  *     return (math.pow(10, (-q/10)))
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "taggd/io/phred_utils.pyx":22
+  /* "taggd/io/phred_utils.pyx":23
  *     if q < 0:
  *         raise ValueError("Phred score must be in [0,inf).")
  *     return (math.pow(10, (-q/10)))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_pow); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_pow); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyFloat_FromDouble(((-__pyx_v_q) / 10.0)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyFloat_FromDouble(((-__pyx_v_q) / 10.0)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -917,7 +915,7 @@ static double __pyx_f_5taggd_2io_11phred_utils_phred_to_probability(double __pyx
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   if (__pyx_t_5) {
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -928,21 +926,21 @@ static double __pyx_f_5taggd_2io_11phred_utils_phred_to_probability(double __pyx
   PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_8;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":18
- * 
+  /* "taggd/io/phred_utils.pyx":17
+ *     return (-10 * math.log10(p))
  * 
  * cpdef double phred_to_probability(double q):             # <<<<<<<<<<<<<<
- *     '''Returns the probability of a Phred score.'''
- *     if q < 0:
+ *     """
+ *     Returns the probability of a Phred score.
  */
 
   /* function exit code */
@@ -961,7 +959,7 @@ static double __pyx_f_5taggd_2io_11phred_utils_phred_to_probability(double __pyx
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_3phred_to_probability(PyObject *__pyx_self, PyObject *__pyx_arg_q); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_2phred_to_probability[] = "Returns the probability of a Phred score.";
+static char __pyx_doc_5taggd_2io_11phred_utils_2phred_to_probability[] = "\n    Returns the probability of a Phred score.\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_3phred_to_probability(PyObject *__pyx_self, PyObject *__pyx_arg_q) {
   double __pyx_v_q;
   int __pyx_lineno = 0;
@@ -971,7 +969,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_3phred_to_probability(PyObjec
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("phred_to_probability (wrapper)", 0);
   assert(__pyx_arg_q); {
-    __pyx_v_q = __pyx_PyFloat_AsDouble(__pyx_arg_q); if (unlikely((__pyx_v_q == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_q = __pyx_PyFloat_AsDouble(__pyx_arg_q); if (unlikely((__pyx_v_q == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -995,7 +993,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_2phred_to_probability(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("phred_to_probability", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_5taggd_2io_11phred_utils_phred_to_probability(__pyx_v_q, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_5taggd_2io_11phred_utils_phred_to_probability(__pyx_v_q, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1012,7 +1010,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_2phred_to_probability(CYTHON_
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":25
+/* "taggd/io/phred_utils.pyx":26
  * 
  * 
  * cpdef str sanger_phred_to_ascii(list phred):             # <<<<<<<<<<<<<<
@@ -1023,14 +1021,14 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_2phred_to_probability(CYTHON_
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_5sanger_phred_to_ascii(PyObject *__pyx_self, PyObject *__pyx_v_phred); /*proto*/
 static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(PyObject *__pyx_v_phred, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_s = 0;
-  unsigned int __pyx_v_p;
-  unsigned int __pyx_v_q;
+  int __pyx_v_p;
+  int __pyx_v_q;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  unsigned int __pyx_t_4;
+  int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
@@ -1040,43 +1038,43 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sanger_phred_to_ascii", 0);
 
-  /* "taggd/io/phred_utils.pyx":31
+  /* "taggd/io/phred_utils.pyx":32
  *     :return: the string.
  *     """
  *     cdef list s = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int p
- *     cdef unsigned int q
+ *     cdef int p
+ *     cdef int q
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_s = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":34
- *     cdef unsigned int p
- *     cdef unsigned int q
+  /* "taggd/io/phred_utils.pyx":35
+ *     cdef int p
+ *     cdef int q
  *     for p in phred:             # <<<<<<<<<<<<<<
  *         q = p + 33
  *         if q < 33 or q > 126:
  */
   if (unlikely(__pyx_v_phred == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_1 = __pyx_v_phred; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #endif
-    __pyx_t_4 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_p = __pyx_t_4;
 
-    /* "taggd/io/phred_utils.pyx":35
- *     cdef unsigned int q
+    /* "taggd/io/phred_utils.pyx":36
+ *     cdef int q
  *     for p in phred:
  *         q = p + 33             # <<<<<<<<<<<<<<
  *         if q < 33 or q > 126:
@@ -1084,7 +1082,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(PyObject
  */
     __pyx_v_q = (__pyx_v_p + 33);
 
-    /* "taggd/io/phred_utils.pyx":36
+    /* "taggd/io/phred_utils.pyx":37
  *     for p in phred:
  *         q = p + 33
  *         if q < 33 or q > 126:             # <<<<<<<<<<<<<<
@@ -1104,57 +1102,57 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(PyObject
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "taggd/io/phred_utils.pyx":37
+      /* "taggd/io/phred_utils.pyx":38
  *         q = p + 33
  *         if q < 33 or q > 126:
  *             raise ValueError("Invalid Sanger ASCII value: " + q + ". Should be in range [33,126].")             # <<<<<<<<<<<<<<
  *         s.append(chr(q))
  *     return ''.join(s)
  */
-      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_q); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_q); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyNumber_Add(__pyx_kp_s_Invalid_Sanger_ASCII_value, __pyx_t_3); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = PyNumber_Add(__pyx_kp_s_Invalid_Sanger_ASCII_value, __pyx_t_3); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_7, __pyx_kp_s_Should_be_in_range_33_126); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = PyNumber_Add(__pyx_t_7, __pyx_kp_s_Should_be_in_range_33_126); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "taggd/io/phred_utils.pyx":38
+    /* "taggd/io/phred_utils.pyx":39
  *         if q < 33 or q > 126:
  *             raise ValueError("Invalid Sanger ASCII value: " + q + ". Should be in range [33,126].")
  *         s.append(chr(q))             # <<<<<<<<<<<<<<
  *     return ''.join(s)
  * 
  */
-    __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_q); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_q); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_chr, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_chr, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_s, __pyx_t_3); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_s, __pyx_t_3); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "taggd/io/phred_utils.pyx":34
- *     cdef unsigned int p
- *     cdef unsigned int q
+    /* "taggd/io/phred_utils.pyx":35
+ *     cdef int p
+ *     cdef int q
  *     for p in phred:             # <<<<<<<<<<<<<<
  *         q = p + 33
  *         if q < 33 or q > 126:
@@ -1162,7 +1160,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":39
+  /* "taggd/io/phred_utils.pyx":40
  *             raise ValueError("Invalid Sanger ASCII value: " + q + ". Should be in range [33,126].")
  *         s.append(chr(q))
  *     return ''.join(s)             # <<<<<<<<<<<<<<
@@ -1170,14 +1168,14 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(PyObject
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_v_s); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_v_s); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":25
+  /* "taggd/io/phred_utils.pyx":26
  * 
  * 
  * cpdef str sanger_phred_to_ascii(list phred):             # <<<<<<<<<<<<<<
@@ -1209,7 +1207,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_5sanger_phred_to_ascii(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("sanger_phred_to_ascii (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_phred), (&PyList_Type), 1, "phred", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_phred), (&PyList_Type), 1, "phred", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_4sanger_phred_to_ascii(__pyx_self, ((PyObject*)__pyx_v_phred));
 
   /* function exit code */
@@ -1230,7 +1228,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_4sanger_phred_to_ascii(CYTHON
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sanger_phred_to_ascii", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(__pyx_v_phred, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_phred_to_ascii(__pyx_v_phred, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1247,19 +1245,19 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_4sanger_phred_to_ascii(CYTHON
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":42
+/* "taggd/io/phred_utils.pyx":43
  * 
  * 
  * cpdef list sanger_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
- *         to a list of phred scores'''
+ *     """
+ *     Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_7sanger_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
 static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject *__pyx_v_ascii_seq, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_phred = 0;
   char __pyx_v_c;
-  unsigned int __pyx_v_v;
+  int __pyx_v_v;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1267,7 +1265,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject
   PyObject *__pyx_t_3 = NULL;
   char __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  unsigned int __pyx_t_6;
+  int __pyx_t_6;
   int __pyx_t_7;
   int __pyx_t_8;
   int __pyx_t_9;
@@ -1276,28 +1274,28 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sanger_ascii_to_phred", 0);
 
-  /* "taggd/io/phred_utils.pyx":46
- *         to a list of phred scores'''
+  /* "taggd/io/phred_utils.pyx":49
+ *     """
  *     # Ascii range [33,126], phred range [0,93].
  *     cdef list phred = []             # <<<<<<<<<<<<<<
  *     cdef char c
- *     cdef unsigned int v
+ *     cdef int v
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_phred = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":49
+  /* "taggd/io/phred_utils.pyx":52
  *     cdef char c
- *     cdef unsigned int v
+ *     cdef int v
  *     for c in ascii_seq:             # <<<<<<<<<<<<<<
  *         v = ord(c)
  *         if v < 33 or v > 126:
  */
-  __pyx_t_1 = PyObject_GetIter(__pyx_v_ascii_seq); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetIter(__pyx_v_ascii_seq); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   for (;;) {
     {
       __pyx_t_3 = __pyx_t_2(__pyx_t_1);
@@ -1305,38 +1303,38 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_3);
     }
-    __pyx_t_4 = __Pyx_PyInt_As_char(__pyx_t_3); if (unlikely((__pyx_t_4 == (char)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyInt_As_char(__pyx_t_3); if (unlikely((__pyx_t_4 == (char)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_c = __pyx_t_4;
 
-    /* "taggd/io/phred_utils.pyx":50
- *     cdef unsigned int v
+    /* "taggd/io/phred_utils.pyx":53
+ *     cdef int v
  *     for c in ascii_seq:
  *         v = ord(c)             # <<<<<<<<<<<<<<
  *         if v < 33 or v > 126:
  *             raise ValueError("Invalid Sanger ASCII value: " + v + ". Should be in range [33,126].")
  */
-    __pyx_t_3 = __Pyx_PyInt_From_char(__pyx_v_c); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_char(__pyx_v_c); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ord, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ord, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_v = __pyx_t_6;
 
-    /* "taggd/io/phred_utils.pyx":51
+    /* "taggd/io/phred_utils.pyx":54
  *     for c in ascii_seq:
  *         v = ord(c)
  *         if v < 33 or v > 126:             # <<<<<<<<<<<<<<
@@ -1356,49 +1354,49 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_7) {
 
-      /* "taggd/io/phred_utils.pyx":52
+      /* "taggd/io/phred_utils.pyx":55
  *         v = ord(c)
  *         if v < 33 or v > 126:
  *             raise ValueError("Invalid Sanger ASCII value: " + v + ". Should be in range [33,126].")             # <<<<<<<<<<<<<<
  *         phred.append(v - 33)
  *     return phred
  */
-      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_v); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_v); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = PyNumber_Add(__pyx_kp_s_Invalid_Sanger_ASCII_value, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyNumber_Add(__pyx_kp_s_Invalid_Sanger_ASCII_value, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_Should_be_in_range_33_126); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_Should_be_in_range_33_126); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "taggd/io/phred_utils.pyx":53
+    /* "taggd/io/phred_utils.pyx":56
  *         if v < 33 or v > 126:
  *             raise ValueError("Invalid Sanger ASCII value: " + v + ". Should be in range [33,126].")
  *         phred.append(v - 33)             # <<<<<<<<<<<<<<
  *     return phred
  * 
  */
-    __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_v - 33)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_v - 33)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_phred, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_phred, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "taggd/io/phred_utils.pyx":49
+    /* "taggd/io/phred_utils.pyx":52
  *     cdef char c
- *     cdef unsigned int v
+ *     cdef int v
  *     for c in ascii_seq:             # <<<<<<<<<<<<<<
  *         v = ord(c)
  *         if v < 33 or v > 126:
@@ -1406,24 +1404,24 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":54
+  /* "taggd/io/phred_utils.pyx":57
  *             raise ValueError("Invalid Sanger ASCII value: " + v + ". Should be in range [33,126].")
  *         phred.append(v - 33)
  *     return phred             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list sanger_ascii_to_probability(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_phred);
   __pyx_r = __pyx_v_phred;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":42
+  /* "taggd/io/phred_utils.pyx":43
  * 
  * 
  * cpdef list sanger_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
- *         to a list of phred scores'''
+ *     """
+ *     Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
  */
 
   /* function exit code */
@@ -1442,7 +1440,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(PyObject
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_7sanger_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_6sanger_ascii_to_phred[] = "Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format\n        to a list of phred scores";
+static char __pyx_doc_5taggd_2io_11phred_utils_6sanger_ascii_to_phred[] = "\n    Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format\n    to a list of phred scores\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_7sanger_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -1450,7 +1448,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_7sanger_ascii_to_phred(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("sanger_ascii_to_phred (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_6sanger_ascii_to_phred(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -1471,7 +1469,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_6sanger_ascii_to_phred(CYTHON
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sanger_ascii_to_phred", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1488,83 +1486,83 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_6sanger_ascii_to_phred(CYTHON
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":57
- * 
+/* "taggd/io/phred_utils.pyx":59
+ *     return phred
  * 
  * cpdef list sanger_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_9sanger_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
 static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(PyObject *__pyx_v_ascii_seq, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_probs = 0;
-  unsigned int __pyx_v_phred;
+  int __pyx_v_phred;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   Py_ssize_t __pyx_t_3;
-  unsigned int __pyx_t_4;
+  int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sanger_ascii_to_probability", 0);
 
-  /* "taggd/io/phred_utils.pyx":60
- *     '''Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
- *         to a list of probabilities'''
+  /* "taggd/io/phred_utils.pyx":64
+ *     to a list of probabilities
+ *     """
  *     cdef list probs = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int phred
+ *     cdef int phred
  *     for phred in sanger_ascii_to_phred(ascii_seq):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_probs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":62
+  /* "taggd/io/phred_utils.pyx":66
  *     cdef list probs = []
- *     cdef unsigned int phred
+ *     cdef int phred
  *     for phred in sanger_ascii_to_phred(ascii_seq):             # <<<<<<<<<<<<<<
  *         probs.append(phred)
  *     return probs
  */
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #endif
-    __pyx_t_4 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_phred = __pyx_t_4;
 
-    /* "taggd/io/phred_utils.pyx":63
- *     cdef unsigned int phred
+    /* "taggd/io/phred_utils.pyx":67
+ *     cdef int phred
  *     for phred in sanger_ascii_to_phred(ascii_seq):
  *         probs.append(phred)             # <<<<<<<<<<<<<<
  *     return probs
  * 
  */
-    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_phred); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_phred); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_probs, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_probs, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "taggd/io/phred_utils.pyx":62
+    /* "taggd/io/phred_utils.pyx":66
  *     cdef list probs = []
- *     cdef unsigned int phred
+ *     cdef int phred
  *     for phred in sanger_ascii_to_phred(ascii_seq):             # <<<<<<<<<<<<<<
  *         probs.append(phred)
  *     return probs
@@ -1572,24 +1570,24 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(Py
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "taggd/io/phred_utils.pyx":64
+  /* "taggd/io/phred_utils.pyx":68
  *     for phred in sanger_ascii_to_phred(ascii_seq):
  *         probs.append(phred)
  *     return probs             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list illumina_1_3_ascii_to_phred(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_probs);
   __pyx_r = __pyx_v_probs;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":57
- * 
+  /* "taggd/io/phred_utils.pyx":59
+ *     return phred
  * 
  * cpdef list sanger_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format
  */
 
   /* function exit code */
@@ -1607,7 +1605,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(Py
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_9sanger_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_8sanger_ascii_to_probability[] = "Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format\n        to a list of probabilities";
+static char __pyx_doc_5taggd_2io_11phred_utils_8sanger_ascii_to_probability[] = "\n    Converts an ASCII string from a SAM file or FASTQ file with Sanger Phred format\n    to a list of probabilities\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_9sanger_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -1615,7 +1613,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_9sanger_ascii_to_probability(
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("sanger_ascii_to_probability (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_8sanger_ascii_to_probability(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -1636,7 +1634,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_8sanger_ascii_to_probability(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sanger_ascii_to_probability", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1653,19 +1651,19 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_8sanger_ascii_to_probability(
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":67
- * 
+/* "taggd/io/phred_utils.pyx":70
+ *     return probs
  * 
  * cpdef list illumina_1_3_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.3-1.7 Phred format
- *         to a list of phred scores.'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.3-1.7 Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_11illumina_1_3_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
 static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(PyObject *__pyx_v_ascii_seq, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_phred = 0;
   char __pyx_v_c;
-  unsigned int __pyx_v_v;
+  int __pyx_v_v;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1673,7 +1671,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(Py
   PyObject *__pyx_t_3 = NULL;
   char __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  unsigned int __pyx_t_6;
+  int __pyx_t_6;
   int __pyx_t_7;
   int __pyx_t_8;
   int __pyx_t_9;
@@ -1682,28 +1680,28 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_3_ascii_to_phred", 0);
 
-  /* "taggd/io/phred_utils.pyx":71
- *         to a list of phred scores.'''
+  /* "taggd/io/phred_utils.pyx":76
+ *     """
  *     # Ascii range [64,126], phred range [0,62].
  *     cdef list phred = []             # <<<<<<<<<<<<<<
  *     cdef char c
- *     cdef unsigned int v
+ *     cdef int v
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_phred = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":74
+  /* "taggd/io/phred_utils.pyx":79
  *     cdef char c
- *     cdef unsigned int v
+ *     cdef int v
  *     for c in ascii_seq:             # <<<<<<<<<<<<<<
  *         v = ord(c)
  *         if v < 64 or v > 126:
  */
-  __pyx_t_1 = PyObject_GetIter(__pyx_v_ascii_seq); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetIter(__pyx_v_ascii_seq); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   for (;;) {
     {
       __pyx_t_3 = __pyx_t_2(__pyx_t_1);
@@ -1711,38 +1709,38 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(Py
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_3);
     }
-    __pyx_t_4 = __Pyx_PyInt_As_char(__pyx_t_3); if (unlikely((__pyx_t_4 == (char)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyInt_As_char(__pyx_t_3); if (unlikely((__pyx_t_4 == (char)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_c = __pyx_t_4;
 
-    /* "taggd/io/phred_utils.pyx":75
- *     cdef unsigned int v
+    /* "taggd/io/phred_utils.pyx":80
+ *     cdef int v
  *     for c in ascii_seq:
  *         v = ord(c)             # <<<<<<<<<<<<<<
  *         if v < 64 or v > 126:
  *             raise ValueError("Invalid Illumina 1.3 ASCII value: " + v + ". Should be in range [64,126].")
  */
-    __pyx_t_3 = __Pyx_PyInt_From_char(__pyx_v_c); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_char(__pyx_v_c); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ord, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ord, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_v = __pyx_t_6;
 
-    /* "taggd/io/phred_utils.pyx":76
+    /* "taggd/io/phred_utils.pyx":81
  *     for c in ascii_seq:
  *         v = ord(c)
  *         if v < 64 or v > 126:             # <<<<<<<<<<<<<<
@@ -1762,49 +1760,49 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(Py
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_7) {
 
-      /* "taggd/io/phred_utils.pyx":77
+      /* "taggd/io/phred_utils.pyx":82
  *         v = ord(c)
  *         if v < 64 or v > 126:
  *             raise ValueError("Invalid Illumina 1.3 ASCII value: " + v + ". Should be in range [64,126].")             # <<<<<<<<<<<<<<
  *         phred.append(v - 64)
  *     return phred
  */
-      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_v); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_v); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = PyNumber_Add(__pyx_kp_s_Invalid_Illumina_1_3_ASCII_value, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyNumber_Add(__pyx_kp_s_Invalid_Illumina_1_3_ASCII_value, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_Should_be_in_range_64_126); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_Should_be_in_range_64_126); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "taggd/io/phred_utils.pyx":78
+    /* "taggd/io/phred_utils.pyx":83
  *         if v < 64 or v > 126:
  *             raise ValueError("Invalid Illumina 1.3 ASCII value: " + v + ". Should be in range [64,126].")
  *         phred.append(v - 64)             # <<<<<<<<<<<<<<
  *     return phred
  * 
  */
-    __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_v - 64)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_v - 64)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_phred, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_phred, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "taggd/io/phred_utils.pyx":74
+    /* "taggd/io/phred_utils.pyx":79
  *     cdef char c
- *     cdef unsigned int v
+ *     cdef int v
  *     for c in ascii_seq:             # <<<<<<<<<<<<<<
  *         v = ord(c)
  *         if v < 64 or v > 126:
@@ -1812,24 +1810,24 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(Py
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":79
+  /* "taggd/io/phred_utils.pyx":84
  *             raise ValueError("Invalid Illumina 1.3 ASCII value: " + v + ". Should be in range [64,126].")
  *         phred.append(v - 64)
  *     return phred             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list illumina_1_3_ascii_to_probability(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_phred);
   __pyx_r = __pyx_v_phred;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":67
- * 
+  /* "taggd/io/phred_utils.pyx":70
+ *     return probs
  * 
  * cpdef list illumina_1_3_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.3-1.7 Phred format
- *         to a list of phred scores.'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.3-1.7 Phred format
  */
 
   /* function exit code */
@@ -1848,7 +1846,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(Py
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_11illumina_1_3_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_10illumina_1_3_ascii_to_phred[] = "Converts an ASCII string from a Illumina 1.3-1.7 Phred format\n        to a list of phred scores.";
+static char __pyx_doc_5taggd_2io_11phred_utils_10illumina_1_3_ascii_to_phred[] = "\n    Converts an ASCII string from a Illumina 1.3-1.7 Phred format\n    to a list of phred scores.\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_11illumina_1_3_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -1856,7 +1854,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_11illumina_1_3_ascii_to_phred
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("illumina_1_3_ascii_to_phred (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_10illumina_1_3_ascii_to_phred(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -1877,7 +1875,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_10illumina_1_3_ascii_to_phred
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_3_ascii_to_phred", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1894,83 +1892,83 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_10illumina_1_3_ascii_to_phred
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":82
- * 
+/* "taggd/io/phred_utils.pyx":86
+ *     return phred
  * 
  * cpdef list illumina_1_3_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.3-1.7 Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.3-1.7 Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_13illumina_1_3_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
 static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_probability(PyObject *__pyx_v_ascii_seq, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_probs = 0;
-  unsigned int __pyx_v_phred;
+  int __pyx_v_phred;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   Py_ssize_t __pyx_t_3;
-  unsigned int __pyx_t_4;
+  int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_3_ascii_to_probability", 0);
 
-  /* "taggd/io/phred_utils.pyx":85
- *     '''Converts an ASCII string from a Illumina 1.3-1.7 Phred format
- *         to a list of probabilities'''
+  /* "taggd/io/phred_utils.pyx":91
+ *     to a list of probabilities
+ *     """
  *     cdef list probs = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int phred
+ *     cdef int phred
  *     for phred in illumina_1_3_ascii_to_phred(ascii_seq):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_probs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/io/phred_utils.pyx":87
+  /* "taggd/io/phred_utils.pyx":93
  *     cdef list probs = []
- *     cdef unsigned int phred
+ *     cdef int phred
  *     for phred in illumina_1_3_ascii_to_phred(ascii_seq):             # <<<<<<<<<<<<<<
  *         probs.append(phred)
  *     return probs
  */
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #endif
-    __pyx_t_4 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_phred = __pyx_t_4;
 
-    /* "taggd/io/phred_utils.pyx":88
- *     cdef unsigned int phred
+    /* "taggd/io/phred_utils.pyx":94
+ *     cdef int phred
  *     for phred in illumina_1_3_ascii_to_phred(ascii_seq):
  *         probs.append(phred)             # <<<<<<<<<<<<<<
  *     return probs
  * 
  */
-    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_phred); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_phred); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_probs, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_probs, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "taggd/io/phred_utils.pyx":87
+    /* "taggd/io/phred_utils.pyx":93
  *     cdef list probs = []
- *     cdef unsigned int phred
+ *     cdef int phred
  *     for phred in illumina_1_3_ascii_to_phred(ascii_seq):             # <<<<<<<<<<<<<<
  *         probs.append(phred)
  *     return probs
@@ -1978,24 +1976,24 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_probabil
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "taggd/io/phred_utils.pyx":89
+  /* "taggd/io/phred_utils.pyx":95
  *     for phred in illumina_1_3_ascii_to_phred(ascii_seq):
  *         probs.append(phred)
  *     return probs             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list illumina_1_8_casava_ascii_to_phred(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_probs);
   __pyx_r = __pyx_v_probs;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":82
- * 
+  /* "taggd/io/phred_utils.pyx":86
+ *     return phred
  * 
  * cpdef list illumina_1_3_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.3-1.7 Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.3-1.7 Phred format
  */
 
   /* function exit code */
@@ -2013,7 +2011,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_probabil
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_13illumina_1_3_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_12illumina_1_3_ascii_to_probability[] = "Converts an ASCII string from a Illumina 1.3-1.7 Phred format\n        to a list of probabilities";
+static char __pyx_doc_5taggd_2io_11phred_utils_12illumina_1_3_ascii_to_probability[] = "\n    Converts an ASCII string from a Illumina 1.3-1.7 Phred format\n    to a list of probabilities\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_13illumina_1_3_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -2021,7 +2019,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_13illumina_1_3_ascii_to_proba
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("illumina_1_3_ascii_to_probability (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_12illumina_1_3_ascii_to_probability(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -2042,7 +2040,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_12illumina_1_3_ascii_to_proba
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_3_ascii_to_probability", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_3_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2059,12 +2057,12 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_12illumina_1_3_ascii_to_proba
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":92
- * 
+/* "taggd/io/phred_utils.pyx":97
+ *     return probs
  * 
  * cpdef list illumina_1_8_casava_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.8-x.x Phred format
- *         to a list of phred scores.'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.8-x.x Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_15illumina_1_8_casava_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
@@ -2077,26 +2075,26 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_8_casava_ascii_to_phred", 0);
 
-  /* "taggd/io/phred_utils.pyx":95
- *     '''Converts an ASCII string from a Illumina 1.8-x.x Phred format
- *         to a list of phred scores.'''
+  /* "taggd/io/phred_utils.pyx":102
+ *     to a list of phred scores.
+ *     """
  *     return sanger_ascii_to_phred(ascii_seq)             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list illumina_1_8_casava_ascii_to_probability(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":92
- * 
+  /* "taggd/io/phred_utils.pyx":97
+ *     return probs
  * 
  * cpdef list illumina_1_8_casava_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.8-x.x Phred format
- *         to a list of phred scores.'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.8-x.x Phred format
  */
 
   /* function exit code */
@@ -2112,7 +2110,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_p
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_15illumina_1_8_casava_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_14illumina_1_8_casava_ascii_to_phred[] = "Converts an ASCII string from a Illumina 1.8-x.x Phred format\n        to a list of phred scores.";
+static char __pyx_doc_5taggd_2io_11phred_utils_14illumina_1_8_casava_ascii_to_phred[] = "\n    Converts an ASCII string from a Illumina 1.8-x.x Phred format\n    to a list of phred scores.\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_15illumina_1_8_casava_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -2120,7 +2118,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_15illumina_1_8_casava_ascii_t
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("illumina_1_8_casava_ascii_to_phred (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_14illumina_1_8_casava_ascii_to_phred(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -2141,7 +2139,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_14illumina_1_8_casava_ascii_t
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_8_casava_ascii_to_phred", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2158,12 +2156,12 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_14illumina_1_8_casava_ascii_t
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":98
- * 
+/* "taggd/io/phred_utils.pyx":104
+ *     return sanger_ascii_to_phred(ascii_seq)
  * 
  * cpdef list illumina_1_8_casava_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.8-x.x Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.8-x.x Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_17illumina_1_8_casava_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
@@ -2176,26 +2174,26 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_8_casava_ascii_to_probability", 0);
 
-  /* "taggd/io/phred_utils.pyx":101
- *     '''Converts an ASCII string from a Illumina 1.8-x.x Phred format
- *         to a list of probabilities'''
+  /* "taggd/io/phred_utils.pyx":109
+ *     to a list of probabilities
+ *     """
  *     return sanger_ascii_to_probability(ascii_seq)             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list solid_ascii_to_phred(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":98
- * 
+  /* "taggd/io/phred_utils.pyx":104
+ *     return sanger_ascii_to_phred(ascii_seq)
  * 
  * cpdef list illumina_1_8_casava_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a Illumina 1.8-x.x Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a Illumina 1.8-x.x Phred format
  */
 
   /* function exit code */
@@ -2211,7 +2209,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_p
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_17illumina_1_8_casava_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_16illumina_1_8_casava_ascii_to_probability[] = "Converts an ASCII string from a Illumina 1.8-x.x Phred format\n        to a list of probabilities";
+static char __pyx_doc_5taggd_2io_11phred_utils_16illumina_1_8_casava_ascii_to_probability[] = "\n    Converts an ASCII string from a Illumina 1.8-x.x Phred format\n    to a list of probabilities\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_17illumina_1_8_casava_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -2219,7 +2217,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_17illumina_1_8_casava_ascii_t
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("illumina_1_8_casava_ascii_to_probability (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_16illumina_1_8_casava_ascii_to_probability(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -2240,7 +2238,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_16illumina_1_8_casava_ascii_t
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("illumina_1_8_casava_ascii_to_probability", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_illumina_1_8_casava_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2257,12 +2255,12 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_16illumina_1_8_casava_ascii_t
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":104
- * 
+/* "taggd/io/phred_utils.pyx":111
+ *     return sanger_ascii_to_probability(ascii_seq)
  * 
  * cpdef list solid_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SOLiD Phred format
- *         to a list of phred scores.'''
+ *     """
+ *     Converts an ASCII string from a SOLiD Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_19solid_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
@@ -2275,26 +2273,26 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_phred(PyObject 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("solid_ascii_to_phred", 0);
 
-  /* "taggd/io/phred_utils.pyx":107
- *     '''Converts an ASCII string from a SOLiD Phred format
- *         to a list of phred scores.'''
+  /* "taggd/io/phred_utils.pyx":116
+ *     to a list of phred scores.
+ *     """
  *     return sanger_ascii_to_phred(ascii_seq)             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list solid_ascii_to_probability(str ascii_seq):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":104
- * 
+  /* "taggd/io/phred_utils.pyx":111
+ *     return sanger_ascii_to_probability(ascii_seq)
  * 
  * cpdef list solid_ascii_to_phred(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SOLiD Phred format
- *         to a list of phred scores.'''
+ *     """
+ *     Converts an ASCII string from a SOLiD Phred format
  */
 
   /* function exit code */
@@ -2310,7 +2308,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_phred(PyObject 
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_19solid_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_18solid_ascii_to_phred[] = "Converts an ASCII string from a SOLiD Phred format\n        to a list of phred scores.";
+static char __pyx_doc_5taggd_2io_11phred_utils_18solid_ascii_to_phred[] = "\n    Converts an ASCII string from a SOLiD Phred format\n    to a list of phred scores.\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_19solid_ascii_to_phred(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -2318,7 +2316,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_19solid_ascii_to_phred(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("solid_ascii_to_phred (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_18solid_ascii_to_phred(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -2339,7 +2337,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_18solid_ascii_to_phred(CYTHON
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("solid_ascii_to_phred", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_phred(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2356,12 +2354,12 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_18solid_ascii_to_phred(CYTHON
   return __pyx_r;
 }
 
-/* "taggd/io/phred_utils.pyx":110
- * 
+/* "taggd/io/phred_utils.pyx":118
+ *     return sanger_ascii_to_phred(ascii_seq)
  * 
  * cpdef list solid_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SOLiD Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a SOLiD Phred format
  */
 
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_21solid_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
@@ -2374,26 +2372,26 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_probability(PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("solid_ascii_to_probability", 0);
 
-  /* "taggd/io/phred_utils.pyx":113
- *     '''Converts an ASCII string from a SOLiD Phred format
- *         to a list of probabilities'''
+  /* "taggd/io/phred_utils.pyx":123
+ *     to a list of probabilities
+ *     """
  *     return sanger_ascii_to_probability(ascii_seq)             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_sanger_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "taggd/io/phred_utils.pyx":110
- * 
+  /* "taggd/io/phred_utils.pyx":118
+ *     return sanger_ascii_to_phred(ascii_seq)
  * 
  * cpdef list solid_ascii_to_probability(str ascii_seq):             # <<<<<<<<<<<<<<
- *     '''Converts an ASCII string from a SOLiD Phred format
- *         to a list of probabilities'''
+ *     """
+ *     Converts an ASCII string from a SOLiD Phred format
  */
 
   /* function exit code */
@@ -2409,7 +2407,7 @@ static PyObject *__pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_probability(PyO
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_21solid_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq); /*proto*/
-static char __pyx_doc_5taggd_2io_11phred_utils_20solid_ascii_to_probability[] = "Converts an ASCII string from a SOLiD Phred format\n        to a list of probabilities";
+static char __pyx_doc_5taggd_2io_11phred_utils_20solid_ascii_to_probability[] = "\n    Converts an ASCII string from a SOLiD Phred format\n    to a list of probabilities\n    ";
 static PyObject *__pyx_pw_5taggd_2io_11phred_utils_21solid_ascii_to_probability(PyObject *__pyx_self, PyObject *__pyx_v_ascii_seq) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -2417,7 +2415,7 @@ static PyObject *__pyx_pw_5taggd_2io_11phred_utils_21solid_ascii_to_probability(
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("solid_ascii_to_probability (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ascii_seq), (&PyString_Type), 1, "ascii_seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_11phred_utils_20solid_ascii_to_probability(__pyx_self, ((PyObject*)__pyx_v_ascii_seq));
 
   /* function exit code */
@@ -2438,7 +2436,7 @@ static PyObject *__pyx_pf_5taggd_2io_11phred_utils_20solid_ascii_to_probability(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("solid_ascii_to_probability", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_11phred_utils_solid_ascii_to_probability(__pyx_v_ascii_seq, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2510,8 +2508,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_chr = __Pyx_GetBuiltinName(__pyx_n_s_chr); if (!__pyx_builtin_chr) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_ord = __Pyx_GetBuiltinName(__pyx_n_s_ord); if (!__pyx_builtin_ord) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_chr = __Pyx_GetBuiltinName(__pyx_n_s_chr); if (!__pyx_builtin_chr) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ord = __Pyx_GetBuiltinName(__pyx_n_s_ord); if (!__pyx_builtin_ord) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2522,7 +2520,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
   /* "taggd/io/phred_utils.pyx":14
- *     '''Returns the Phred score of a probability.'''
+ *     """
  *     if p < 0 or p > 1:
  *         raise ValueError("Probability must be in range [0,1]")             # <<<<<<<<<<<<<<
  *     return (-10 * math.log10(p))
@@ -2532,14 +2530,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "taggd/io/phred_utils.pyx":21
- *     '''Returns the probability of a Phred score.'''
+  /* "taggd/io/phred_utils.pyx":22
+ *     """
  *     if q < 0:
  *         raise ValueError("Phred score must be in [0,inf).")             # <<<<<<<<<<<<<<
  *     return (math.pow(10, (-q/10)))
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Phred_score_must_be_in_0_inf); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Phred_score_must_be_in_0_inf); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
   __Pyx_RefNannyFinishContext();
@@ -2655,11 +2653,11 @@ PyMODINIT_FUNC PyInit_phred_utils(void)
   /*--- Execution code ---*/
 
   /* "taggd/io/phred_utils.pyx":7
- * '''
+ * """
  * 
  * import math             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef double probability_to_phred(double p):
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_math, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -2667,7 +2665,7 @@ PyMODINIT_FUNC PyInit_phred_utils(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "taggd/io/phred_utils.pyx":1
- * '''             # <<<<<<<<<<<<<<
+ * """             # <<<<<<<<<<<<<<
  * This package contains utilities for the Phred quality measurement.
  * By definition, Phred quality score Q is related to base-calling error probability P
  */
@@ -3306,19 +3304,19 @@ bad:
  #endif
 #endif
 
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
-    const unsigned int neg_one = (unsigned int) -1, const_zero = 0;
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+    const int neg_one = (int) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
     if (likely(PyInt_Check(x))) {
-        if (sizeof(unsigned int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(unsigned int, long, PyInt_AS_LONG(x))
+        if (sizeof(int) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
         } else {
             long val = PyInt_AS_LONG(x);
             if (is_unsigned && unlikely(val < 0)) {
                 goto raise_neg_overflow;
             }
-            return (unsigned int) val;
+            return (int) val;
         }
     } else
 #endif
@@ -3328,32 +3326,32 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
  #if CYTHON_USE_PYLONG_INTERNALS
             switch (Py_SIZE(x)) {
                 case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int, digit, ((PyLongObject*)x)->ob_digit[0]);
+                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
             }
  #endif
 #endif
             if (unlikely(Py_SIZE(x) < 0)) {
                 goto raise_neg_overflow;
             }
-            if (sizeof(unsigned int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(unsigned int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long long, PyLong_AsUnsignedLongLong(x))
+            if (sizeof(int) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
+            } else if (sizeof(int) <= sizeof(unsigned long long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
             }
         } else {
 #if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
  #if CYTHON_USE_PYLONG_INTERNALS
             switch (Py_SIZE(x)) {
                 case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(unsigned int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
+                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
+                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
             }
  #endif
 #endif
-            if (sizeof(unsigned int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, long, PyLong_AsLong(x))
-            } else if (sizeof(unsigned int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, long long, PyLong_AsLongLong(x))
+            if (sizeof(int) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
+            } else if (sizeof(int) <= sizeof(long long)) {
+                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
             }
         }
         {
@@ -3361,7 +3359,7 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
             PyErr_SetString(PyExc_RuntimeError,
                             "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
 #else
-            unsigned int val;
+            int val;
             PyObject *v = __Pyx_PyNumber_Int(x);
  #if PY_MAJOR_VERSION < 3
             if (likely(v) && !PyLong_Check(v)) {
@@ -3381,48 +3379,48 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
                     return val;
             }
 #endif
-            return (unsigned int) -1;
+            return (int) -1;
         }
     } else {
-        unsigned int val;
+        int val;
         PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (unsigned int) -1;
-        val = __Pyx_PyInt_As_unsigned_int(tmp);
+        if (!tmp) return (int) -1;
+        val = __Pyx_PyInt_As_int(tmp);
         Py_DECREF(tmp);
         return val;
     }
 raise_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to unsigned int");
-    return (unsigned int) -1;
+        "value too large to convert to int");
+    return (int) -1;
 raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to unsigned int");
-    return (unsigned int) -1;
+        "can't convert negative value to int");
+    return (int) -1;
 }
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value) {
-    const unsigned int neg_one = (unsigned int) -1, const_zero = 0;
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(unsigned int) < sizeof(long)) {
+        if (sizeof(int) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned int) <= sizeof(unsigned long)) {
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
-        } else if (sizeof(unsigned int) <= sizeof(unsigned long long)) {
+        } else if (sizeof(int) <= sizeof(unsigned long long)) {
             return PyLong_FromUnsignedLongLong((unsigned long long) value);
         }
     } else {
-        if (sizeof(unsigned int) <= sizeof(long)) {
+        if (sizeof(int) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned int) <= sizeof(long long)) {
+        } else if (sizeof(int) <= sizeof(long long)) {
             return PyLong_FromLongLong((long long) value);
         }
     }
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(unsigned int),
+        return _PyLong_FromByteArray(bytes, sizeof(int),
                                      little, !is_unsigned);
     }
 }
@@ -3667,101 +3665,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
-}
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
-    const int neg_one = (int) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (int) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-            if (sizeof(int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
-            }
-        } else {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (sizeof(int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
-            } else if (sizeof(int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            int val;
-            PyObject *v = __Pyx_PyNumber_Int(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (int) -1;
-        }
-    } else {
-        int val;
-        PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (int) -1;
-        val = __Pyx_PyInt_As_int(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to int");
-    return (int) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to int");
-    return (int) -1;
 }
 
 static int __Pyx_check_binary_version(void) {

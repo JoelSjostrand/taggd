@@ -6,7 +6,7 @@ Contains utilities for working with k-mer chunks of the barcodes or other sequen
 
 
 
-cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=False, unsigned int slider_increment=1):
+cdef list get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):
     """
     Returns dictionaries for kmers of a list of sequences.
     The last kmer is always included, irrespective of slider increment.
@@ -22,7 +22,7 @@ cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=False, uns
     cdef str seqq
     cdef set l
     cdef str kmer
-    cdef unsigned int i
+    cdef int i
     for seq in seqs:
         l = set()
         seq2kmer[seq] = l
@@ -51,7 +51,7 @@ cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=False, uns
 
 
 
-cdef list get_kmers(str seq, unsigned int k, bool round_robin=False, unsigned int slider_increment=1):
+cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=1):
     """
     Returns the kmers of a sequence as a list of kmer-offset tuples. The last kmer will always be included
     irrespective of the slider increment.
@@ -65,7 +65,7 @@ cdef list get_kmers(str seq, unsigned int k, bool round_robin=False, unsigned in
     if round_robin:
         seqq = seq + seq[0:(k-1)]
     cdef str kmer
-    cdef unsigned int i
+    cdef int i
     for i in xrange(0, len(seqq)-k+1, slider_increment):
         kmer = seqq[i:i+k]
         l.append((kmer, i))

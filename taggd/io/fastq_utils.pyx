@@ -15,7 +15,10 @@ def readfq(fp): # this is a generator function
     """
     Heng Li's fasta/fastq reader function.
     """
-    last = None # this is a buffer keeping the last unprocessed line
+    cdef str last = None # this is a buffer keeping the last unprocessed line
+    cdef str l, name, seq
+    cdef list seqs
+    cdef int leng
     while True: # mimic closure; is it a bad idea?
         if not last: # the first record or a record following a fastq
             for l in fp: # search for the start of the next record
@@ -54,7 +57,9 @@ def writefq(fp):  # This is a coroutine
     Send a (header_comments, sequence, quality) triple to the instance to write it to
     the specified file pointer.
     """
-    fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
+    cdef str fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
+    cdef object record
+    cdef str read
     try:
         while True:
             record = yield
@@ -72,7 +77,9 @@ def writefa(fp):  # This is a coroutine
     Send a (header_comments, sequence) double to the instance to write it to
     the specified file pointer.
     """
-    fa_format = '>{header_comments}\n{sequence}\n'
+    cdef str fa_format = '>{header_comments}\n{sequence}\n'
+    cdef object record
+    cdef str read
     try:
         while True:
             record = yield
@@ -88,8 +95,8 @@ def writefq_record(fp, record):
     Send a (header_comments, sequence, quality) triple to the instance to write it to
     the specified file pointer.
     """
-    fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
-    read = fq_format.format(header_comments=record[0], sequence=record[1], quality=record[2])
+    cdef str fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
+    cdef str read = fq_format.format(header_comments=record[0], sequence=record[1], quality=record[2])
     fp.write(read)
 
 
@@ -99,6 +106,6 @@ def writefa_record(fp, record):
     Send a (header_comments, sequence) double to the instance to write it to
     the specified file pointer.
     """
-    fa_format = '>{header_comments}\n{sequence}\n'
-    read = fa_format.format(header_comments=record[0], sequence=record[1])
+    cdef str fa_format = '>{header_comments}\n{sequence}\n'
+    cdef str read = fa_format.format(header_comments=record[0], sequence=record[1])
     fp.write(read)

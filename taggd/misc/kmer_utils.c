@@ -424,25 +424,25 @@ struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers;
 /* "taggd/misc/kmer_utils.pxd":3
  * from cpython cimport bool
  * 
- * cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=?, unsigned int slider_increment=?)             # <<<<<<<<<<<<<<
+ * cdef list get_kmers_dicts(list seqs, int k, bool round_robin=?, int slider_increment=?)             # <<<<<<<<<<<<<<
  * 
- * cdef list get_kmers(str seq, unsigned int k, bool round_robin=?, unsigned int slider_increment=?)
+ * cdef list get_kmers(str seq, int k, bool round_robin=?, int slider_increment=?)
  */
 struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts {
   int __pyx_n;
   PyBoolObject *round_robin;
-  unsigned int slider_increment;
+  int slider_increment;
 };
 
 /* "taggd/misc/kmer_utils.pxd":5
- * cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=?, unsigned int slider_increment=?)
+ * cdef list get_kmers_dicts(list seqs, int k, bool round_robin=?, int slider_increment=?)
  * 
- * cdef list get_kmers(str seq, unsigned int k, bool round_robin=?, unsigned int slider_increment=?)             # <<<<<<<<<<<<<<
+ * cdef list get_kmers(str seq, int k, bool round_robin=?, int slider_increment=?)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers {
   int __pyx_n;
   PyBoolObject *round_robin;
-  unsigned int slider_increment;
+  int slider_increment;
 };
 #ifndef CYTHON_REFNANNY
   #define CYTHON_REFNANNY 0
@@ -608,15 +608,13 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 static int __Pyx_check_binary_version(void);
 
@@ -743,21 +741,21 @@ static PyObject *__pyx_int_0;
 /* "taggd/misc/kmer_utils.pyx":9
  * 
  * 
- * cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=False, unsigned int slider_increment=1):             # <<<<<<<<<<<<<<
+ * cdef list get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):             # <<<<<<<<<<<<<<
  *     """
  *     Returns dictionaries for kmers of a list of sequences.
  */
 
-static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__pyx_v_seqs, unsigned int __pyx_v_k, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts *__pyx_optional_args) {
+static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__pyx_v_seqs, int __pyx_v_k, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts *__pyx_optional_args) {
   PyBoolObject *__pyx_v_round_robin = ((PyBoolObject *)Py_False);
-  unsigned int __pyx_v_slider_increment = ((unsigned int)1);
+  int __pyx_v_slider_increment = ((int)1);
   PyObject *__pyx_v_seq2kmer = 0;
   PyObject *__pyx_v_kmer2seq = 0;
   PyObject *__pyx_v_seq = 0;
   PyObject *__pyx_v_seqq = 0;
   PyObject *__pyx_v_l = 0;
   PyObject *__pyx_v_kmer = 0;
-  unsigned int __pyx_v_i;
+  int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -768,7 +766,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
   Py_ssize_t __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *(*__pyx_t_8)(PyObject *);
-  unsigned int __pyx_t_9;
+  int __pyx_t_9;
   int __pyx_t_10;
   int __pyx_t_11;
   PyObject *__pyx_t_12 = NULL;
@@ -812,7 +810,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 
   /* "taggd/misc/kmer_utils.pyx":26
  *     cdef str kmer
- *     cdef unsigned int i
+ *     cdef int i
  *     for seq in seqs:             # <<<<<<<<<<<<<<
  *         l = set()
  *         seq2kmer[seq] = l
@@ -834,7 +832,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
     __pyx_t_3 = 0;
 
     /* "taggd/misc/kmer_utils.pyx":27
- *     cdef unsigned int i
+ *     cdef int i
  *     for seq in seqs:
  *         l = set()             # <<<<<<<<<<<<<<
  *         seq2kmer[seq] = l
@@ -906,7 +904,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
     __pyx_t_6 = PyObject_Length(__pyx_v_seqq); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_5 = PyInt_FromSsize_t(((__pyx_t_6 - __pyx_v_k) + 1)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_slider_increment); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_slider_increment); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
@@ -960,7 +958,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
         }
         __Pyx_GOTREF(__pyx_t_3);
       }
-      __pyx_t_9 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_9 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_i = __pyx_t_9;
 
@@ -1059,7 +1057,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
       __pyx_t_5 = PyObject_GetItem(__pyx_t_3, __pyx_v_seq); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_3); if (unlikely(__pyx_t_10 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1205,7 +1203,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
       __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_add); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_12 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -1240,7 +1238,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 
     /* "taggd/misc/kmer_utils.pyx":26
  *     cdef str kmer
- *     cdef unsigned int i
+ *     cdef int i
  *     for seq in seqs:             # <<<<<<<<<<<<<<
  *         l = set()
  *         seq2kmer[seq] = l
@@ -1271,7 +1269,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
   /* "taggd/misc/kmer_utils.pyx":9
  * 
  * 
- * cdef list get_kmers_dicts(list seqs, unsigned int k, bool round_robin=False, unsigned int slider_increment=1):             # <<<<<<<<<<<<<<
+ * cdef list get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):             # <<<<<<<<<<<<<<
  *     """
  *     Returns dictionaries for kmers of a list of sequences.
  */
@@ -1301,18 +1299,18 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 /* "taggd/misc/kmer_utils.pyx":54
  * 
  * 
- * cdef list get_kmers(str seq, unsigned int k, bool round_robin=False, unsigned int slider_increment=1):             # <<<<<<<<<<<<<<
+ * cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=1):             # <<<<<<<<<<<<<<
  *     """
  *     Returns the kmers of a sequence as a list of kmer-offset tuples. The last kmer will always be included
  */
 
-static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_seq, unsigned int __pyx_v_k, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers *__pyx_optional_args) {
+static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_seq, int __pyx_v_k, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers *__pyx_optional_args) {
   PyBoolObject *__pyx_v_round_robin = ((PyBoolObject *)Py_False);
-  unsigned int __pyx_v_slider_increment = ((unsigned int)1);
+  int __pyx_v_slider_increment = ((int)1);
   PyObject *__pyx_v_l = 0;
   PyObject *__pyx_v_seqq = 0;
   PyObject *__pyx_v_kmer = 0;
-  unsigned int __pyx_v_i;
+  int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1321,7 +1319,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   Py_ssize_t __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   PyObject *(*__pyx_t_6)(PyObject *);
-  unsigned int __pyx_t_7;
+  int __pyx_t_7;
   int __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -1373,7 +1371,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
  *     if round_robin:
  *         seqq = seq + seq[0:(k-1)]             # <<<<<<<<<<<<<<
  *     cdef str kmer
- *     cdef unsigned int i
+ *     cdef int i
  */
     if (unlikely(__pyx_v_seq == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -1392,7 +1390,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
 
   /* "taggd/misc/kmer_utils.pyx":69
  *     cdef str kmer
- *     cdef unsigned int i
+ *     cdef int i
  *     for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *         kmer = seqq[i:i+k]
  *         l.append((kmer, i))
@@ -1400,7 +1398,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   __pyx_t_4 = PyObject_Length(__pyx_v_seqq); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_3 = PyInt_FromSsize_t(((__pyx_t_4 - __pyx_v_k) + 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_slider_increment); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_slider_increment); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
@@ -1454,12 +1452,12 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_i = __pyx_t_7;
 
     /* "taggd/misc/kmer_utils.pyx":70
- *     cdef unsigned int i
+ *     cdef int i
  *     for i in xrange(0, len(seqq)-k+1, slider_increment):
  *         kmer = seqq[i:i+k]             # <<<<<<<<<<<<<<
  *         l.append((kmer, i))
@@ -1481,7 +1479,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
  *     # Special treatment of last
  *     if len(seqq) % slider_increment != 0:
  */
-    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
@@ -1496,7 +1494,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
 
     /* "taggd/misc/kmer_utils.pyx":69
  *     cdef str kmer
- *     cdef unsigned int i
+ *     cdef int i
  *     for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *         kmer = seqq[i:i+k]
  *         l.append((kmer, i))
@@ -1558,7 +1556,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
  *         l.append((kmer,i))             # <<<<<<<<<<<<<<
  *     return l
  */
-    __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
@@ -1587,7 +1585,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   /* "taggd/misc/kmer_utils.pyx":54
  * 
  * 
- * cdef list get_kmers(str seq, unsigned int k, bool round_robin=False, unsigned int slider_increment=1):             # <<<<<<<<<<<<<<
+ * cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=1):             # <<<<<<<<<<<<<<
  *     """
  *     Returns the kmers of a sequence as a list of kmer-offset tuples. The last kmer will always be included
  */
@@ -1744,8 +1742,8 @@ PyMODINIT_FUNC PyInit_kmer_utils(void)
   /*--- Global init code ---*/
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
-  if (__Pyx_ExportFunction("get_kmers_dicts", (void (*)(void))__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts, "PyObject *(PyObject *, unsigned int, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ExportFunction("get_kmers", (void (*)(void))__pyx_f_5taggd_4misc_10kmer_utils_get_kmers, "PyObject *(PyObject *, unsigned int, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("get_kmers_dicts", (void (*)(void))__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts, "PyObject *(PyObject *, int, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("get_kmers", (void (*)(void))__pyx_f_5taggd_4misc_10kmer_utils_get_kmers, "PyObject *(PyObject *, int, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Type init code ---*/
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
@@ -2100,28 +2098,28 @@ bad:
     Py_XDECREF(py_frame);
 }
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value) {
-    const unsigned int neg_one = (unsigned int) -1, const_zero = 0;
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(unsigned int) < sizeof(long)) {
+        if (sizeof(int) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned int) <= sizeof(unsigned long)) {
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
-        } else if (sizeof(unsigned int) <= sizeof(unsigned long long)) {
+        } else if (sizeof(int) <= sizeof(unsigned long long)) {
             return PyLong_FromUnsignedLongLong((unsigned long long) value);
         }
     } else {
-        if (sizeof(unsigned int) <= sizeof(long)) {
+        if (sizeof(int) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned int) <= sizeof(long long)) {
+        } else if (sizeof(int) <= sizeof(long long)) {
             return PyLong_FromLongLong((long long) value);
         }
     }
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(unsigned int),
+        return _PyLong_FromByteArray(bytes, sizeof(int),
                                      little, !is_unsigned);
     }
 }
@@ -2147,19 +2145,19 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value)
  #endif
 #endif
 
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
-    const unsigned int neg_one = (unsigned int) -1, const_zero = 0;
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+    const int neg_one = (int) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
     if (likely(PyInt_Check(x))) {
-        if (sizeof(unsigned int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(unsigned int, long, PyInt_AS_LONG(x))
+        if (sizeof(int) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
         } else {
             long val = PyInt_AS_LONG(x);
             if (is_unsigned && unlikely(val < 0)) {
                 goto raise_neg_overflow;
             }
-            return (unsigned int) val;
+            return (int) val;
         }
     } else
 #endif
@@ -2169,32 +2167,32 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
  #if CYTHON_USE_PYLONG_INTERNALS
             switch (Py_SIZE(x)) {
                 case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int, digit, ((PyLongObject*)x)->ob_digit[0]);
+                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
             }
  #endif
 #endif
             if (unlikely(Py_SIZE(x) < 0)) {
                 goto raise_neg_overflow;
             }
-            if (sizeof(unsigned int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(unsigned int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long long, PyLong_AsUnsignedLongLong(x))
+            if (sizeof(int) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
+            } else if (sizeof(int) <= sizeof(unsigned long long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
             }
         } else {
 #if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
  #if CYTHON_USE_PYLONG_INTERNALS
             switch (Py_SIZE(x)) {
                 case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(unsigned int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
+                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
+                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
             }
  #endif
 #endif
-            if (sizeof(unsigned int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, long, PyLong_AsLong(x))
-            } else if (sizeof(unsigned int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, long long, PyLong_AsLongLong(x))
+            if (sizeof(int) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
+            } else if (sizeof(int) <= sizeof(long long)) {
+                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
             }
         }
         {
@@ -2202,7 +2200,7 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
             PyErr_SetString(PyExc_RuntimeError,
                             "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
 #else
-            unsigned int val;
+            int val;
             PyObject *v = __Pyx_PyNumber_Int(x);
  #if PY_MAJOR_VERSION < 3
             if (likely(v) && !PyLong_Check(v)) {
@@ -2222,24 +2220,24 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
                     return val;
             }
 #endif
-            return (unsigned int) -1;
+            return (int) -1;
         }
     } else {
-        unsigned int val;
+        int val;
         PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (unsigned int) -1;
-        val = __Pyx_PyInt_As_unsigned_int(tmp);
+        if (!tmp) return (int) -1;
+        val = __Pyx_PyInt_As_int(tmp);
         Py_DECREF(tmp);
         return val;
     }
 raise_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to unsigned int");
-    return (unsigned int) -1;
+        "value too large to convert to int");
+    return (int) -1;
 raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to unsigned int");
-    return (unsigned int) -1;
+        "can't convert negative value to int");
+    return (int) -1;
 }
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
@@ -2361,101 +2359,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
-}
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
-    const int neg_one = (int) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (int) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-            if (sizeof(int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
-            }
-        } else {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (sizeof(int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
-            } else if (sizeof(int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            int val;
-            PyObject *v = __Pyx_PyNumber_Int(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (int) -1;
-        }
-    } else {
-        int val;
-        PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (int) -1;
-        val = __Pyx_PyInt_As_int(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to int");
-    return (int) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to int");
-    return (int) -1;
 }
 
 static int __Pyx_check_binary_version(void) {

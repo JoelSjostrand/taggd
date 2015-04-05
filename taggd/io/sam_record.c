@@ -681,14 +681,14 @@ static char __pyx_k_next_reference_id[] = "next_reference_id";
 static char __pyx_k_SAMRecord_add_tags[] = "SAMRecord.add_tags";
 static char __pyx_k_taggd_io_sam_record[] = "taggd.io.sam_record";
 static char __pyx_k_next_reference_start[] = "next_reference_start";
-static char __pyx_k_Users_joelsjostrand_st_code_pyt[] = "/Users/joelsjostrand/st_code/python_scripts/taggd/taggd/io/sam_record.pyx";
+static char __pyx_k_Users_joelsjostrand_github_tagg[] = "/Users/joelsjostrand/github/taggd/taggd/io/sam_record.pyx";
 static PyObject *__pyx_n_s_AlignedSegment;
 static PyObject *__pyx_n_s_Record;
 static PyObject *__pyx_n_s_SAMRecord;
 static PyObject *__pyx_n_s_SAMRecord___init;
 static PyObject *__pyx_n_s_SAMRecord_add_tags;
 static PyObject *__pyx_n_s_SAMRecord_unwrap;
-static PyObject *__pyx_kp_s_Users_joelsjostrand_st_code_pyt;
+static PyObject *__pyx_kp_s_Users_joelsjostrand_github_tagg;
 static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_n_s_add_tags;
 static PyObject *__pyx_n_s_added;
@@ -1494,7 +1494,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SAMRecord___init, __pyx_k_SAMRecord___init, sizeof(__pyx_k_SAMRecord___init), 0, 0, 1, 1},
   {&__pyx_n_s_SAMRecord_add_tags, __pyx_k_SAMRecord_add_tags, sizeof(__pyx_k_SAMRecord_add_tags), 0, 0, 1, 1},
   {&__pyx_n_s_SAMRecord_unwrap, __pyx_k_SAMRecord_unwrap, sizeof(__pyx_k_SAMRecord_unwrap), 0, 0, 1, 1},
-  {&__pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_k_Users_joelsjostrand_st_code_pyt, sizeof(__pyx_k_Users_joelsjostrand_st_code_pyt), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_k_Users_joelsjostrand_github_tagg, sizeof(__pyx_k_Users_joelsjostrand_github_tagg), 0, 0, 1, 0},
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
   {&__pyx_n_s_add_tags, __pyx_k_add_tags, sizeof(__pyx_k_add_tags), 0, 0, 1, 1},
   {&__pyx_n_s_added, __pyx_k_added, sizeof(__pyx_k_added), 0, 0, 1, 1},
@@ -1548,7 +1548,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_alseq); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_init, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_init, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "taggd/io/sam_record.pyx":22
  *         self.attributes["tags"] = alseq.tags
@@ -1560,7 +1560,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_added); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_add_tags, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_add_tags, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "taggd/io/sam_record.pyx":25
  *         self.attributes["tags"] = self.attributes["tags"] + added
@@ -1572,7 +1572,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_a); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_unwrap, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_unwrap, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

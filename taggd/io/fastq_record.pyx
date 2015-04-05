@@ -16,7 +16,7 @@ class FASTQRecord(Record):
     def unwrap(self):
         return (self.annotation, self.sequence, self.attributes["quality"])
 
-
     def __str__(self):
         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
-        return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])
+        return fq_format.format(header_comments=self.annotation, 
+                                sequence=self.sequence, quality=self.attributes["quality"])

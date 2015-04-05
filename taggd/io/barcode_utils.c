@@ -426,23 +426,23 @@ struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance;
 /* "taggd/misc/distance_metrics.pxd":3
  * from cpython cimport bool
  * 
- * cdef unsigned int hamming_distance(str seq1, str seq2, unsigned int limit=?)             # <<<<<<<<<<<<<<
+ * cdef int hamming_distance(str seq1, str seq2, int limit=?)             # <<<<<<<<<<<<<<
  * 
  * cdef list subglobal_distance(str, str)
  */
 struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance {
   int __pyx_n;
-  unsigned int limit;
+  int limit;
 };
 
 /* "taggd/misc/distance_metrics.pxd":7
  * cdef list subglobal_distance(str, str)
  * 
- * cdef unsigned int levenshtein_distance(str seq1, str seq2, unsigned int limit=?)             # <<<<<<<<<<<<<<
+ * cdef int levenshtein_distance(str seq1, str seq2, int limit=?)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance {
   int __pyx_n;
-  unsigned int limit;
+  int limit;
 };
 
 /* "taggd/io/barcode_utils.pxd":1
@@ -663,15 +663,13 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 static int __Pyx_check_binary_version(void);
 
@@ -778,12 +776,12 @@ static PyTypeObject *__pyx_ptype_7cpython_7complex_complex = 0;
 /* Module declarations from 'cpython' */
 
 /* Module declarations from 'taggd.misc.distance_metrics' */
-static unsigned int (*__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance)(PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args); /*proto*/
+static int (*__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance)(PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args); /*proto*/
 
 /* Module declarations from 'taggd.io.barcode_utils' */
 static PyTypeObject *__pyx_ptype_5taggd_2io_13barcode_utils_Barcode = 0;
 static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObject *, unsigned int, int __pyx_skip_dispatch); /*proto*/
+static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObject *, int, int __pyx_skip_dispatch); /*proto*/
 #define __Pyx_MODULE_NAME "taggd.io.barcode_utils"
 int __pyx_module_is_main_taggd__io__barcode_utils = 0;
 
@@ -791,7 +789,7 @@ int __pyx_module_is_main_taggd__io__barcode_utils = 0;
 static PyObject *__pyx_builtin_open;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_xrange;
-static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode___cinit__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self, PyObject *__pyx_v_seq, PyObject *__pyx_v_attributes); /* proto */
+static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode___cinit__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self, PyObject *__pyx_v_seq_, PyObject *__pyx_v_attributes_); /* proto */
 static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_7Barcode_8sequence___get__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self); /* proto */
 static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode_8sequence_2__set__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode_8sequence_4__del__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self); /* proto */
@@ -799,9 +797,9 @@ static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_7Barcode_10attributes___get
 static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode_10attributes_2__set__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode_10attributes_4__del__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_read_barcode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile_path); /* proto */
-static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_2estimate_min_edit_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_true_barcodes, unsigned int __pyx_v_max_iters); /* proto */
+static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_2estimate_min_edit_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_true_barcodes, int __pyx_v_max_iters); /* proto */
 static PyObject *__pyx_tp_new_5taggd_2io_13barcode_utils_Barcode(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static char __pyx_k_seq[] = "seq";
+static char __pyx_k_seq[] = "seq_";
 static char __pyx_k_exit[] = "__exit__";
 static char __pyx_k_keys[] = "keys";
 static char __pyx_k_main[] = "__main__";
@@ -817,9 +815,9 @@ static char __pyx_k_xrange[] = "xrange";
 static char __pyx_k_shuffle[] = "shuffle";
 static char __pyx_k_max_iters[] = "max_iters";
 static char __pyx_k_ValueError[] = "ValueError";
-static char __pyx_k_attributes[] = "attributes";
+static char __pyx_k_attributes[] = "attributes_";
 static char __pyx_k_true_barcodes[] = "true_barcodes";
-static char __pyx_k_Contains_utilities_for_handling[] = "Contains utilities for handling barcodes.";
+static char __pyx_k_Contains_utilities_for_handling[] = "\nContains utilities for handling barcodes.\n";
 static char __pyx_k_Barcode_file_incorrect_duplicate[] = "Barcode file incorrect, duplicate barcode: ";
 static char __pyx_k_Barcode_file_incorrect_varying_l[] = "Barcode file incorrect, varying lengths among barcodes";
 static PyObject *__pyx_kp_s_Barcode_file_incorrect_duplicate;
@@ -845,19 +843,19 @@ static PyObject *__pyx_n_s_xrange;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 
-/* "taggd/io/barcode_utils.pyx":11
+/* "taggd/io/barcode_utils.pyx":13
  *     """
  * 
- *     def __cinit__(self, str seq, list attributes):             # <<<<<<<<<<<<<<
- *         self.sequence = seq
- *         self.attributes = attributes
+ *     def __cinit__(self, str seq_, list attributes_):             # <<<<<<<<<<<<<<
+ *         self.sequence = seq_
+ *         self.attributes = attributes_
  */
 
 /* Python wrapper */
 static int __pyx_pw_5taggd_2io_13barcode_utils_7Barcode_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_5taggd_2io_13barcode_utils_7Barcode_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_seq = 0;
-  PyObject *__pyx_v_attributes = 0;
+  PyObject *__pyx_v_seq_ = 0;
+  PyObject *__pyx_v_attributes_ = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -884,11 +882,11 @@ static int __pyx_pw_5taggd_2io_13barcode_utils_7Barcode_1__cinit__(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_attributes)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -896,20 +894,20 @@ static int __pyx_pw_5taggd_2io_13barcode_utils_7Barcode_1__cinit__(PyObject *__p
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_seq = ((PyObject*)values[0]);
-    __pyx_v_attributes = ((PyObject*)values[1]);
+    __pyx_v_seq_ = ((PyObject*)values[0]);
+    __pyx_v_attributes_ = ((PyObject*)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("taggd.io.barcode_utils.Barcode.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_seq), (&PyString_Type), 1, "seq", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_attributes), (&PyList_Type), 1, "attributes", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_5taggd_2io_13barcode_utils_7Barcode___cinit__(((struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *)__pyx_v_self), __pyx_v_seq, __pyx_v_attributes);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_seq_), (&PyString_Type), 1, "seq_", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_attributes_), (&PyList_Type), 1, "attributes_", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5taggd_2io_13barcode_utils_7Barcode___cinit__(((struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *)__pyx_v_self), __pyx_v_seq_, __pyx_v_attributes_);
 
   /* function exit code */
   goto __pyx_L0;
@@ -920,43 +918,43 @@ static int __pyx_pw_5taggd_2io_13barcode_utils_7Barcode_1__cinit__(PyObject *__p
   return __pyx_r;
 }
 
-static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode___cinit__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self, PyObject *__pyx_v_seq, PyObject *__pyx_v_attributes) {
+static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode___cinit__(struct __pyx_obj_5taggd_2io_13barcode_utils_Barcode *__pyx_v_self, PyObject *__pyx_v_seq_, PyObject *__pyx_v_attributes_) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "taggd/io/barcode_utils.pyx":12
+  /* "taggd/io/barcode_utils.pyx":14
  * 
- *     def __cinit__(self, str seq, list attributes):
- *         self.sequence = seq             # <<<<<<<<<<<<<<
- *         self.attributes = attributes
+ *     def __cinit__(self, str seq_, list attributes_):
+ *         self.sequence = seq_             # <<<<<<<<<<<<<<
+ *         self.attributes = attributes_
  * 
  */
-  __Pyx_INCREF(__pyx_v_seq);
-  __Pyx_GIVEREF(__pyx_v_seq);
+  __Pyx_INCREF(__pyx_v_seq_);
+  __Pyx_GIVEREF(__pyx_v_seq_);
   __Pyx_GOTREF(__pyx_v_self->sequence);
   __Pyx_DECREF(__pyx_v_self->sequence);
-  __pyx_v_self->sequence = __pyx_v_seq;
+  __pyx_v_self->sequence = __pyx_v_seq_;
 
-  /* "taggd/io/barcode_utils.pyx":13
- *     def __cinit__(self, str seq, list attributes):
- *         self.sequence = seq
- *         self.attributes = attributes             # <<<<<<<<<<<<<<
+  /* "taggd/io/barcode_utils.pyx":15
+ *     def __cinit__(self, str seq_, list attributes_):
+ *         self.sequence = seq_
+ *         self.attributes = attributes_             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_INCREF(__pyx_v_attributes);
-  __Pyx_GIVEREF(__pyx_v_attributes);
+  __Pyx_INCREF(__pyx_v_attributes_);
+  __Pyx_GIVEREF(__pyx_v_attributes_);
   __Pyx_GOTREF(__pyx_v_self->attributes);
   __Pyx_DECREF(__pyx_v_self->attributes);
-  __pyx_v_self->attributes = __pyx_v_attributes;
+  __pyx_v_self->attributes = __pyx_v_attributes_;
 
-  /* "taggd/io/barcode_utils.pyx":11
+  /* "taggd/io/barcode_utils.pyx":13
  *     """
  * 
- *     def __cinit__(self, str seq, list attributes):             # <<<<<<<<<<<<<<
- *         self.sequence = seq
- *         self.attributes = attributes
+ *     def __cinit__(self, str seq_, list attributes_):             # <<<<<<<<<<<<<<
+ *         self.sequence = seq_
+ *         self.attributes = attributes_
  */
 
   /* function exit code */
@@ -1180,7 +1178,7 @@ static int __pyx_pf_5taggd_2io_13barcode_utils_7Barcode_10attributes_4__del__(st
   return __pyx_r;
 }
 
-/* "taggd/io/barcode_utils.pyx":17
+/* "taggd/io/barcode_utils.pyx":18
  * 
  * 
  * cpdef dict read_barcode_file(str infile_path):             # <<<<<<<<<<<<<<
@@ -1194,7 +1192,7 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
   PyObject *__pyx_v_line = 0;
   PyObject *__pyx_v_tmp = 0;
   PyObject *__pyx_v_seq = 0;
-  unsigned int __pyx_v_length;
+  int __pyx_v_length;
   PyObject *__pyx_v_infile = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1218,46 +1216,46 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("read_barcode_file", 0);
 
-  /* "taggd/io/barcode_utils.pyx":23
+  /* "taggd/io/barcode_utils.pyx":24
  *     :return: a dictionary with barcode sequences as keys and Barcode instances as values.
  *     """
  *     cdef dict res_dict = {}             # <<<<<<<<<<<<<<
  *     cdef str line
  *     cdef list tmp
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_res_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/io/barcode_utils.pyx":27
+  /* "taggd/io/barcode_utils.pyx":28
  *     cdef list tmp
  *     cdef str seq
- *     cdef unsigned int length = 0             # <<<<<<<<<<<<<<
+ *     cdef int length = 0             # <<<<<<<<<<<<<<
  *     with open(infile_path) as infile:
  *         for line in infile:
  */
   __pyx_v_length = 0;
 
-  /* "taggd/io/barcode_utils.pyx":28
+  /* "taggd/io/barcode_utils.pyx":29
  *     cdef str seq
- *     cdef unsigned int length = 0
+ *     cdef int length = 0
  *     with open(infile_path) as infile:             # <<<<<<<<<<<<<<
  *         for line in infile:
  *             tmp = line.strip().split()
  */
   /*with:*/ {
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_infile_path);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_infile_path);
     __Pyx_GIVEREF(__pyx_v_infile_path);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1270,10 +1268,10 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
       }
     }
     if (__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1290,8 +1288,8 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
           __pyx_v_infile = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "taggd/io/barcode_utils.pyx":29
- *     cdef unsigned int length = 0
+          /* "taggd/io/barcode_utils.pyx":30
+ *     cdef int length = 0
  *     with open(infile_path) as infile:
  *         for line in infile:             # <<<<<<<<<<<<<<
  *             tmp = line.strip().split()
@@ -1301,25 +1299,25 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
             __pyx_t_4 = __pyx_v_infile; __Pyx_INCREF(__pyx_t_4); __pyx_t_9 = 0;
             __pyx_t_10 = NULL;
           } else {
-            __pyx_t_9 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_infile); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_9 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_infile); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_10 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_10 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
           }
           for (;;) {
             if (likely(!__pyx_t_10)) {
               if (likely(PyList_CheckExact(__pyx_t_4))) {
                 if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_4)) break;
                 #if CYTHON_COMPILING_IN_CPYTHON
-                __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 #else
-                __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 #endif
               } else {
                 if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
                 #if CYTHON_COMPILING_IN_CPYTHON
-                __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 #else
-                __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 #endif
               }
             } else {
@@ -1328,24 +1326,24 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
                 PyObject* exc_type = PyErr_Occurred();
                 if (exc_type) {
                   if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                  else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                  else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 }
                 break;
               }
               __Pyx_GOTREF(__pyx_t_2);
             }
-            if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_XDECREF_SET(__pyx_v_line, ((PyObject*)__pyx_t_2));
             __pyx_t_2 = 0;
 
-            /* "taggd/io/barcode_utils.pyx":30
+            /* "taggd/io/barcode_utils.pyx":31
  *     with open(infile_path) as infile:
  *         for line in infile:
  *             tmp = line.strip().split()             # <<<<<<<<<<<<<<
  *             seq = tmp[0]
  *             if length == 0:
  */
-            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_5);
             __pyx_t_11 = NULL;
             if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -1358,14 +1356,14 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
               }
             }
             if (__pyx_t_11) {
-              __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
             } else {
-              __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_split); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_split); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_t_1 = NULL;
@@ -1379,18 +1377,18 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
               }
             }
             if (__pyx_t_1) {
-              __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             } else {
-              __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_XDECREF_SET(__pyx_v_tmp, ((PyObject*)__pyx_t_2));
             __pyx_t_2 = 0;
 
-            /* "taggd/io/barcode_utils.pyx":31
+            /* "taggd/io/barcode_utils.pyx":32
  *         for line in infile:
  *             tmp = line.strip().split()
  *             seq = tmp[0]             # <<<<<<<<<<<<<<
@@ -1399,15 +1397,15 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
  */
             if (unlikely(__pyx_v_tmp == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
-            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
+            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
             __Pyx_GOTREF(__pyx_t_2);
-            if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_XDECREF_SET(__pyx_v_seq, ((PyObject*)__pyx_t_2));
             __pyx_t_2 = 0;
 
-            /* "taggd/io/barcode_utils.pyx":32
+            /* "taggd/io/barcode_utils.pyx":33
  *             tmp = line.strip().split()
  *             seq = tmp[0]
  *             if length == 0:             # <<<<<<<<<<<<<<
@@ -1417,78 +1415,78 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
             __pyx_t_12 = ((__pyx_v_length == 0) != 0);
             if (__pyx_t_12) {
 
-              /* "taggd/io/barcode_utils.pyx":33
+              /* "taggd/io/barcode_utils.pyx":34
  *             seq = tmp[0]
  *             if length == 0:
  *                 length = len(seq)             # <<<<<<<<<<<<<<
  *             if len(seq) != length:
  *                 raise ValueError("Barcode file incorrect, varying lengths among barcodes")
  */
-              __pyx_t_13 = PyObject_Length(__pyx_v_seq); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_13 = PyObject_Length(__pyx_v_seq); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __pyx_v_length = __pyx_t_13;
               goto __pyx_L17;
             }
             __pyx_L17:;
 
-            /* "taggd/io/barcode_utils.pyx":34
+            /* "taggd/io/barcode_utils.pyx":35
  *             if length == 0:
  *                 length = len(seq)
  *             if len(seq) != length:             # <<<<<<<<<<<<<<
  *                 raise ValueError("Barcode file incorrect, varying lengths among barcodes")
  *             if seq in res_dict:
  */
-            __pyx_t_13 = PyObject_Length(__pyx_v_seq); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_13 = PyObject_Length(__pyx_v_seq); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __pyx_t_12 = ((__pyx_t_13 != __pyx_v_length) != 0);
             if (__pyx_t_12) {
 
-              /* "taggd/io/barcode_utils.pyx":35
+              /* "taggd/io/barcode_utils.pyx":36
  *                 length = len(seq)
  *             if len(seq) != length:
  *                 raise ValueError("Barcode file incorrect, varying lengths among barcodes")             # <<<<<<<<<<<<<<
  *             if seq in res_dict:
  *                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)
  */
-              __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_Raise(__pyx_t_2, 0, 0, 0);
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
 
-            /* "taggd/io/barcode_utils.pyx":36
+            /* "taggd/io/barcode_utils.pyx":37
  *             if len(seq) != length:
  *                 raise ValueError("Barcode file incorrect, varying lengths among barcodes")
  *             if seq in res_dict:             # <<<<<<<<<<<<<<
  *                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)
  *             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])
  */
-            __pyx_t_12 = (__Pyx_PyDict_Contains(__pyx_v_seq, __pyx_v_res_dict, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_12 = (__Pyx_PyDict_Contains(__pyx_v_seq, __pyx_v_res_dict, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __pyx_t_14 = (__pyx_t_12 != 0);
             if (__pyx_t_14) {
 
-              /* "taggd/io/barcode_utils.pyx":37
+              /* "taggd/io/barcode_utils.pyx":38
  *                 raise ValueError("Barcode file incorrect, varying lengths among barcodes")
  *             if seq in res_dict:
  *                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)             # <<<<<<<<<<<<<<
  *             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])
  *     return res_dict
  */
-              __pyx_t_2 = PyNumber_Add(__pyx_kp_s_Barcode_file_incorrect_duplicate, __pyx_v_seq); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = PyNumber_Add(__pyx_kp_s_Barcode_file_incorrect_duplicate, __pyx_v_seq); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_2);
-              __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_5);
               PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
               __Pyx_GIVEREF(__pyx_t_2);
               __pyx_t_2 = 0;
-              __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
               __Pyx_Raise(__pyx_t_2, 0, 0, 0);
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
 
-            /* "taggd/io/barcode_utils.pyx":38
+            /* "taggd/io/barcode_utils.pyx":39
  *             if seq in res_dict:
  *                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)
  *             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])             # <<<<<<<<<<<<<<
@@ -1497,17 +1495,17 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
  */
             if (unlikely(__pyx_v_tmp == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
-            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
+            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
             __Pyx_GOTREF(__pyx_t_2);
             if (unlikely(__pyx_v_tmp == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
-            __pyx_t_5 = __Pyx_PyList_GetSlice(__pyx_v_tmp, 1, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_5 = __Pyx_PyList_GetSlice(__pyx_v_tmp, 1, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_1);
             PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
             __Pyx_GIVEREF(__pyx_t_2);
@@ -1515,21 +1513,21 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
             __Pyx_GIVEREF(__pyx_t_5);
             __pyx_t_2 = 0;
             __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_5taggd_2io_13barcode_utils_Barcode)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_5taggd_2io_13barcode_utils_Barcode)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             if (unlikely(__pyx_v_tmp == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             }
-            __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
+            __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
             __Pyx_GOTREF(__pyx_t_1);
-            if (unlikely(PyDict_SetItem(__pyx_v_res_dict, __pyx_t_1, __pyx_t_5) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            if (unlikely(PyDict_SetItem(__pyx_v_res_dict, __pyx_t_1, __pyx_t_5) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-            /* "taggd/io/barcode_utils.pyx":29
- *     cdef unsigned int length = 0
+            /* "taggd/io/barcode_utils.pyx":30
+ *     cdef int length = 0
  *     with open(infile_path) as infile:
  *         for line in infile:             # <<<<<<<<<<<<<<
  *             tmp = line.strip().split()
@@ -1549,29 +1547,29 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "taggd/io/barcode_utils.pyx":28
+        /* "taggd/io/barcode_utils.pyx":29
  *     cdef str seq
- *     cdef unsigned int length = 0
+ *     cdef int length = 0
  *     with open(infile_path) as infile:             # <<<<<<<<<<<<<<
  *         for line in infile:
  *             tmp = line.strip().split()
  */
         /*except:*/ {
           __Pyx_AddTraceback("taggd.io.barcode_utils.read_barcode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_5, &__pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_5, &__pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __pyx_t_2 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_15);
           __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_15);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (__pyx_t_14 < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          if (__pyx_t_14 < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __pyx_t_12 = ((!(__pyx_t_14 != 0)) != 0);
           if (__pyx_t_12) {
             __Pyx_GIVEREF(__pyx_t_4);
@@ -1579,7 +1577,7 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
             __Pyx_XGIVEREF(__pyx_t_1);
             __Pyx_ErrRestore(__pyx_t_4, __pyx_t_5, __pyx_t_1);
             __pyx_t_4 = 0; __pyx_t_5 = 0; __pyx_t_1 = 0; 
-            {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+            {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1605,7 +1603,7 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
         if (__pyx_t_3) {
           __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__2, NULL);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -1620,7 +1618,7 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
     __pyx_L23:;
   }
 
-  /* "taggd/io/barcode_utils.pyx":39
+  /* "taggd/io/barcode_utils.pyx":40
  *                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)
  *             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])
  *     return res_dict             # <<<<<<<<<<<<<<
@@ -1632,7 +1630,7 @@ static PyObject *__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(PyObject *
   __pyx_r = __pyx_v_res_dict;
   goto __pyx_L0;
 
-  /* "taggd/io/barcode_utils.pyx":17
+  /* "taggd/io/barcode_utils.pyx":18
  * 
  * 
  * cpdef dict read_barcode_file(str infile_path):             # <<<<<<<<<<<<<<
@@ -1670,7 +1668,7 @@ static PyObject *__pyx_pw_5taggd_2io_13barcode_utils_1read_barcode_file(PyObject
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("read_barcode_file (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_infile_path), (&PyString_Type), 1, "infile_path", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_infile_path), (&PyString_Type), 1, "infile_path", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_2io_13barcode_utils_read_barcode_file(__pyx_self, ((PyObject*)__pyx_v_infile_path));
 
   /* function exit code */
@@ -1691,7 +1689,7 @@ static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_read_barcode_file(CYTHON_UN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("read_barcode_file", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(__pyx_v_infile_path, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5taggd_2io_13barcode_utils_read_barcode_file(__pyx_v_infile_path, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1711,32 +1709,32 @@ static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_read_barcode_file(CYTHON_UN
 /* "taggd/io/barcode_utils.pyx":43
  * 
  * 
- * cpdef unsigned int estimate_min_edit_distance(dict true_barcodes, unsigned int max_iters):             # <<<<<<<<<<<<<<
+ * cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):             # <<<<<<<<<<<<<<
  *     """
  *     Reads a barcodes dict and estimates the minimum edit distance
  */
 
 static PyObject *__pyx_pw_5taggd_2io_13barcode_utils_3estimate_min_edit_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObject *__pyx_v_true_barcodes, unsigned int __pyx_v_max_iters, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  CYTHON_UNUSED unsigned int __pyx_v_length;
-  unsigned int __pyx_v_min_dist;
+static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObject *__pyx_v_true_barcodes, int __pyx_v_max_iters, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  CYTHON_UNUSED int __pyx_v_length;
+  int __pyx_v_min_dist;
   PyObject *__pyx_v_seqslist = 0;
-  unsigned int __pyx_v_i;
-  unsigned int __pyx_v_j;
-  unsigned int __pyx_v_dist;
-  unsigned int __pyx_v_iter;
-  unsigned int __pyx_r;
+  int __pyx_v_i;
+  int __pyx_v_j;
+  int __pyx_v_dist;
+  int __pyx_v_iter;
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   Py_ssize_t __pyx_t_5;
-  unsigned int __pyx_t_6;
+  int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   long __pyx_t_8;
-  unsigned int __pyx_t_9;
-  unsigned int __pyx_t_10;
+  int __pyx_t_9;
+  int __pyx_t_10;
   struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance __pyx_t_11;
   int __pyx_t_12;
   int __pyx_lineno = 0;
@@ -1747,16 +1745,16 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
   /* "taggd/io/barcode_utils.pyx":49
  *     """
  * 
- *     cdef unsigned int length = 0             # <<<<<<<<<<<<<<
- *     cdef unsigned int min_dist = 1000000000
+ *     cdef int length = 0             # <<<<<<<<<<<<<<
+ *     cdef int min_dist = 1000000000
  *     cdef str ln
  */
   __pyx_v_length = 0;
 
   /* "taggd/io/barcode_utils.pyx":50
  * 
- *     cdef unsigned int length = 0
- *     cdef unsigned int min_dist = 1000000000             # <<<<<<<<<<<<<<
+ *     cdef int length = 0
+ *     cdef int min_dist = 1000000000             # <<<<<<<<<<<<<<
  *     cdef str ln
  *     cdef list tmp
  */
@@ -1767,7 +1765,7 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
  *     # Compute minimum edit distance.
  *     cdef list seqslist = true_barcodes.keys()             # <<<<<<<<<<<<<<
  *     random.shuffle(seqslist)
- *     cdef unsigned int i
+ *     cdef int i
  */
   if (unlikely(__pyx_v_true_barcodes == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "keys");
@@ -1783,8 +1781,8 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
  *     # Compute minimum edit distance.
  *     cdef list seqslist = true_barcodes.keys()
  *     random.shuffle(seqslist)             # <<<<<<<<<<<<<<
- *     cdef unsigned int i
- *     cdef unsigned int j
+ *     cdef int i
+ *     cdef int j
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_random); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -1819,17 +1817,17 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "taggd/io/barcode_utils.pyx":61
- *     cdef unsigned int j
- *     cdef unsigned int dist
- *     cdef unsigned int iter = 0             # <<<<<<<<<<<<<<
+ *     cdef int j
+ *     cdef int dist
+ *     cdef int iter = 0             # <<<<<<<<<<<<<<
  *     for i in xrange(len(seqslist)):
  *         for j in xrange(int(i+1), len(seqslist)):
  */
   __pyx_v_iter = 0;
 
   /* "taggd/io/barcode_utils.pyx":62
- *     cdef unsigned int dist
- *     cdef unsigned int iter = 0
+ *     cdef int dist
+ *     cdef int iter = 0
  *     for i in xrange(len(seqslist)):             # <<<<<<<<<<<<<<
  *         for j in xrange(int(i+1), len(seqslist)):
  *             dist = hamming_distance(seqslist[i], seqslist[j], min_dist)
@@ -1843,7 +1841,7 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
     __pyx_v_i = __pyx_t_6;
 
     /* "taggd/io/barcode_utils.pyx":63
- *     cdef unsigned int iter = 0
+ *     cdef int iter = 0
  *     for i in xrange(len(seqslist)):
  *         for j in xrange(int(i+1), len(seqslist)):             # <<<<<<<<<<<<<<
  *             dist = hamming_distance(seqslist[i], seqslist[j], min_dist)
@@ -1880,14 +1878,14 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
-      __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_seqslist, __pyx_v_i, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_seqslist, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_1);
       if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (unlikely(__pyx_v_seqslist == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
-      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_seqslist, __pyx_v_j, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_seqslist, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_3);
       if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __pyx_t_11.__pyx_n = 1;
@@ -1962,7 +1960,7 @@ static unsigned int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distanc
   /* "taggd/io/barcode_utils.pyx":43
  * 
  * 
- * cpdef unsigned int estimate_min_edit_distance(dict true_barcodes, unsigned int max_iters):             # <<<<<<<<<<<<<<
+ * cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):             # <<<<<<<<<<<<<<
  *     """
  *     Reads a barcodes dict and estimates the minimum edit distance
  */
@@ -1986,7 +1984,7 @@ static PyObject *__pyx_pw_5taggd_2io_13barcode_utils_3estimate_min_edit_distance
 static char __pyx_doc_5taggd_2io_13barcode_utils_2estimate_min_edit_distance[] = "\n    Reads a barcodes dict and estimates the minimum edit distance\n    by comparing a certain number of pairs.\n    ";
 static PyObject *__pyx_pw_5taggd_2io_13barcode_utils_3estimate_min_edit_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_true_barcodes = 0;
-  unsigned int __pyx_v_max_iters;
+  int __pyx_v_max_iters;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2026,7 +2024,7 @@ static PyObject *__pyx_pw_5taggd_2io_13barcode_utils_3estimate_min_edit_distance
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_true_barcodes = ((PyObject*)values[0]);
-    __pyx_v_max_iters = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_max_iters == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_max_iters = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_max_iters == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -2048,7 +2046,7 @@ static PyObject *__pyx_pw_5taggd_2io_13barcode_utils_3estimate_min_edit_distance
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_2estimate_min_edit_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_true_barcodes, unsigned int __pyx_v_max_iters) {
+static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_2estimate_min_edit_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_true_barcodes, int __pyx_v_max_iters) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2057,7 +2055,7 @@ static PyObject *__pyx_pf_5taggd_2io_13barcode_utils_2estimate_min_edit_distance
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("estimate_min_edit_distance", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(__pyx_v_true_barcodes, __pyx_v_max_iters, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(__pyx_v_true_barcodes, __pyx_v_max_iters, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2264,8 +2262,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #if PY_MAJOR_VERSION >= 3
   __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #else
@@ -2280,25 +2278,25 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "taggd/io/barcode_utils.pyx":35
+  /* "taggd/io/barcode_utils.pyx":36
  *                 length = len(seq)
  *             if len(seq) != length:
  *                 raise ValueError("Barcode file incorrect, varying lengths among barcodes")             # <<<<<<<<<<<<<<
  *             if seq in res_dict:
  *                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Barcode_file_incorrect_varying_l); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Barcode_file_incorrect_varying_l); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "taggd/io/barcode_utils.pyx":28
+  /* "taggd/io/barcode_utils.pyx":29
  *     cdef str seq
- *     cdef unsigned int length = 0
+ *     cdef int length = 0
  *     with open(infile_path) as infile:             # <<<<<<<<<<<<<<
  *         for line in infile:
  *             tmp = line.strip().split()
  */
-  __pyx_tuple__2 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__2 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
   __Pyx_RefNannyFinishContext();
@@ -2396,11 +2394,11 @@ PyMODINIT_FUNC PyInit_barcode_utils(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("read_barcode_file", (void (*)(void))__pyx_f_5taggd_2io_13barcode_utils_read_barcode_file, "PyObject *(PyObject *, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ExportFunction("estimate_min_edit_distance", (void (*)(void))__pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance, "unsigned int (PyObject *, unsigned int, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("estimate_min_edit_distance", (void (*)(void))__pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance, "int (PyObject *, int, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_5taggd_2io_13barcode_utils_Barcode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_5taggd_2io_13barcode_utils_Barcode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5taggd_2io_13barcode_utils_Barcode.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "Barcode", (PyObject *)&__pyx_type_5taggd_2io_13barcode_utils_Barcode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "Barcode", (PyObject *)&__pyx_type_5taggd_2io_13barcode_utils_Barcode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5taggd_2io_13barcode_utils_Barcode = &__pyx_type_5taggd_2io_13barcode_utils_Barcode;
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
@@ -2415,26 +2413,26 @@ PyMODINIT_FUNC PyInit_barcode_utils(void)
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   __pyx_t_1 = __Pyx_ImportModule("taggd.misc.distance_metrics"); if (!__pyx_t_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ImportFunction(__pyx_t_1, "hamming_distance", (void (**)(void))&__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance, "unsigned int (PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_1, "hamming_distance", (void (**)(void))&__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance, "int (PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   /*--- Execution code ---*/
 
-  /* "taggd/io/barcode_utils.pyx":4
+  /* "taggd/io/barcode_utils.pyx":6
  * 
  * from taggd.misc.distance_metrics cimport *
  * import random             # <<<<<<<<<<<<<<
  * 
  * cdef class Barcode:
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_random, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 4; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_random, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_random, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 4; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_random, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "taggd/io/barcode_utils.pyx":1
- * '''Contains utilities for handling barcodes.'''             # <<<<<<<<<<<<<<
- * 
- * from taggd.misc.distance_metrics cimport *
+ * """             # <<<<<<<<<<<<<<
+ * Contains utilities for handling barcodes.
+ * """
  */
   __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -3482,19 +3480,19 @@ bad:
  #endif
 #endif
 
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
-    const unsigned int neg_one = (unsigned int) -1, const_zero = 0;
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+    const int neg_one = (int) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
     if (likely(PyInt_Check(x))) {
-        if (sizeof(unsigned int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(unsigned int, long, PyInt_AS_LONG(x))
+        if (sizeof(int) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
         } else {
             long val = PyInt_AS_LONG(x);
             if (is_unsigned && unlikely(val < 0)) {
                 goto raise_neg_overflow;
             }
-            return (unsigned int) val;
+            return (int) val;
         }
     } else
 #endif
@@ -3504,32 +3502,32 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
  #if CYTHON_USE_PYLONG_INTERNALS
             switch (Py_SIZE(x)) {
                 case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int, digit, ((PyLongObject*)x)->ob_digit[0]);
+                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
             }
  #endif
 #endif
             if (unlikely(Py_SIZE(x) < 0)) {
                 goto raise_neg_overflow;
             }
-            if (sizeof(unsigned int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(unsigned int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long long, PyLong_AsUnsignedLongLong(x))
+            if (sizeof(int) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
+            } else if (sizeof(int) <= sizeof(unsigned long long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
             }
         } else {
 #if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
  #if CYTHON_USE_PYLONG_INTERNALS
             switch (Py_SIZE(x)) {
                 case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(unsigned int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
+                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
+                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
             }
  #endif
 #endif
-            if (sizeof(unsigned int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, long, PyLong_AsLong(x))
-            } else if (sizeof(unsigned int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(unsigned int, long long, PyLong_AsLongLong(x))
+            if (sizeof(int) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
+            } else if (sizeof(int) <= sizeof(long long)) {
+                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
             }
         }
         {
@@ -3537,7 +3535,7 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
             PyErr_SetString(PyExc_RuntimeError,
                             "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
 #else
-            unsigned int val;
+            int val;
             PyObject *v = __Pyx_PyNumber_Int(x);
  #if PY_MAJOR_VERSION < 3
             if (likely(v) && !PyLong_Check(v)) {
@@ -3557,24 +3555,24 @@ static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
                     return val;
             }
 #endif
-            return (unsigned int) -1;
+            return (int) -1;
         }
     } else {
-        unsigned int val;
+        int val;
         PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (unsigned int) -1;
-        val = __Pyx_PyInt_As_unsigned_int(tmp);
+        if (!tmp) return (int) -1;
+        val = __Pyx_PyInt_As_int(tmp);
         Py_DECREF(tmp);
         return val;
     }
 raise_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to unsigned int");
-    return (unsigned int) -1;
+        "value too large to convert to int");
+    return (int) -1;
 raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to unsigned int");
-    return (unsigned int) -1;
+        "can't convert negative value to int");
+    return (int) -1;
 }
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
@@ -3603,28 +3601,28 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     }
 }
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value) {
-    const unsigned int neg_one = (unsigned int) -1, const_zero = 0;
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(unsigned int) < sizeof(long)) {
+        if (sizeof(int) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned int) <= sizeof(unsigned long)) {
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
-        } else if (sizeof(unsigned int) <= sizeof(unsigned long long)) {
+        } else if (sizeof(int) <= sizeof(unsigned long long)) {
             return PyLong_FromUnsignedLongLong((unsigned long long) value);
         }
     } else {
-        if (sizeof(unsigned int) <= sizeof(long)) {
+        if (sizeof(int) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(unsigned int) <= sizeof(long long)) {
+        } else if (sizeof(int) <= sizeof(long long)) {
             return PyLong_FromLongLong((long long) value);
         }
     }
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(unsigned int),
+        return _PyLong_FromByteArray(bytes, sizeof(int),
                                      little, !is_unsigned);
     }
 }
@@ -3722,101 +3720,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
-}
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
-    const int neg_one = (int) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (int) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-            if (sizeof(int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
-            }
-        } else {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (sizeof(int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
-            } else if (sizeof(int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            int val;
-            PyObject *v = __Pyx_PyNumber_Int(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (int) -1;
-        }
-    } else {
-        int val;
-        PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (int) -1;
-        val = __Pyx_PyInt_As_int(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to int");
-    return (int) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to int");
-    return (int) -1;
 }
 
 static int __Pyx_check_binary_version(void) {

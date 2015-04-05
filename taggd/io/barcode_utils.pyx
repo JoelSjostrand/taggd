@@ -1,4 +1,6 @@
-'''Contains utilities for handling barcodes.'''
+"""
+Contains utilities for handling barcodes.
+"""
 
 from taggd.misc.distance_metrics cimport *
 import random
@@ -8,10 +10,9 @@ cdef class Barcode:
     Holds a Spatial Transcriptomics barcode sequence and feature coordinates.
     """
 
-    def __cinit__(self, str seq, list attributes):
-        self.sequence = seq
-        self.attributes = attributes
-
+    def __cinit__(self, str seq_, list attributes_):
+        self.sequence = seq_
+        self.attributes = attributes_
 
 
 cpdef dict read_barcode_file(str infile_path):
@@ -24,7 +25,7 @@ cpdef dict read_barcode_file(str infile_path):
     cdef str line
     cdef list tmp
     cdef str seq
-    cdef unsigned int length = 0
+    cdef int length = 0
     with open(infile_path) as infile:
         for line in infile:
             tmp = line.strip().split()
@@ -39,15 +40,14 @@ cpdef dict read_barcode_file(str infile_path):
     return res_dict
 
 
-
-cpdef unsigned int estimate_min_edit_distance(dict true_barcodes, unsigned int max_iters):
+cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):
     """
     Reads a barcodes dict and estimates the minimum edit distance
     by comparing a certain number of pairs.
     """
 
-    cdef unsigned int length = 0
-    cdef unsigned int min_dist = 1000000000
+    cdef int length = 0
+    cdef int min_dist = 1000000000
     cdef str ln
     cdef list tmp
     cdef str seq
@@ -55,10 +55,10 @@ cpdef unsigned int estimate_min_edit_distance(dict true_barcodes, unsigned int m
     # Compute minimum edit distance.
     cdef list seqslist = true_barcodes.keys()
     random.shuffle(seqslist)
-    cdef unsigned int i
-    cdef unsigned int j
-    cdef unsigned int dist
-    cdef unsigned int iter = 0
+    cdef int i
+    cdef int j
+    cdef int dist
+    cdef int iter = 0
     for i in xrange(len(seqslist)):
         for j in xrange(int(i+1), len(seqslist)):
             dist = hamming_distance(seqslist[i], seqslist[j], min_dist)

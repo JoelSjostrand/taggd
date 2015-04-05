@@ -700,7 +700,7 @@ static char __pyx_k_FASTQRecord___init[] = "FASTQRecord.__init__";
 static char __pyx_k_FASTQRecord_unwrap[] = "FASTQRecord.unwrap";
 static char __pyx_k_FASTQRecord_add_tags[] = "FASTQRecord.add_tags";
 static char __pyx_k_taggd_io_fastq_record[] = "taggd.io.fastq_record";
-static char __pyx_k_Users_joelsjostrand_st_code_pyt[] = "/Users/joelsjostrand/st_code/python_scripts/taggd/taggd/io/fastq_record.pyx";
+static char __pyx_k_Users_joelsjostrand_github_tagg[] = "/Users/joelsjostrand/github/taggd/taggd/io/fastq_record.pyx";
 static char __pyx_k_header_comments_sequence_qualit[] = "@{header_comments}\n{sequence}\n+\n{quality}\n";
 static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_n_s_FASTQRecord;
@@ -709,7 +709,7 @@ static PyObject *__pyx_n_s_FASTQRecord___str;
 static PyObject *__pyx_n_s_FASTQRecord_add_tags;
 static PyObject *__pyx_n_s_FASTQRecord_unwrap;
 static PyObject *__pyx_n_s_Record;
-static PyObject *__pyx_kp_s_Users_joelsjostrand_st_code_pyt;
+static PyObject *__pyx_kp_s_Users_joelsjostrand_github_tagg;
 static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_n_s_add_tags;
 static PyObject *__pyx_n_s_added;
@@ -1207,7 +1207,7 @@ static PyObject *__pyx_pf_5taggd_2io_12fastq_record_11FASTQRecord_4unwrap(CYTHON
  *     def unwrap(self):
  *         return (self.annotation, self.sequence, self.attributes["quality"])             # <<<<<<<<<<<<<<
  * 
- * 
+ *     def __str__(self):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_annotation); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1256,12 +1256,12 @@ static PyObject *__pyx_pf_5taggd_2io_12fastq_record_11FASTQRecord_4unwrap(CYTHON
   return __pyx_r;
 }
 
-/* "taggd/io/fastq_record.pyx":20
- * 
+/* "taggd/io/fastq_record.pyx":19
+ *         return (self.annotation, self.sequence, self.attributes["quality"])
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
  *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
- *         return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])
+ *         return fq_format.format(header_comments=self.annotation,
  */
 
 /* Python wrapper */
@@ -1291,41 +1291,56 @@ static PyObject *__pyx_pf_5taggd_2io_12fastq_record_11FASTQRecord_6__str__(CYTHO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "taggd/io/fastq_record.pyx":21
+  /* "taggd/io/fastq_record.pyx":20
  * 
  *     def __str__(self):
  *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'             # <<<<<<<<<<<<<<
- *         return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])
+ *         return fq_format.format(header_comments=self.annotation,
+ *                                 sequence=self.sequence, quality=self.attributes["quality"])
  */
   __Pyx_INCREF(__pyx_kp_s_header_comments_sequence_qualit);
   __pyx_v_fq_format = __pyx_kp_s_header_comments_sequence_qualit;
 
-  /* "taggd/io/fastq_record.pyx":22
+  /* "taggd/io/fastq_record.pyx":21
  *     def __str__(self):
  *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
- *         return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])             # <<<<<<<<<<<<<<
+ *         return fq_format.format(header_comments=self.annotation,             # <<<<<<<<<<<<<<
+ *                                 sequence=self.sequence, quality=self.attributes["quality"])
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_fq_format, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_fq_format, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_annotation); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_annotation); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_header_comments, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_header_comments, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "taggd/io/fastq_record.pyx":22
+ *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
+ *         return fq_format.format(header_comments=self.annotation,
+ *                                 sequence=self.sequence, quality=self.attributes["quality"])             # <<<<<<<<<<<<<<
+ */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_sequence); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_sequence, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_sequence, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_attributes); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyObject_GetItem(__pyx_t_3, __pyx_n_s_quality); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_quality, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_quality, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "taggd/io/fastq_record.pyx":21
+ *     def __str__(self):
+ *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
+ *         return fq_format.format(header_comments=self.annotation,             # <<<<<<<<<<<<<<
+ *                                 sequence=self.sequence, quality=self.attributes["quality"])
+ */
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -1333,12 +1348,12 @@ static PyObject *__pyx_pf_5taggd_2io_12fastq_record_11FASTQRecord_6__str__(CYTHO
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "taggd/io/fastq_record.pyx":20
- * 
+  /* "taggd/io/fastq_record.pyx":19
+ *         return (self.annotation, self.sequence, self.attributes["quality"])
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
  *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
- *         return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])
+ *         return fq_format.format(header_comments=self.annotation,
  */
 
   /* function exit code */
@@ -1386,7 +1401,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_FASTQRecord_add_tags, __pyx_k_FASTQRecord_add_tags, sizeof(__pyx_k_FASTQRecord_add_tags), 0, 0, 1, 1},
   {&__pyx_n_s_FASTQRecord_unwrap, __pyx_k_FASTQRecord_unwrap, sizeof(__pyx_k_FASTQRecord_unwrap), 0, 0, 1, 1},
   {&__pyx_n_s_Record, __pyx_k_Record, sizeof(__pyx_k_Record), 0, 0, 1, 1},
-  {&__pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_k_Users_joelsjostrand_st_code_pyt, sizeof(__pyx_k_Users_joelsjostrand_st_code_pyt), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_k_Users_joelsjostrand_github_tagg, sizeof(__pyx_k_Users_joelsjostrand_github_tagg), 0, 0, 1, 0},
   {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_n_s_add_tags, __pyx_k_add_tags, sizeof(__pyx_k_add_tags), 0, 0, 1, 1},
   {&__pyx_n_s_added, __pyx_k_added, sizeof(__pyx_k_added), 0, 0, 1, 1},
@@ -1435,7 +1450,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_fqr); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 5; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_init, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 5; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_init, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 5; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "taggd/io/fastq_record.pyx":12
  *         self.attributes["quality"] = fqr[2]
@@ -1447,7 +1462,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_added, __pyx_n_s_k, __pyx_n_s_v); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_add_tags, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_add_tags, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "taggd/io/fastq_record.pyx":16
  *             self.annotation += " " + k + ":" + str(v)
@@ -1459,19 +1474,19 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_unwrap, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_unwrap, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "taggd/io/fastq_record.pyx":20
- * 
+  /* "taggd/io/fastq_record.pyx":19
+ *         return (self.annotation, self.sequence, self.attributes["quality"])
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
  *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
- *         return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])
+ *         return fq_format.format(header_comments=self.annotation,
  */
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_fq_format); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_fq_format); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_st_code_pyt, __pyx_n_s_str, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_joelsjostrand_github_tagg, __pyx_n_s_str, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1648,16 +1663,16 @@ PyMODINIT_FUNC PyInit_fastq_record(void)
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_unwrap, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "taggd/io/fastq_record.pyx":20
- * 
+  /* "taggd/io/fastq_record.pyx":19
+ *         return (self.annotation, self.sequence, self.attributes["quality"])
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
  *         fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
- *         return fq_format.format(header_comments=self.annotation, sequence=self.sequence, quality=self.attributes["quality"])
+ *         return fq_format.format(header_comments=self.annotation,
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5taggd_2io_12fastq_record_11FASTQRecord_7__str__, 0, __pyx_n_s_FASTQRecord___str, NULL, __pyx_n_s_taggd_io_fastq_record, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5taggd_2io_12fastq_record_11FASTQRecord_7__str__, 0, __pyx_n_s_FASTQRecord___str, NULL, __pyx_n_s_taggd_io_fastq_record, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_str, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_str, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "taggd/io/fastq_record.pyx":3

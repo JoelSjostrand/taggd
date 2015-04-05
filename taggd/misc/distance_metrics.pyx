@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-cdef unsigned int hamming_distance(str seq1, str seq2, unsigned int limit=0):
+cdef int hamming_distance(str seq1, str seq2, int limit=0):
     """
     Returns the Hamming distance between equal-length sequences.
     :param seq1: first sequence.
@@ -12,8 +12,8 @@ cdef unsigned int hamming_distance(str seq1, str seq2, unsigned int limit=0):
     :param limit: max distance limit before aborting (returning limit + 1).
     :return: the edit distance.
     """
-    cdef unsigned int i
-    cdef unsigned int sum = 0
+    cdef int i = 0
+    cdef int sum = 0
     for i in xrange(len(seq1)):
         if seq1[i] != seq2[i]:
             sum += 1
@@ -23,7 +23,7 @@ cdef unsigned int hamming_distance(str seq1, str seq2, unsigned int limit=0):
 
 
 
-cdef unsigned int levenshtein_distance(str seq1, str seq2, unsigned int limit=0):
+cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
     """
     Returns the Levenshtein distance between two sequences. Lengths do no need to be equal, as indels are allowed.
     :param seq1: first sequence.
@@ -63,8 +63,8 @@ cdef list subglobal_distance(str s1, str s2):
     a minimal alignment, but indel counts are not necessarily minimal.
     """
 
-    cdef unsigned int xLen = len(s1)
-    cdef unsigned int yLen = len(s2)
+    cdef int xLen = len(s1)
+    cdef int yLen = len(s2)
     if xLen < yLen:
         raise ValueError("Sub-global edit distance is undefined for sequences where the probe is shorter than the aligned sequence.")
 
@@ -82,8 +82,8 @@ cdef list subglobal_distance(str s1, str s2):
     #        d[x].append(min( min(d[x-1][y]+1, d[x][y-1]+1), d[x-1][y-1] + int(s1[x-1] != s2[y-1]) ))
 
 
-    cdef unsigned int x
-    cdef unsigned int y
+    cdef int x
+    cdef int y
 
     cdef np.ndarray[np.uint32_t, ndim=2] d = np.empty([xLen+1, yLen+1], dtype=np.uint32)
     for x in xrange(0, xLen+1):
@@ -106,10 +106,10 @@ cdef list subglobal_distance(str s1, str s2):
 
 
     # Find min for sub-global alignment so that all of s2 is covered, but not necessarily all of s1 sequence.
-    cdef unsigned int mini = 100000
-    cdef unsigned int iPos = 0
-    cdef unsigned int i = xLen
-    cdef unsigned int j
+    cdef int mini = 1000000
+    cdef int iPos = 0
+    cdef int i = xLen
+    cdef int j
     while i > 0:
         if d[i,yLen] < mini:
             mini = d[i,yLen]
@@ -117,8 +117,8 @@ cdef list subglobal_distance(str s1, str s2):
         i -= 1
 
     # Compute backtracking for indels.
-    cdef unsigned int s2ins = 0
-    cdef unsigned int s1ins = 0
+    cdef int s2ins = 0
+    cdef int s1ins = 0
 
     # Last elements of alignment.
     i = iPos

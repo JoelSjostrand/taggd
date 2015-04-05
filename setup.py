@@ -21,11 +21,15 @@ ext_modules = [ ]
 if use_cython:
     ext_modules += [
     Extension("taggd.core.demultiplex_core_functions",   ["taggd/core/demultiplex_core_functions.pyx"]),
+    Extension("taggd.core.demultiplex_record_functions", ["taggd/core/demultiplex_record_functions.pyx"]),
     Extension("taggd.core.demultiplex_search_functions", ["taggd/core/demultiplex_search_functions.pyx"]),
+    Extension("taggd.core.match",                        ["taggd/core/match.pyx"]),
+    Extension("taggd.core.match_type",                   ["taggd/core/match_type.pyx"]),
     Extension("taggd.misc.distance_metrics",             ["taggd/misc/distance_metrics.pyx"]),
     Extension("taggd.misc.kmer_utils",                   ["taggd/misc/kmer_utils.pyx"]),
 	Extension("taggd.misc.counter",                      ["taggd/misc/counter.pyx"]),
 	Extension("taggd.io.phred_utils",                    ["taggd/io/phred_utils.pyx"]),
+    Extension("taggd.io.fastq_utils",                    ["taggd/io/fastq_utils.pyx"]),
     Extension("taggd.io.barcode_utils",                  ["taggd/io/barcode_utils.pyx"]),
     Extension("taggd.io.record",                         ["taggd/io/record.pyx"]),
     Extension("taggd.io.sam_record",                     ["taggd/io/sam_record.pyx"]),
@@ -37,11 +41,15 @@ if use_cython:
 else:
     ext_modules += [
     Extension("taggd.core.demultiplex_core_functions",   ["taggd/core/demultiplex_core_functions.c"]),
+    Extension("taggd.core.demultiplex_record_functions", ["taggd/core/demultiplex_record_functions.c"]),
     Extension("taggd.core.demultiplex_search_functions", ["taggd/core/demultiplex_search_functions.c"]),
+    Extension("taggd.core.match",                        ["taggd/core/match.c"]),
+    Extension("taggd.core.match_type",                   ["taggd/core/match_type.c"]),
     Extension("taggd.misc.distance_metrics",             ["taggd/misc/distance_metrics.c"]),
     Extension("taggd.misc.kmer_utils",                   ["taggd/misc/kmer_utils.c"]),
 	Extension("taggd.misc.counter",                      ["taggd/misc/counter.c"]),
 	Extension("taggd.io.phred_utils",                    ["taggd/io/phred_utils.c"]),
+    Extension("taggd.io.fastq_utils",                    ["taggd/io/fastq_utils.c"]),
     Extension("taggd.io.barcode_utils",                  ["taggd/io/barcode_utils.c"]),
     Extension("taggd.io.record",                         ["taggd/io/record.c"]),
     Extension("taggd.io.sam_record",                     ["taggd/io/sam_record.c"]),
@@ -53,13 +61,13 @@ else:
 
 setup(
 	name="taggd",
-	version = '0.1.5',
+	version = '0.1.6',
 	author = 'Joel Sjostrand',
 	author_email = 'joel.sjostrand@scilifelab.se',
 	license = 'Open BSD',
     description = 'Bioinformatics genetic barcode demultiplexing',
     url = 'https://github.com/JoelSjostrand/taggd',
-    download_url = 'https://github.com/JoelSjostrand/taggd/0.1.5',
+    download_url = 'https://github.com/JoelSjostrand/taggd/0.1.6',
 	scripts = glob("scripts/*.py"),
     packages = ['taggd', 'taggd.core', 'taggd.io', 'taggd.misc'],
     package_data = {'': ['*.pyx', '*.pxd', '*.h', '*.c'], },
