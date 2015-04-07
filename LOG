@@ -4,3 +4,4 @@
 0.1.3   - Fixed parallelization error.
 0.1.4   - Fixed parallelization error (for real I hope).
 0.1.5   - Corrected algorithmic bug causing some matches to be discarded. Added chunking.
+0.1.6   - Big rewrite, fixed output issues, now also a bit quicker.
