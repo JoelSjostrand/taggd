@@ -71,7 +71,7 @@ def main(argv=None):
                         type=int, 
                         help="Chunk of maximum number of simultaneously " \
                         "processed reads (default: %(default)d)", 
-                        default=1000000, metavar="[int]")
+                        default=5000000, metavar="[int]")
     parser.add_argument('--no-offset-speedup', 
                         help="Turns off an offset speedup routine, " \
                         "increasing time but may yield more hits.", 
@@ -132,6 +132,7 @@ def main(argv=None):
     core.init(true_barcodes,
               options.reads_infile,
               os.path.abspath(options.outfile_prefix),
+              options.start_position,
               options.max_edit_distance,
               options.no_multiprocessing,
               options.only_output_matched,

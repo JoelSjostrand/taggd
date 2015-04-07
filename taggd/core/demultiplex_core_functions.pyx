@@ -21,6 +21,8 @@ cdef int max_edit_distance
 cdef bool no_multiprocessing
 cdef bool only_output_matched
 cdef int max_chunk_size
+cdef int start_position
+cdef int barcode_length
 
 # Reader-writer
 cdef object re_wr
@@ -47,6 +49,7 @@ cdef object manager
 def init(dict true_barcodes_,
          str reads_infile_,
          str outfile_prefix_,
+         int start_position_,
          int max_edit_distance_,
          bool no_multiprocessing_,
          bool only_output_matched_,
@@ -67,6 +70,10 @@ def init(dict true_barcodes_,
     reads_infile = reads_infile_
     global outfile_prefix
     outfile_prefix = outfile_prefix_
+    global start_position
+    start_position = start_position_
+    global barcode_length
+    barcode_length = len(true_barcodes.keys()[0])
     global max_edit_distance
     max_edit_distance = max_edit_distance_
     global no_multiprocessing
@@ -122,7 +129,7 @@ def demultiplex():
     cdef object rec
 
     # Process the reads in chunks either parallel or in single thread mode
-    # Reference to function append to avoid overhead
+    # Reference to function append to avoid overhead.
     append = chunk.append
     for rec in re_wr.reader_open():
         append(rec)
@@ -189,7 +196,7 @@ def __demultiplex_linearly_chunk(list chunk):
     # this loop will put messages in the queue containing
     # records to write
     for rec in chunk:
-        demulti.demultiplex_record_wrapper(q, rec)
+        demulti.demultiplex_non_perfect_record_wrapper(q, rec)
     # write matches
     __write_matches(q)
 
@@ -209,9 +216,17 @@ def __demultiplex_mp_chunk(list chunk):
     cdef list jobs = []
     cdef object job = None
     cdef object rec = None
+    cdef str read_barcode = None
+    cdef object mtch = None
+    append = jobs.append
     for rec in chunk:
-        job = pool.apply_async(demulti.demultiplex_record_wrapper, (q, rec,))
-        jobs.append(job)
+        read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+        if read_barcode in true_barcodes:
+            mtch = match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0)
+            q.put(mtch)
+        else:
+            job = pool.apply_async(demulti.demultiplex_non_perfect_record_wrapper, (q, rec,))
+            append(job)
 
     # Collect results from the workers through the pool result queue.
     for job in jobs:

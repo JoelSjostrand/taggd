@@ -161,6 +161,7 @@ cdef list get_distances(str read_barcode, dict candidates):
     cdef int a = -1
     cdef int b = -1
 
+    append = qual_hits.append
     for candidate, penalty in candidates.iteritems():
         if metric_choice == SUBGLOBAL:
             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
@@ -181,7 +182,7 @@ cdef list get_distances(str read_barcode, dict candidates):
             raise ValueError("Invalid distance metric specified")
         
         if dist <= max_edit_distance:
-            qual_hits.append((candidate, dist, read_last_pos, a, b))
+            append((candidate, dist, read_last_pos, a, b))
                 
     return qual_hits
 
@@ -210,7 +211,8 @@ cdef list get_top_hits(list qual_hits):
     
     # Filter out the smallest
     cdef list top_hits = []
+    append = top_hits.append
     for cand, dist, last_pos, a, b in qual_hits:
         if dist == mini:
-            top_hits.append((cand, dist, last_pos, a, b))
+            append((cand, dist, last_pos, a, b))
     return top_hits
