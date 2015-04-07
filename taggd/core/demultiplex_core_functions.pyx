@@ -3,6 +3,7 @@ Main functions for carrying out the demultiplexing with
 multithreading.
 """
 import os
+import time
 import multiprocessing as mp
 import taggd.core.match as match
 cimport taggd.core.match as match
@@ -40,7 +41,7 @@ cdef object stats_perfect_matches
 cdef object stats_imperfect_unambiguous_matches
 cdef object stats_imperfect_ambiguous_matches  # Non-unique
 cdef list stats_edit_distance_counts
-
+cdef int start_time
 
 # Threading objects
 cdef object manager
@@ -105,6 +106,8 @@ def init(dict true_barcodes_,
     cdef int i
     for i in xrange(max_edit_distance+1):
         stats_edit_distance_counts.append(Counter(0))
+    global start_time
+    start_time = time.time()
 
     # Threading.
     global manager
@@ -347,4 +350,10 @@ def print_post_stats():
     for i in xrange(max_edit_distance + 1):
         distr.append(str(stats_edit_distance_counts[i].value()))
     print("# Edit distance counts for [0,...," + str(max_edit_distance) + "]: [" + ", ".join(distr) + "]")
+    cdef int wall_time = time.time() - start_time
+    cdef int days = wall_time / (24*60*60)
+    cdef int hours = (wall_time - (24*60*60*days)) / (60*60)
+    cdef int mins = (wall_time - (24*60*60*days) - (60*60*hours)) / 60
+    cdef int secs = (wall_time - (24*60*60*days) - (60*60*hours) - (60*mins))
+    print("# Wall time: %d:%d:%d:%d" % (days, hours, mins, secs))
 
