@@ -11,7 +11,6 @@ cimport taggd.core.demultiplex_search_functions as srch
 import random
 from cpython cimport bool
 
-
 # User settings.
 cdef dict true_barcodes
 cdef int start_position
@@ -57,14 +56,11 @@ def init(dict true_barcodes_,
     random.seed(seed)
 
 
-
 def demultiplex_non_perfect_record_wrapper(object q, object rec):
     """
     Non cdef wrapper for cdef:ed multithreading function.
     """
     return demultiplex_non_perfect_record(q, rec)
-
-
 
 cdef bool demultiplex_non_perfect_record(object q, object rec):
     """

@@ -1,10 +1,7 @@
-from cpython cimport bool
-
 """
 Contains utilities for working with k-mer chunks of the barcodes or other sequences.
 """
-
-
+from cpython cimport bool
 
 cdef list get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):
     """
@@ -48,7 +45,6 @@ cdef list get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_i
                 kmer2seq[kmer][seq] = list()
             kmer2seq[kmer][seq].add(i)
     return [seq2kmer, kmer2seq]
-
 
 
 cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=1):

@@ -114,7 +114,6 @@ def init(dict true_barcodes_,
     manager = mp.Manager()
 
 
-
 def demultiplex():
     """
     Demultiplexes the contents of a reads file.
@@ -153,8 +152,6 @@ def demultiplex():
     # Close all files.
     __close_files()
 
-
-
 def __open_files():
     """
     Opens files for writing.
@@ -174,8 +171,6 @@ def __open_files():
         global f_unmatch
         f_unmatch = re_wr.get_writer(outfile_prefix + "_unmatched." + re_wr.get_format())
 
-
-
 def __close_files():
     """
     Closes output files.
@@ -186,8 +181,6 @@ def __close_files():
         f_res.close()
         f_ambig.close()
         f_unmatch.close()
-
-
 
 def __demultiplex_linearly_chunk(list chunk):
     """
@@ -202,8 +195,6 @@ def __demultiplex_linearly_chunk(list chunk):
         demulti.demultiplex_non_perfect_record_wrapper(q, rec)
     # write matches
     __write_matches(q)
-
-
 
 
 def __demultiplex_mp_chunk(list chunk):
@@ -242,8 +233,6 @@ def __demultiplex_mp_chunk(list chunk):
     __write_matches(q)
 
 
-
-
 def __write_matches(object q):
     """
     Processes matches in queue to write results.
@@ -257,6 +246,8 @@ def __write_matches(object q):
     cdef list tags = None
     cdef int i = 0
 
+    #Are we really sure there are no race conditions
+    #inside this loop?
     while not q.empty():
 
         # Extract record
@@ -308,9 +299,6 @@ def __write_matches(object q):
         f_ambig.flush()
         f_unmatch.flush()
 
-
-
-
 def print_pre_stats():
     """
     Prints pre stats
@@ -318,8 +306,6 @@ def print_pre_stats():
     print "# Absolute output prefix path: " + outfile_prefix
     print "# Only writing matched reads: " + str(only_output_matched)
     print "# Reads format: " + re_wr.get_format()
-
-
 
 def print_post_stats():
     """

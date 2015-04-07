@@ -9,6 +9,7 @@ class FASTARecord(Record):
         self.sequence = fqr[1]
 
     def add_tags(self, list added):
+        #TODO this can be slow, use ''.{} format instead
         for k,v in added:
             self.annotation += " " + k + ":" + str(v)
 

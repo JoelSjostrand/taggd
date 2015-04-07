@@ -1,4 +1,8 @@
-
+"""
+This represent a barcode match with all
+the necessary information that can be used to
+write to a file later
+"""
 cimport taggd.core.match_type as match_type
 
 cdef str get_match_header():
@@ -8,13 +12,10 @@ cdef str get_match_header():
     return "#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\t" \
         "Qualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions"
 
-
-
 class Match(object):
     """
     Shorthand for a match.
     """
-
     def __init__(self,
                  object record_,
                  int match_type_,
@@ -44,6 +45,8 @@ class Match(object):
     def __str__(self):
         """
         String converter.
+        TODO this is slow, python recommends to build strings
+        in the form ''.{} ....
         """
         return (self.record.annotation + '\t' +
                 match_type.match_type_to_str(self.match_type) + '\t' +

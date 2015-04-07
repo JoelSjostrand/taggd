@@ -56,7 +56,6 @@ class ReadsReaderWriter():
             self.infile_header = self.infile.header
             self.infile.close()
 
-
     def reader_open(self):
         """Opens the reads file using appropriate format."""
 
@@ -94,17 +93,14 @@ class ReadsReaderWriter():
             if last == None:
                 break
 
-
     def reader_close(self):
         """Closes the infile."""
         if self.infile != None:
             self.infile.close()
             self.infile = None
 
-
     def __exit__(self, type, value, tb):
         self.close_read()
-
 
     def get_format(self):
         """Returns the file format."""
@@ -117,7 +113,6 @@ class ReadsReaderWriter():
         if self.file_type == BAM:
             return "bam"
         return None
-
 
     def get_writer(self, str outfile_name):
         """
@@ -137,7 +132,6 @@ class ReadsReaderWriter():
                 return ps.AlignmentFile(outfile_name, "wb", header=self.infile_header)
             else:
                 return None
-
 
     def write_record(self, outfile, record):
         """Writes a record."""

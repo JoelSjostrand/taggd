@@ -1,8 +1,10 @@
+""" 
+Some functions to compute distance
+between sequences
+"""
+
 cimport numpy as np
 import numpy as np
-
-
-
 
 cdef int hamming_distance(str seq1, str seq2, int limit=0):
     """
@@ -20,8 +22,6 @@ cdef int hamming_distance(str seq1, str seq2, int limit=0):
         if limit > 0 and sum > limit:
             return limit + 1
     return sum
-
-
 
 cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
     """
@@ -50,8 +50,6 @@ cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
             return limit + 1
     return this_row[len(seq2) - 1]
 
-
-
 cdef list subglobal_distance(str s1, str s2):
     """
     Computes the edit distance for a sub-global (local?) alignment
@@ -68,20 +66,6 @@ cdef list subglobal_distance(str s1, str s2):
     if xLen < yLen:
         raise ValueError("Sub-global edit distance is undefined for sequences where the probe is shorter than the aligned sequence.")
 
-    #cdef list d = list()
-    #d.append(list())
-    #for y in xrange(0, yLen+1):
-    #    d[0].append(y)  # To ensure all of s2 is spanned.
-
-    # Perform DP.
-    #for x in xrange(1, xLen+1):
-    #    d.append(list())
-    #    d[x].append(0)
-    #    # Fill matrix.
-    #    for y in xrange(1, yLen+1):
-    #        d[x].append(min( min(d[x-1][y]+1, d[x][y-1]+1), d[x-1][y-1] + int(s1[x-1] != s2[y-1]) ))
-
-
     cdef int x
     cdef int y
 
@@ -96,14 +80,6 @@ cdef list subglobal_distance(str s1, str s2):
         # Fill matrix.
         for y in xrange(1, yLen+1):
             d[x,y] = min( min(d[x-1,y]+1, d[x,y-1]+1), d[x-1,y-1] + int(s1[x-1] != s2[y-1]) )
-
-
-    #for x in xrange(xLen + 1):
-    #    for y in xrange(yLen + 1):
-    #        print d[x,y],
-    #        print " ",
-    #    print
-
 
     # Find min for sub-global alignment so that all of s2 is covered, but not necessarily all of s1 sequence.
     cdef int mini = 1000000
@@ -123,8 +99,6 @@ cdef list subglobal_distance(str s1, str s2):
     # Last elements of alignment.
     i = iPos
     j = yLen
-
-    #print str(iPos) + " " + str(mini)
 
     # Backtrack.
     while (i > 0) and (j > 0):

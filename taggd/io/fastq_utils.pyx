@@ -1,3 +1,7 @@
+"""
+Some utilities to write/read
+fasta/q files
+"""
 
 def coroutine(func):
     """
@@ -8,8 +12,6 @@ def coroutine(func):
         cr.next()
         return cr
     return start
-
-
 
 def readfq(fp): # this is a generator function
     """
@@ -89,7 +91,6 @@ def writefa(fp):  # This is a coroutine
     except GeneratorExit:
         return
 
-
 def writefq_record(fp, record):
     """
     Send a (header_comments, sequence, quality) triple to the instance to write it to
@@ -98,7 +99,6 @@ def writefq_record(fp, record):
     cdef str fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
     cdef str read = fq_format.format(header_comments=record[0], sequence=record[1], quality=record[2])
     fp.write(read)
-
 
 
 def writefa_record(fp, record):

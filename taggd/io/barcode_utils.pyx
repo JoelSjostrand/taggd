@@ -39,7 +39,6 @@ cpdef dict read_barcode_file(str infile_path):
             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])
     return res_dict
 
-
 cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):
     """
     Reads a barcodes dict and estimates the minimum edit distance
