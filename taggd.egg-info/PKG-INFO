@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: taggd
+Version: 0.1.7
+Summary: Bioinformatics genetic barcode demultiplexing
+Home-page: https://github.com/JoelSjostrand/taggd
+Author: Joel Sjostrand
+Author-email: joel.sjostrand@scilifelab.se
+License: Open BSD
+Download-URL: https://github.com/JoelSjostrand/taggd/0.1.7
+Description: UNKNOWN
+Keywords: bioinformatics,demultiplexing
+Platform: UNKNOWN

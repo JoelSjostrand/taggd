@@ -262,7 +262,9 @@ def __write_matches(object q):
             if not only_output_matched:
                 re_wr.write_record(f_unmatch, mtch.record)
                 stats_total_reads_wr.increment()
+                #f_unmatch.flush()
             stats_unmatched.increment()
+            #f_res.flush()
             continue
 
         # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
@@ -289,6 +291,13 @@ def __write_matches(object q):
                 re_wr.write_record(f_ambig, mtch.record)
             stats_imperfect_ambiguous_matches.increment()
             stats_total_reads_wr.increment()
+
+    # Fluch before next chunk.
+    #f_match.flush()
+    #if not only_output_matched:
+    #    f_res.flush()
+    #    f_ambig.flush()
+    #    f_unmatch.flush()
 
 def print_pre_stats():
     """
