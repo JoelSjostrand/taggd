@@ -10,6 +10,9 @@ When updating for a new version on PyPI, do the following:
 
 5) git push --tags origin master
 
+NOTE: Make sure you are registered in pypi and pypitest
+and that your user is added to the contributors list
+
 6) Upload to PYPI test:   python setup.py register -r pypitest
 
 7) Test on PYPI test:     python setup.py sdist upload -r pypitest

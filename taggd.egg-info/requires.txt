@@ -1,3 +1,0 @@
-setuptools
-pysam
-numpy
