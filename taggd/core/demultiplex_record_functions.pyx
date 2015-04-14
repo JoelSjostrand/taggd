@@ -56,21 +56,23 @@ def init(dict true_barcodes_,
     random.seed(seed)
 
 
-def demultiplex_non_perfect_record_wrapper(object q, object rec):
+def demultiplex_record_wrapper(object q, object rec):
     """
     Non cdef wrapper for cdef:ed multithreading function.
     """
-    return demultiplex_non_perfect_record(q, rec)
+    return demultiplex_record(q, rec)
 
-cdef bool demultiplex_non_perfect_record(object q, object rec):
+
+
+cdef bool demultiplex_record(object q, object recs):
     """
-    Demultiplexes a non-perfect match record. Init must have been called before.
+    Demultiplexes a record. Init must have been called before.
     :param q: the queue where results are stored.
-    :param rec: the record.
+    :param recs: the records.
     :return: true if matched.
     """
 
-    cdef str read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+    cdef str read_barcode = None
     cdef dict candidates = None
     cdef list qual_hits = None
     cdef list top_hits = None
@@ -80,47 +82,58 @@ cdef bool demultiplex_non_perfect_record(object q, object rec):
     cdef int a = -1
     cdef int b = -1
     cdef object mtch = None
+    cdef list mtchs = list()
 
-    # Include overhang.
-    read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
-                        (start_position + barcode_length + post_overhang))]
+    # Iterate over records.
+    for rec in recs:
 
-    # Narrow down hits.
-    candidates = srch.get_candidates(read_barcode)
-    qual_hits = srch.get_distances(read_barcode, candidates)
-    top_hits = srch.get_top_hits(qual_hits)
+        # Try perfect hit first.
+        read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+        if read_barcode in true_barcodes:
+            mtch = match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0)
+            mtchs.append(mtch)
+            continue
 
-    if not top_hits:
-        # NO MATCH.
-        # Record   Match type   Barcode
-        # [Edit distance, Ambiguous top hits, Qualified candidates,
-        # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch = match.Match(rec, match_type.UNMATCHED, "-", -1, 0, len(qual_hits), len(candidates), -1, -1, -1)
-        q.put(mtch)
-        return False
-    else:
-        if len(top_hits) == 1:
-            # SINGLE MATCH.
-            bcseq, dist, last_pos, a, b = top_hits[0]
+        # Include overhang.
+        read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
+                            (start_position + barcode_length + post_overhang))]
+
+        # Narrow down hits.
+        candidates = srch.get_candidates(read_barcode)
+        qual_hits = srch.get_distances(read_barcode, candidates)
+        top_hits = srch.get_top_hits(qual_hits)
+
+        if not top_hits:
+            # NO MATCH.
             # Record   Match type   Barcode
             # [Edit distance, Ambiguous top hits, Qualified candidates,
             # Raw candidates, Last_pos, Insertions read, Insertions true]
-            mtch = match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist, len(top_hits), len(qual_hits),
-                               len(candidates), last_pos, a, b)
-            q.put(mtch)
-            return True
+            mtch = match.Match(rec, match_type.UNMATCHED, "-", -1, 0, len(qual_hits), len(candidates), -1, -1, -1)
+            mtchs.append(mtch)
         else:
-            # AMBIGUOUS MATCHES.
-            # Multiple best hits. Shuffle results to avoid biases.
-            random.shuffle(top_hits)
-            for (bcseq, dist, last_pos, a, b) in top_hits:
+            if len(top_hits) == 1:
+                # SINGLE MATCH.
+                bcseq, dist, last_pos, a, b = top_hits[0]
                 # Record   Match type   Barcode
                 # [Edit distance, Ambiguous top hits, Qualified candidates,
                 # Raw candidates, Last_pos, Insertions read, Insertions true]
-                mtch = match.Match(rec, match_type.MATCHED_AMBIGUOUSLY, bcseq, dist, len(top_hits),
-                        len(qual_hits), len(candidates), last_pos, a, b)
-                q.put(mtch)
-            return False
+                mtch = match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist, len(top_hits), len(qual_hits),
+                                   len(candidates), last_pos, a, b)
+                mtchs.append(mtch)
+            else:
+                # AMBIGUOUS MATCHES.
+                # Multiple best hits. Shuffle results to avoid biases.
+                random.shuffle(top_hits)
+                for (bcseq, dist, last_pos, a, b) in top_hits:
+                    # Record   Match type   Barcode
+                    # [Edit distance, Ambiguous top hits, Qualified candidates,
+                    # Raw candidates, Last_pos, Insertions read, Insertions true]
+                    mtch = match.Match(rec, match_type.MATCHED_AMBIGUOUSLY, bcseq, dist, len(top_hits),
+                            len(qual_hits), len(candidates), last_pos, a, b)
+                    mtchs.append(mtch)
+    q.put(mtchs)
+    return True
+
 
 
 def print_pre_stats():

@@ -23,6 +23,7 @@ cdef int hamming_distance(str seq1, str seq2, int limit=0):
             return limit + 1
     return sum
 
+
 cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
     """
     Returns the Levenshtein distance between two sequences. Lengths do no need to be equal, as indels are allowed.
@@ -49,6 +50,7 @@ cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
         if limit > 0 and x > limit and min(this_row) > limit:
             return limit + 1
     return this_row[len(seq2) - 1]
+
 
 cdef list subglobal_distance(str s1, str s2):
     """

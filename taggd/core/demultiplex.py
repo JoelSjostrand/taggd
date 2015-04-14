@@ -67,11 +67,16 @@ def main(argv=None):
                         "barcodes by comparing the specified number of pairs, " \
                         "0 means no estimation (default: %(default)d)", 
                         default=0, metavar="[int]")
-    parser.add_argument('--max-chunk-size', 
+    parser.add_argument('--chunk-size',
                         type=int, 
                         help="Chunk of maximum number of simultaneously " \
                         "processed reads (default: %(default)d)", 
                         default=5000000, metavar="[int]")
+    parser.add_argument('--mp-chunk-size',
+                        type=int,
+                        help="Chunk of maximum number of " \
+                        "processed reads sent to each thread (default: %(default)d)",
+                        default=10000, metavar="[int]")
     parser.add_argument('--no-offset-speedup', 
                         help="Turns off an offset speedup routine, " \
                         "increasing time but may yield more hits.", 
@@ -114,8 +119,10 @@ def main(argv=None):
         raise ValueError("Invalid overhang. Must be >= 0.")
     if options.metric == "Hamming" and options.overhang > 0:
         raise ValueError("Invalid overhang. Must be 0 for Hamming metric.")
-    if options.max_chunk_size <= 0:
+    if options.chunk_size <= 0:
         raise ValueError("Invalid max chunk size. Must be > 0.")
+    if options.mp_chunk_size <= 0:
+        raise ValueError("Invalid multiprocessing max chunk size. Must be > 0.")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -136,7 +143,8 @@ def main(argv=None):
               options.max_edit_distance,
               options.no_multiprocessing,
               options.only_output_matched,
-              options.max_chunk_size)
+              options.chunk_size,
+              options.mp_chunk_size)
 
     rec.init(true_barcodes,
              options.start_position,

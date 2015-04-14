@@ -21,7 +21,7 @@ cdef str outfile_prefix
 cdef int max_edit_distance
 cdef bool no_multiprocessing
 cdef bool only_output_matched
-cdef int max_chunk_size
+cdef int chunk_size
 cdef int start_position
 cdef int barcode_length
 
@@ -54,7 +54,8 @@ def init(dict true_barcodes_,
          int max_edit_distance_,
          bool no_multiprocessing_,
          bool only_output_matched_,
-         int max_chunk_size_):
+         int chunk_size_,
+         int mp_chunk_size_):
     """
     Initializes settings (global variables).
     :param true_barcodes_: true barcodes.
@@ -81,8 +82,10 @@ def init(dict true_barcodes_,
     no_multiprocessing = no_multiprocessing_
     global only_output_matched
     only_output_matched = only_output_matched_
-    global max_chunk_size
-    max_chunk_size = max_chunk_size_
+    global chunk_size
+    chunk_size = chunk_size_
+    global mp_chunk_size
+    mp_chunk_size = mp_chunk_size_
 
     # Reader writer
     global re_wr
@@ -136,7 +139,7 @@ def demultiplex():
     for rec in re_wr.reader_open():
         append(rec)
         stats_total_reads.increment()
-        if stats_total_reads.value() % max_chunk_size == 0:
+        if stats_total_reads.value() % chunk_size == 0:
             if no_multiprocessing:
                 __demultiplex_linearly_chunk(chunk)
             else:
@@ -151,6 +154,7 @@ def demultiplex():
 
     # Close all files.
     __close_files()
+
 
 def __open_files():
     """
@@ -171,6 +175,7 @@ def __open_files():
         global f_unmatch
         f_unmatch = re_wr.get_writer(outfile_prefix + "_unmatched." + re_wr.get_format())
 
+
 def __close_files():
     """
     Closes output files.
@@ -181,6 +186,7 @@ def __close_files():
         f_res.close()
         f_ambig.close()
         f_unmatch.close()
+
 
 def __demultiplex_linearly_chunk(list chunk):
     """
@@ -209,18 +215,21 @@ def __demultiplex_mp_chunk(list chunk):
     # Fire off workers
     cdef list jobs = []
     cdef object job = None
+    cdef list recs = list()
     cdef object rec = None
     cdef str read_barcode = None
     cdef object mtch = None
+    cdef int i = 0
     append = jobs.append
     for rec in chunk:
-        read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
-        if read_barcode in true_barcodes:
-            mtch = match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0)
-            q.put(mtch)
-        else:
-            job = pool.apply_async(demulti.demultiplex_non_perfect_record_wrapper, (q, rec,))
+        recs.append(rec)
+        i += 1
+        if i % mp_chunk_size == 0:
+            job = pool.apply_async(demulti.demultiplex_record_wrapper, (q, recs,))
             append(job)
+            recs = list()
+    job = pool.apply_async(demulti.demultiplex_record_wrapper, (q, recs,))
+    append(job)
 
     # Collect results from the workers through the pool result queue.
     for job in jobs:
@@ -238,6 +247,7 @@ def __write_matches(object q):
     Processes matches in queue to write results.
     """
 
+    cdef list mtchs = None
     cdef object mtch = None
     cdef object rec = None
     cdef str bcseq = None
@@ -250,45 +260,47 @@ def __write_matches(object q):
     #inside this loop?
     while not q.empty():
 
-        # Extract record
-        mtch = q.get()
+        # Extract records
+        mtchs = q.get()
 
-        # Write to info file.
-        if not only_output_matched:
-            f_res.write(str(mtch) + "\n")
+        for mtch in mtchs:
 
-        # No match.
-        if mtch.match_type == match_type.UNMATCHED:
+            # Write to info file.
             if not only_output_matched:
-                re_wr.write_record(f_unmatch, mtch.record)
+                f_res.write(str(mtch) + "\n")
+
+            # No match.
+            if mtch.match_type == match_type.UNMATCHED:
+                if not only_output_matched:
+                    re_wr.write_record(f_unmatch, mtch.record)
+                    stats_total_reads_wr.increment()
+                stats_unmatched.increment()
+                continue
+
+            # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
+            bc = true_barcodes[mtch.barcode]
+            tags = list()
+            tags.append(("B0:Z", mtch.barcode))
+            for i in xrange(len(bc.attributes)):
+                tags.append(("B" + str(i+1) + ":Z", bc.attributes[i]))
+            mtch.record.add_tags(tags)
+
+            # Write to file.
+            if mtch.match_type == match_type.MATCHED_PERFECTLY:
+                re_wr.write_record(f_match, mtch.record)
+                stats_perfect_matches.increment()
+                stats_edit_distance_counts[0].increment()
                 stats_total_reads_wr.increment()
-            stats_unmatched.increment()
-            continue
-
-        # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
-        bc = true_barcodes[mtch.barcode]
-        tags = list()
-        tags.append(("B0:Z", mtch.barcode))
-        for i in xrange(len(bc.attributes)):
-            tags.append(("B" + str(i+1) + ":Z", bc.attributes[i]))
-        mtch.record.add_tags(tags)
-
-        # Write to file.
-        if mtch.match_type == match_type.MATCHED_PERFECTLY:
-            re_wr.write_record(f_match, mtch.record)
-            stats_perfect_matches.increment()
-            stats_edit_distance_counts[0].increment()
-            stats_total_reads_wr.increment()
-        elif mtch.match_type == match_type.MATCHED_UNAMBIGUOUSLY:
-            re_wr.write_record(f_match, mtch.record)
-            stats_imperfect_unambiguous_matches.increment()
-            stats_edit_distance_counts[mtch.edit_distance].increment()
-            stats_total_reads_wr.increment()
-        elif mtch.match_type == match_type.MATCHED_AMBIGUOUSLY:
-            if not only_output_matched:
-                re_wr.write_record(f_ambig, mtch.record)
-            stats_imperfect_ambiguous_matches.increment()
-            stats_total_reads_wr.increment()
+            elif mtch.match_type == match_type.MATCHED_UNAMBIGUOUSLY:
+                re_wr.write_record(f_match, mtch.record)
+                stats_imperfect_unambiguous_matches.increment()
+                stats_edit_distance_counts[mtch.edit_distance].increment()
+                stats_total_reads_wr.increment()
+            elif mtch.match_type == match_type.MATCHED_AMBIGUOUSLY:
+                if not only_output_matched:
+                    re_wr.write_record(f_ambig, mtch.record)
+                stats_imperfect_ambiguous_matches.increment()
+                stats_total_reads_wr.increment()
 
 def print_pre_stats():
     """
@@ -297,6 +309,7 @@ def print_pre_stats():
     print "# Absolute output prefix path: " + outfile_prefix
     print "# Only writing matched reads: " + str(only_output_matched)
     print "# Reads format: " + re_wr.get_format()
+
 
 def print_post_stats():
     """
