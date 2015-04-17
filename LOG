@@ -7,3 +7,5 @@
 0.1.6   - Big rewrite, fixed output issues, now also a bit quicker.
 0.1.7   - Added wall time.
 0.1.8   - Removed flushing operations when writting to disk
+0.1.9   -
+0.1.10  - Multiprocessing in chunks.
