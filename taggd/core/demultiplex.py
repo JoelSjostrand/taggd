@@ -71,12 +71,12 @@ def main(argv=None):
                         type=int, 
                         help="Chunk of maximum number of simultaneously " \
                         "processed reads (default: %(default)d)", 
-                        default=5000000, metavar="[int]")
+                        default=50000, metavar="[int]")
     parser.add_argument('--mp-chunk-size',
                         type=int,
                         help="Chunk of maximum number of " \
                         "processed reads sent to each thread (default: %(default)d)",
-                        default=10000, metavar="[int]")
+                        default=500, metavar="[int]")
     parser.add_argument('--no-offset-speedup', 
                         help="Turns off an offset speedup routine, " \
                         "increasing time but may yield more hits.", 
