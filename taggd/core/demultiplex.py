@@ -61,6 +61,12 @@ def main(argv=None):
     parser.add_argument('--no-multiprocessing',
                          help="If set, turns off multiprocessing of reads", 
                          default=False, action='store_true')
+    parser.add_argument('--homopolymer-filter',
+                        type=int,
+                        help="If set, excludes reads where the barcode part contains " \
+                        "a homopolymer of the given length, " \
+                        "0 means no filter (default: %(default)d)",
+                        default=6, metavar="[int]")
     parser.add_argument('--estimate-min-edit-distance', 
                         type=int, 
                         help="If set, estimates the min edit distance among true " \
@@ -151,6 +157,7 @@ def main(argv=None):
              min(options.start_position, options.overhang),
              options.overhang,
              options.max_edit_distance,
+             options.homopolymer_filter,
              options.seed)
 
     srch.init(true_barcodes,

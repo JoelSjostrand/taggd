@@ -197,8 +197,7 @@ def __demultiplex_linearly_chunk(list chunk):
     cdef object rec = None
     # this loop will put messages in the queue containing
     # records to write
-    for rec in chunk:
-        demulti.demultiplex_non_perfect_record_wrapper(q, rec)
+    demulti.demultiplex_record_wrapper(q, chunk)
     # write matches
     __write_matches(q)
 
@@ -256,8 +255,6 @@ def __write_matches(object q):
     cdef list tags = None
     cdef int i = 0
 
-    #Are we really sure there are no race conditions
-    #inside this loop?
     while not q.empty():
 
         # Extract records
@@ -299,8 +296,9 @@ def __write_matches(object q):
             elif mtch.match_type == match_type.MATCHED_AMBIGUOUSLY:
                 if not only_output_matched:
                     re_wr.write_record(f_ambig, mtch.record)
+                    stats_total_reads_wr.increment()
                 stats_imperfect_ambiguous_matches.increment()
-                stats_total_reads_wr.increment()
+
 
 def print_pre_stats():
     """

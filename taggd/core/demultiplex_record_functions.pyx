@@ -18,6 +18,8 @@ cdef int barcode_length
 cdef int pre_overhang
 cdef int post_overhang
 cdef int max_edit_distance
+cdef int homopolymer_filter
+cdef list homopolymers
 cdef str seed
 
 
@@ -26,6 +28,7 @@ def init(dict true_barcodes_,
          int pre_overhang_,
          int post_overhang_,
          int max_edit_distance_,
+         int homopolymer_filter_,
          str seed_):
     """
     Initializes variables for matching.
@@ -34,6 +37,7 @@ def init(dict true_barcodes_,
     :param pre_overhang_: how many flanking bases pre for indels. Not applicable for Hamming distance.
     :param post_overhang_: how many flanking bases post for indels. Not applicable for Hamming distance.
     :param max_edit_distance_: max allowed distance.
+    :param homopolymer_filter_: if containing homopolymer of this length, exclude. 0 means no filter.
     :param seed_: PRNG seed.
     """
 
@@ -51,6 +55,12 @@ def init(dict true_barcodes_,
     barcode_length = len(true_barcodes.keys()[0])
     global max_edit_distance
     max_edit_distance = max_edit_distance_
+    global homopolymer_filter
+    homopolymer_filter = max(homopolymer_filter_, 0)
+    global homopolymers
+    homopolymers = list()
+    for c in "ACGT":
+        homopolymers.append(c * homopolymer_filter)
     global seed
     seed = seed_
     random.seed(seed)
@@ -83,6 +93,7 @@ cdef bool demultiplex_record(object q, object recs):
     cdef int b = -1
     cdef object mtch = None
     cdef list mtchs = list()
+    cdef bool homo = False
 
     # Iterate over records.
     for rec in recs:
@@ -91,6 +102,17 @@ cdef bool demultiplex_record(object q, object recs):
         read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
         if read_barcode in true_barcodes:
             mtch = match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0)
+            mtchs.append(mtch)
+            continue
+
+        # Homopolymer filter.
+        homo = False
+        for filter in homopolymers:
+            if filter in read_barcode:
+                homo = True
+                break
+        if homo:
+            mtch = match.Match(rec, match_type.UNMATCHED, "-", -1, 0, -1, -1, -1, -1, -1)
             mtchs.append(mtch)
             continue
 
