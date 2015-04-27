@@ -61,6 +61,14 @@ def main(argv=None):
     parser.add_argument('--no-multiprocessing',
                          help="If set, turns off multiprocessing of reads", 
                          default=False, action='store_true')
+    parser.add_argument('--read-every-nth-entry-modulo',
+                        type=int, help="Parse every nth entry of the input, " \
+                        "The value 1, means handle all entries (default: %(default)d)",
+                        default=1, metavar="[int]")
+    parser.add_argument('--read-every-nth-entry-index',
+                        type=int, help="Skip the first n entries, " \
+                        "n should be less than --read-every-nth-entry-modulo (default: %(default)d)",
+                        default=0, metavar="[int]")
     parser.add_argument('--homopolymer-filter',
                         type=int,
                         help="If set, excludes reads where the barcode part contains " \
@@ -129,6 +137,12 @@ def main(argv=None):
         raise ValueError("Invalid max chunk size. Must be > 0.")
     if options.mp_chunk_size <= 0:
         raise ValueError("Invalid multiprocessing max chunk size. Must be > 0.")
+    if options.read_every_nth_entry_index >= options.read_every_nth_entry_modulo:
+        raise ValueError("The value from --read-every-nth-entry-modulo must be bigger than the value from --read-every-nth-entry-index")
+    if options.read_every_nth_entry_index < 0:
+        raise ValueError("--read-every-nth-entry-index must not be negative")
+    if not options.read_every_nth_entry_modulo > 0:
+        raise ValueError("--read-every-nth-entry-modulo must be bigger than 0")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -148,6 +162,8 @@ def main(argv=None):
               options.start_position,
               options.max_edit_distance,
               options.no_multiprocessing,
+              options.read_every_nth_entry_modulo,
+              options.read_every_nth_entry_index,
               options.only_output_matched,
               options.chunk_size,
               options.mp_chunk_size)

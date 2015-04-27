@@ -53,6 +53,8 @@ def init(dict true_barcodes_,
          int start_position_,
          int max_edit_distance_,
          bool no_multiprocessing_,
+         int read_every_nth_entry_modulo_,
+         int read_every_nth_entry_index_,
          bool only_output_matched_,
          int chunk_size_,
          int mp_chunk_size_):
@@ -80,6 +82,10 @@ def init(dict true_barcodes_,
     max_edit_distance = max_edit_distance_
     global no_multiprocessing
     no_multiprocessing = no_multiprocessing_
+    global read_every_nth_entry_modulo
+    read_every_nth_entry_modulo = read_every_nth_entry_modulo_
+    global read_every_nth_entry_index
+    read_every_nth_entry_index = read_every_nth_entry_index_
     global only_output_matched
     only_output_matched = only_output_matched_
     global chunk_size
@@ -136,7 +142,13 @@ def demultiplex():
     # Process the reads in chunks either parallel or in single thread mode
     # Reference to function append to avoid overhead.
     append = chunk.append
+
+
+    lines_read = 0
     for rec in re_wr.reader_open():
+        lines_read = lines_read + 1
+        if lines_read % read_every_nth_entry_modulo != read_every_nth_entry_index:
+            continue
         append(rec)
         stats_total_reads.increment()
         if stats_total_reads.value() % chunk_size == 0:
