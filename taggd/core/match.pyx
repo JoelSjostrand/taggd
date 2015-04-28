@@ -14,8 +14,9 @@ cdef str get_match_header():
 
 class Match(object):
     """
-    Shorthand for a match.
+    Shorthand for a match. Not cdef-cythonized so as to keep threading compatible.
     """
+
     def __init__(self,
                  object record_,
                  int match_type_,

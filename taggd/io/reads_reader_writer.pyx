@@ -70,28 +70,22 @@ class ReadsReaderWriter():
             raise ValueError("Unsupported reads file format!")
 
         cdef object rec, last
-        while True:
-            last = None
+
+        if self.file_type == FASTA:
             for orig in self.infile:
-                if self.file_type == FASTA:
-                    rec = FASTARecord(orig)
-                    last = rec
-                    yield rec
-                    break
-                elif self.file_type == FASTQ:
-                    rec = FASTQRecord(orig)
-                    last = rec
-                    yield rec
-                    break
-                elif self.file_type == SAM or self.file_type == BAM:
-                    rec = SAMRecord(orig)
-                    last = rec
-                    yield rec
-                    break
-                else:
-                    raise ValueError("Unsupported reads file format!")
-            if last == None:
-                break
+                rec = FASTARecord(orig)
+                yield rec
+        elif self.file_type == FASTQ:
+            for orig in self.infile:
+                rec = FASTQRecord(orig)
+                yield rec
+        elif self.file_type == SAM or self.file_type == BAM:
+            for orig in self.infile:
+                rec = SAMRecord(orig)
+                yield rec
+        else:
+            raise ValueError("Unsupported reads file format!")
+
 
     def reader_close(self):
         """Closes the infile."""

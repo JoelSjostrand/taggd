@@ -2,6 +2,7 @@ import pysam
 from taggd.io.record import Record
 
 class SAMRecord(Record):
+    """Holds a SAM record. Not cdef-cythonized so as to be threading compatible. Follows pysam's representation."""
 
     def __init__(self, object alseq):
         """Constructor. Represents a pysam.AlignedSequence as a Record."""
@@ -20,9 +21,13 @@ class SAMRecord(Record):
         self.attributes["tags"] = alseq.tags
 
     def add_tags(self, list added):
+        """Appends SAM tags."""
         self.attributes["tags"] += added
 
     def unwrap(self):
+        """
+        :return: a pysam alignment.
+        """
         cdef object a = pysam.AlignedSegment()
         a.query_name = self.annotation
         a.flag = self.attributes["flag"]

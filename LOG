@@ -10,3 +10,5 @@
 0.1.9   - Cleanups.
 0.1.10  - Multiprocessing in chunks.
 0.1.11  - Added homopolymer filter. Fixed no-mp bug.
+0.1.12  - Changed homopolymer default. Readded parallel writing.
+0.1.13  - Added cores parameter, changed reading loops, improved job collection.

@@ -1,6 +1,7 @@
 from taggd.io.record import Record
 
 class FASTARecord(Record):
+    """Holds a FASTA record. Not cdef-cythonized so as to be threading compatible."""
 
     def __init__(self, object fqr):
         """Constructor. Represents a (annotation, seq) tuple as a Record."""
@@ -10,15 +11,20 @@ class FASTARecord(Record):
 
     def add_tags(self, list added):
         #TODO this can be slow, use ''.{} format instead
+        cdef str k
+        cdef object v
         for k,v in added:
             self.annotation += " " + k + ":" + str(v)
 
     def unwrap(self):
+        """
+        :return: (annotation, sequence).
+        """
         return (self.annotation, self.sequence)
 
 
     def __str__(self):
-        fa_format = '>{header_comments}\n{sequence}\n'
+        cdef str fa_format = '>{header_comments}\n{sequence}\n'
         return fa_format.format(header_comments=self.annotation, sequence=self.sequence)
 
 

@@ -66,12 +66,16 @@ def main(argv=None):
                         help="If set, excludes reads where the barcode part contains " \
                         "a homopolymer of the given length, " \
                         "0 means no filter (default: %(default)d)",
-                        default=6, metavar="[int]")
+                        default=8, metavar="[int]")
     parser.add_argument('--estimate-min-edit-distance', 
                         type=int, 
                         help="If set, estimates the min edit distance among true " \
                         "barcodes by comparing the specified number of pairs, " \
                         "0 means no estimation (default: %(default)d)", 
+                        default=0, metavar="[int]")
+    parser.add_argument('--cores',
+                        type=int,
+                        help="Number of cores used (default: machine cores - 1)",
                         default=0, metavar="[int]")
     parser.add_argument('--chunk-size',
                         type=int, 
@@ -129,6 +133,8 @@ def main(argv=None):
         raise ValueError("Invalid max chunk size. Must be > 0.")
     if options.mp_chunk_size <= 0:
         raise ValueError("Invalid multiprocessing max chunk size. Must be > 0.")
+    if options.cores < 0:
+        raise ValueError("Invalid no of cores. Must be >= 0.")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -148,6 +154,7 @@ def main(argv=None):
               options.start_position,
               options.max_edit_distance,
               options.no_multiprocessing,
+              options.cores,
               options.only_output_matched,
               options.chunk_size,
               options.mp_chunk_size)

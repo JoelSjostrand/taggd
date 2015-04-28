@@ -7,7 +7,7 @@ import random
 
 cdef class Barcode:
     """
-    Holds a Spatial Transcriptomics barcode sequence and feature coordinates.
+    Holds a Spatial Transcriptomics barcode sequence and attibutes such as feature coordinates.
     """
 
     def __cinit__(self, str seq_, list attributes_):
@@ -26,6 +26,7 @@ cpdef dict read_barcode_file(str infile_path):
     cdef list tmp
     cdef str seq
     cdef int length = 0
+    cdef object infile
     with open(infile_path) as infile:
         for line in infile:
             tmp = line.strip().split()
@@ -38,6 +39,7 @@ cpdef dict read_barcode_file(str infile_path):
                 raise ValueError("Barcode file incorrect, duplicate barcode: " + seq)
             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])
     return res_dict
+
 
 cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):
     """

@@ -3,6 +3,7 @@ class Record(object):
     """
     Shorthand for a record. To keep things simple, we use a single object
     regardless of file format, and let util classes deal with conversions.
+    Not cdef-cythonized to keep thread compatible.
     """
 
     def __init__(self):

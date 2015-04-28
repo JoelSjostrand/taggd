@@ -4,6 +4,7 @@ multithreading.
 """
 import os
 import time
+import Queue
 import multiprocessing as mp
 import taggd.core.match as match
 cimport taggd.core.match as match
@@ -20,6 +21,7 @@ cdef str reads_infile
 cdef str outfile_prefix
 cdef int max_edit_distance
 cdef bool no_multiprocessing
+cdef int cores
 cdef bool only_output_matched
 cdef int chunk_size
 cdef int start_position
@@ -53,6 +55,7 @@ def init(dict true_barcodes_,
          int start_position_,
          int max_edit_distance_,
          bool no_multiprocessing_,
+         int cores_,
          bool only_output_matched_,
          int chunk_size_,
          int mp_chunk_size_):
@@ -80,6 +83,11 @@ def init(dict true_barcodes_,
     max_edit_distance = max_edit_distance_
     global no_multiprocessing
     no_multiprocessing = no_multiprocessing_
+    global cores
+    if cores_ == 0:
+        cores = mp.cpu_count() - 1
+    else:
+        cores = cores_
     global only_output_matched
     only_output_matched = only_output_matched_
     global chunk_size
@@ -129,6 +137,7 @@ def demultiplex():
     # Open files.
     __open_files()
 
+
     # Demultiplex.
     cdef list chunk = list()
     cdef object rec
@@ -146,11 +155,13 @@ def demultiplex():
                 __demultiplex_mp_chunk(chunk)
             del chunk[:]
     # Process the rest if applies
-    if no_multiprocessing:
-        __demultiplex_linearly_chunk(chunk)
-    else:
-        __demultiplex_mp_chunk(chunk)
-    del chunk[:]
+    if chunk:
+        if no_multiprocessing:
+            __demultiplex_linearly_chunk(chunk)
+        else:
+            __demultiplex_mp_chunk(chunk)
+        del chunk[:]
+
 
     # Close all files.
     __close_files()
@@ -192,13 +203,15 @@ def __demultiplex_linearly_chunk(list chunk):
     """
     Demultiplexes a list of reads in a single-threaded approach
     """
-    cdef object q = manager.Queue()
 
+    cdef object q = manager.Queue()
     cdef object rec = None
     # this loop will put messages in the queue containing
     # records to write
     demulti.demultiplex_record_wrapper(q, chunk)
+
     # write matches
+    q.put(None)
     __write_matches(q)
 
 
@@ -207,38 +220,47 @@ def __demultiplex_mp_chunk(list chunk):
     Demultiplexes a list of reads in a multi-threaded approach
     """
 
-    # Must use Manager queue here, or will not work
     cdef object q = manager.Queue()
-    cdef object pool = mp.Pool(mp.cpu_count() - 1)
+    cdef object pool = mp.Pool(cores)
+    cdef object watcher = pool.apply_async(__write_matches, (q,))
 
     # Fire off workers
-    cdef list jobs = []
+    cdef object jobs = Queue.Queue()
     cdef object job = None
     cdef list recs = list()
     cdef object rec = None
     cdef str read_barcode = None
     cdef object mtch = None
     cdef int i = 0
-    append = jobs.append
+    put = jobs.put
     for rec in chunk:
         recs.append(rec)
         i += 1
         if i % mp_chunk_size == 0:
             job = pool.apply_async(demulti.demultiplex_record_wrapper, (q, recs,))
-            append(job)
+            put(job)
             recs = list()
-    job = pool.apply_async(demulti.demultiplex_record_wrapper, (q, recs,))
-    append(job)
+    if recs:
+        job = pool.apply_async(demulti.demultiplex_record_wrapper, (q, recs,))
+        put(job)
 
     # Collect results from the workers through the pool result queue.
-    for job in jobs:
-        job.get()
+    while not jobs.empty():
+        job = jobs.get()
+        if job.ready():
+            job.get()
+        else:
+            put(job)
 
+    # End writer.
+    q.put(None)
+
+    # Wait until finished.
     pool.close()
     pool.join()
 
-    # write matches
-    __write_matches(q)
+    #__write_matches(q)
+
 
 
 def __write_matches(object q):
@@ -255,10 +277,13 @@ def __write_matches(object q):
     cdef list tags = None
     cdef int i = 0
 
-    while not q.empty():
+    while True:
 
         # Extract records
         mtchs = q.get()
+
+        if mtchs == None:
+            break
 
         for mtch in mtchs:
 

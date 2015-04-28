@@ -54,7 +54,7 @@ cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
 
 cdef list subglobal_distance(str s1, str s2):
     """
-    Computes the edit distance for a sub-global (local?) alignment
+    Computes the edit distance for a sub-global alignment
     of a sequence s2 against a sequence s1.
     Mismatches and indels both score as 1. Overhanging parts of s1 do not count.
     :param s1: the longer (probe) sequence.
