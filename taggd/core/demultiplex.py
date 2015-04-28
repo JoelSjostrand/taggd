@@ -210,7 +210,14 @@ def main(argv=None):
       with open(outfile_prefix + filename_ending,'wb') as outfile:
         for i in range(num_children):
           with open(dirpath  + "/" + str(i) + filename_ending, 'rb') as infile:
-            shutil.copyfileobj(infile, outfile, 1024*1024*10)
+            first_line = True
+            for line in infile:
+              if first_line:
+                first_line = False
+                if i == 0:
+                  outfile.write(line)
+                continue
+              outfile.write(line)
       shutil.rmtree(dirpath)
       sys.exit(0)
 
