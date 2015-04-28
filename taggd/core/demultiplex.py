@@ -5,11 +5,15 @@ The main workflow will be executed and output files
 will be generated
 """
 import os
+import sys
+from subprocess import Popen
 import argparse
 import taggd.io.barcode_utils as bu
 import taggd.core.demultiplex_core_functions as core
 import taggd.core.demultiplex_record_functions as rec
 import taggd.core.demultiplex_search_functions as srch
+import tempfile
+import shutil
 
 def main(argv=None):
     """Main application."""
@@ -61,6 +65,10 @@ def main(argv=None):
     parser.add_argument('--no-multiprocessing',
                          help="If set, turns off multiprocessing of reads", 
                          default=False, action='store_true')
+    parser.add_argument('--number-of-child-processes',
+                        type=int, help="Number of child processes to process the input. " \
+                        "This option must be used together with the option ----no-multiprocessing (default: %(default)d)",
+                        default=0, metavar="[int]")
     parser.add_argument('--read-every-nth-entry-modulo',
                         type=int, help="Parse every nth entry of the input, " \
                         "The value 1, means handle all entries (default: %(default)d)",
@@ -143,6 +151,10 @@ def main(argv=None):
         raise ValueError("--read-every-nth-entry-index must not be negative")
     if not options.read_every_nth_entry_modulo > 0:
         raise ValueError("--read-every-nth-entry-modulo must be bigger than 0")
+    if options.number_of_child_processes != 0 and not options.no_multiprocessing:
+        raise ValueError("If --number-of-child-processes is not zero, the --no-multiprocessing must also be given")
+    if options.number_of_child_processes != 0 and (options.read_every_nth_entry_modulo != 1):
+        raise ValueError("--number-of-child-processes can't be used together with --read-every-nth-entry-modulo")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -154,6 +166,43 @@ def main(argv=None):
             raise ValueError("Invalid max edit distance: exceeds or equal " \
                              "to estimated minimum edit distance among true barcodes.")
         print "# Minimum edit distance between true barcodes was estimated to (may be less) " + str(min_dist)
+
+    if options.number_of_child_processes != 0:
+      dirpath = tempfile.mkdtemp()
+      processes = []
+      barcodes_infile, reads_infile, outfile_prefix = sys.argv[-3:]
+      arg_vector = sys.argv[:-3]
+      num_children = options.number_of_child_processes
+      arg_vector.append("--read-every-nth-entry-modulo")
+      arg_vector.append(str(num_children))
+
+      if arg_vector.count("--number-of-child-processes") > 1:
+        raise ValueError("More than one --number-of-child-processes were given")
+      assert arg_vector.count("--number-of-child-processes") != 0
+      option_index = arg_vector.index("--number-of-child-processes")
+      assert option_index < (len(arg_vector) -1)
+      assert option_index > 0
+      arg_vector_without_number_of_child_processes = arg_vector[:option_index] + arg_vector[option_index+2:]
+      for i in range(num_children):
+        arg_vector2 = arg_vector_without_number_of_child_processes[:]
+        arg_vector2.append("--read-every-nth-entry-index")
+        arg_vector2.append(str(i))
+        arg_vector2.append(barcodes_infile)
+        arg_vector2.append(reads_infile)
+        arg_vector2.append(dirpath + "/" + str(i))
+        print "arg_vector2 = " + ', '.join(arg_vector2)
+        processes.append(Popen(arg_vector2))
+      exit_codes = [p.wait() for p in processes]
+      exit_codes_set = set(exit_codes)
+      if (len(exit_codes_set) != 1 or 0 not in exit_codes_set):
+        raise ValueError("At least one of the child processes failed")
+      for suffix in ['_matched.fq','_unmatched.fq','_ambiguous.fq','_results.tsv']:
+        with open(outfile_prefix + suffix,'wb') as outfile:
+          for i in range(num_children):
+            with open(dirpath  + "/" + str(i) + suffix,'rb') as infile:
+              shutil.copyfileobj(infile, outfile, 1024*1024*10)
+      shutil.rmtree(dirpath)
+      sys.exit(0)
 
     # Initialize main components
     core.init(true_barcodes,
