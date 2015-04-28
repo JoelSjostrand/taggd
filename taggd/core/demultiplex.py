@@ -14,6 +14,7 @@ import taggd.core.demultiplex_record_functions as rec
 import taggd.core.demultiplex_search_functions as srch
 import tempfile
 import shutil
+import pysam
 
 def main(argv=None):
     """Main application."""
@@ -196,11 +197,20 @@ def main(argv=None):
       exit_codes_set = set(exit_codes)
       if (len(exit_codes_set) != 1 or 0 not in exit_codes_set):
         raise ValueError("At least one of the child processes failed")
-      for suffix in ['_matched.fq','_unmatched.fq','_ambiguous.fq','_results.tsv']:
-        with open(outfile_prefix + suffix,'wb') as outfile:
-          for i in range(num_children):
-            with open(dirpath  + "/" + str(i) + suffix,'rb') as infile:
-              shutil.copyfileobj(infile, outfile, 1024*1024*10)
+      suffix = options.reads_infile.lower().split(".")[-1]
+      for filename_ending in ['_matched.' + suffix, '_unmatched.' + suffix, '_ambiguous.' + suffix]:
+        infile_template = pysam.AlignmentFile(dirpath  + "/" + str(0) + filename_ending, "r")
+        outfile = pysam.AlignmentFile(outfile_prefix + filename_ending, "w", template=infile_template)
+        for i in range(num_children):
+          infile = pysam.AlignmentFile(dirpath  + "/" + str(i) + filename_ending, "r")
+          for s in infile:
+            outfile.write(s)
+
+      filename_ending = "_results.tsv"
+      with open(outfile_prefix + filename_ending,'wb') as outfile:
+        for i in range(num_children):
+          with open(dirpath  + "/" + str(i) + filename_ending, 'rb') as infile:
+            shutil.copyfileobj(infile, outfile, 1024*1024*10)
       shutil.rmtree(dirpath)
       sys.exit(0)
 
