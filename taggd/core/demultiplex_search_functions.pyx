@@ -6,7 +6,6 @@ cimport taggd.misc.distance_metrics as dm
 from cpython cimport bool
 
 # User options
-cdef dict true_barcodes
 cdef int k
 cdef int max_edit_distance
 cdef str metric
@@ -44,8 +43,6 @@ def init(dict true_barcodes_,
     :param post_overhang: post-read flanking bases.
     """
 
-    global true_barcodes
-    true_barcodes = true_barcodes_
     global k
     k = k_
     global max_edit_distance
@@ -63,7 +60,7 @@ def init(dict true_barcodes_,
 
     # Create k-mer mappings with ALL kmers
     global kmer2seq
-    seq2kmer, kmer2seq = ku.get_kmers_dicts(true_barcodes.keys(), k, False, 1)
+    seq2kmer, kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False, 1)
 
     # Metrics
     global SUBGLOBAL

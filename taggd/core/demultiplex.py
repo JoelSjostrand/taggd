@@ -5,14 +5,17 @@ The main workflow will be executed and output files
 will be generated
 """
 import os
+import time
 import argparse
 import taggd.io.barcode_utils as bu
 import taggd.core.demultiplex_core_functions as core
-import taggd.core.demultiplex_record_functions as rec
+import taggd.core.demultiplex_sub_functions as sub
 import taggd.core.demultiplex_search_functions as srch
 
 def main(argv=None):
     """Main application."""
+
+    start_time = time.time()
 
     # Create a parser
     parser = argparse.ArgumentParser(description=__doc__)
@@ -28,6 +31,22 @@ def main(argv=None):
                         metavar='outfile-prefix', help="The output files prefix.")
 
     # Optional arguments.
+    parser.add_argument('--output-matched',
+                        type=bool,
+                         help='Outputs matched reads (default: %(default)d)',
+                         default=True, metavar="[bool]")
+    parser.add_argument('--output-ambiguous',
+                        type=bool,
+                         help='Outputs ambiguous reads (default: %(default)d)',
+                         default=True, metavar="[bool]")
+    parser.add_argument('--output-unmatched',
+                        type=bool,
+                         help='Outputs unmatched reads (default: %(default)d)',
+                         default=True, metavar="[bool]")
+    parser.add_argument('--output-results',
+                        type=bool,
+                         help='Outputs a tab-separated results file with stats on the reads (default: %(default)d)',
+                         default=True, metavar="[bool]")
     parser.add_argument('--start-position', 
                         type=int,
                          help='The start position for barcodes in reads (default: %(default)d)', 
@@ -50,46 +69,30 @@ def main(argv=None):
     parser.add_argument('--overhang', 
                         type=int, 
                         help="Additional flanking bases around read barcode " \
-                        "to allow for insertions (default: %(default)d)", 
+                        "to allow for insertions when matching (default: %(default)d)",
                         default=2, metavar="[int]")
-    parser.add_argument('--only-output-matched', 
-                        help="Suppresses writing of output to only file with matched reads.", 
-                        default=False, action='store_true')
     parser.add_argument('--seed', 
                         help="Random number generator seed for shuffling ambiguous hits (default: %(default)s)", 
                         default=None, metavar="[string]")
-    parser.add_argument('--no-multiprocessing',
-                         help="If set, turns off multiprocessing of reads", 
-                         default=False, action='store_true')
     parser.add_argument('--homopolymer-filter',
                         type=int,
                         help="If set, excludes reads where the barcode part contains " \
                         "a homopolymer of the given length, " \
                         "0 means no filter (default: %(default)d)",
                         default=8, metavar="[int]")
-    parser.add_argument('--estimate-min-edit-distance', 
+    parser.add_argument('--cores',
+                        type=int,
+                        help="Number of cores used (default: # of machine cores - 1)",
+                        default=0, metavar="[int]")
+    parser.add_argument('--estimate-min-edit-distance',
                         type=int, 
                         help="If set, estimates the min edit distance among true " \
                         "barcodes by comparing the specified number of pairs, " \
                         "0 means no estimation (default: %(default)d)", 
                         default=0, metavar="[int]")
-    parser.add_argument('--cores',
-                        type=int,
-                        help="Number of cores used (default: machine cores - 1)",
-                        default=0, metavar="[int]")
-    parser.add_argument('--chunk-size',
-                        type=int, 
-                        help="Chunk of maximum number of simultaneously " \
-                        "processed reads (default: %(default)d)", 
-                        default=50000, metavar="[int]")
-    parser.add_argument('--mp-chunk-size',
-                        type=int,
-                        help="Chunk of maximum number of " \
-                        "processed reads sent to each thread (default: %(default)d)",
-                        default=500, metavar="[int]")
     parser.add_argument('--no-offset-speedup', 
-                        help="Turns off an offset speedup routine, " \
-                        "increasing time but may yield more hits.", 
+                        help="Turns off an offset speedup routine. " \
+                        "Increases running time but may yield more hits.",
                         default=False, action='store_true')
 
     # Parse
@@ -129,15 +132,45 @@ def main(argv=None):
         raise ValueError("Invalid overhang. Must be >= 0.")
     if options.metric == "Hamming" and options.overhang > 0:
         raise ValueError("Invalid overhang. Must be 0 for Hamming metric.")
-    if options.chunk_size <= 0:
-        raise ValueError("Invalid max chunk size. Must be > 0.")
-    if options.mp_chunk_size <= 0:
-        raise ValueError("Invalid multiprocessing max chunk size. Must be > 0.")
     if options.cores < 0:
         raise ValueError("Invalid no of cores. Must be >= 0.")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
+
+    # Paths
+    frmt = options.reads_infile.split(".")[-1]
+    fn_bc = os.path.abspath(options.barcodes_infile)
+    fn_reads = os.path.abspath(options.reads_infile)
+    fn_prefix = os.path.abspath(options.outfile_prefix)
+    if options.output_matched:
+        fn_matched = fn_prefix + "_matched" + frmt
+    else:
+        fn_matched = None
+    if options.output_ambiguous:
+        fn_ambig = fn_prefix + "_ambiguous" + frmt
+    else:
+        fn_ambig = None
+    if options.output_unmatched:
+        fn_unmatched = fn_prefix + "_unmatched" + frmt
+    else:
+        fn_ambig = None
+    if options.output_results:
+        fn_results = fn_prefix + "_results.tsv"
+    else:
+        fn_ambig = None
+
+    print "# Barcodes input file: " + fn_bc
+    print "# Reads input file: " + fn_reads
+    print "# Matched output file: " + fn_matched
+    print "# Ambiguous output file: " + fn_ambig
+    print "# Unmatched output file: " + fn_unmatched
+    print "# Results output file: " + fn_results
+    print "# Number of barcodes in input: " + str(len(true_barcodes))
+    lngth = len(true_barcodes.keys()[0])
+    print "# Barcode length: " + str(lngth)
+    print "# Barcode length when overhang added: " + str(lngth + min(options.start_position, options.overhang) +
+        options.overhang)
 
     # Check barcodes file.
     if options.estimate_min_edit_distance > 0:
@@ -145,21 +178,13 @@ def main(argv=None):
         if min_dist <= options.max_edit_distance:
             raise ValueError("Invalid max edit distance: exceeds or equal " \
                              "to estimated minimum edit distance among true barcodes.")
-        print "# Minimum edit distance between true barcodes was estimated to (may be less) " + str(min_dist)
+        print "# Estimate of minimum edit distance between true barcodes (may be less): " + str(min_dist)
+    else:
+        print "# Estimate of minimum edit distance between true barcodes (may be less): Not estimated"
 
     # Initialize main components
-    core.init(true_barcodes,
-              options.reads_infile,
-              os.path.abspath(options.outfile_prefix),
-              options.start_position,
-              options.max_edit_distance,
-              options.no_multiprocessing,
-              options.cores,
-              options.only_output_matched,
-              options.chunk_size,
-              options.mp_chunk_size)
 
-    rec.init(true_barcodes,
+    sub.init(true_barcodes,
              options.start_position,
              min(options.start_position, options.overhang),
              options.overhang,
@@ -177,9 +202,41 @@ def main(argv=None):
               options.no_offset_speedup)
 
     # Demultiplex
-    core.print_pre_stats()
-    rec.print_pre_stats()
     print "# Starting demultiplexing with the following options..." + str(options)
-    core.demultiplex()
+    stats = core.demultiplex(fn_reads,
+                             fn_matched,
+                             fn_ambig,
+                             fn_unmatched,
+                             fn_results,
+                             options.cores)
     print "# ...finished demultiplexing"
-    core.print_post_stats()
+    print "# Wall time in secs: " + str(time.time() - start_time)
+    print stats
+
+
+    #print "# Total reads processed from infile: " \
+    #    + str(stats_total_reads.value())
+    #print "# Total reads written (including multiple ambiguities): " \
+    #    + str(stats_total_reads_wr.value())
+    #cdef int matched_unam = stats_perfect_matches.value() + stats_imperfect_unambiguous_matches.value()
+    #cdef float tot = float(stats_total_reads.value())
+    #print "# Reads matched unambiguously: " \
+    #    + str(matched_unam) + " [" + str(matched_unam / tot * 100) + "%]"
+    #print "#    - Reads matched perfectly: " \
+    #    + str(stats_perfect_matches.value()) + " [" + str(stats_perfect_matches.value() / tot * 100) + "%]"
+    #print "#    - Reads matched imperfectly: " \
+    #    + str(stats_imperfect_unambiguous_matches.value()) \
+    #    + " [" + str(stats_imperfect_unambiguous_matches.value() / tot * 100) + "%]"
+    #cdef int uniq_amb = stats_total_reads.value() - stats_perfect_matches.value() - \
+    #                    stats_imperfect_unambiguous_matches.value() - stats_unmatched.value()
+    #print "# Reads matched ambiguously: " + str(uniq_amb) + " unique (making " \
+    #    + str(stats_imperfect_ambiguous_matches.value()) + " overall) " \
+    #    + " [" + str(uniq_amb / tot * 100) + "%]"
+    #print "# Reads unmatched: " \
+    #    + str(stats_unmatched.value()) + " [" + str(stats_unmatched.value() / tot * 100) + "%]"
+    #cdef list distr = []
+    #cdef int i = 0
+    #for i in xrange(max_edit_distance + 1):
+    #    distr.append(str(stats_edit_distance_counts[i].value()))
+    #print("# Edit distance counts for [0,...," + str(max_edit_distance) + "]: [" + ", ".join(distr) + "]")
+    #print "# Total subprocess time: "

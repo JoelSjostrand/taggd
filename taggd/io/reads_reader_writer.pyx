@@ -5,6 +5,7 @@ Interface for writing/reading FASTAQ and SAM files
 import pysam as ps
 import sys
 import os
+from cpython cimport bool
 import taggd.io.fastq_utils as fu
 from taggd.io.sam_record import *
 from taggd.io.fasta_record import *
@@ -19,7 +20,7 @@ class ReadsReaderWriter():
     specified files.
     """
 
-    def __init__(self, str reads_infile_name):
+    def __init__(self, str reads_infile_name, bool include_header=False):
         """Constructor"""
 
         self.file_type = -1
@@ -47,14 +48,11 @@ class ReadsReaderWriter():
             raise ValueError("Unsupported reads file format!")
 
         # Read header.
-        if self.file_type == SAM:
+        if (self.file_type == SAM or self.file_type == BAM) and include_header:
             self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
             self.infile_header = self.infile.header
             self.infile.close()
-        elif self.file_type == BAM:
-            self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
-            self.infile_header = self.infile.header
-            self.infile.close()
+
 
     def reader_open(self):
         """Opens the reads file using appropriate format."""
@@ -93,8 +91,10 @@ class ReadsReaderWriter():
             self.infile.close()
             self.infile = None
 
+
     def __exit__(self, type, value, tb):
         self.close_read()
+
 
     def get_format(self):
         """Returns the file format."""
@@ -108,6 +108,7 @@ class ReadsReaderWriter():
             return "bam"
         return None
 
+
     def get_writer(self, str outfile_name):
         """
         Returns a writer.
@@ -117,15 +118,19 @@ class ReadsReaderWriter():
 
         if self.file_type == FASTA or self.file_type == FASTQ:
             return open(outfile_name, "w")
-        else:
-            if self.infile_header == None:
-                raise ValueError("Error: missing header in SAM/BAM file")
-            if self.file_type == SAM:
+        elif self.file_type == SAM:
+            if self.infile_header != None:
                 return ps.AlignmentFile(outfile_name, "wh", header=self.infile_header)
-            if self.file_type == BAM:
+            else:
+                return ps.AlignmentFile(outfile_name, "wh")
+        elif self.file_type == BAM:
+            if include_header != None:
                 return ps.AlignmentFile(outfile_name, "wb", header=self.infile_header)
             else:
-                return None
+                return ps.AlignmentFile(outfile_name, "wb")
+        else:
+            raise ValueError("Unknown file format for writer")
+
 
     def write_record(self, outfile, record):
         """Writes a record."""
@@ -138,4 +143,4 @@ class ReadsReaderWriter():
         elif self.file_type == BAM:
             outfile.write(record.unwrap())
         else:
-            return
+            raise ValueError("Unknown file format for record")
