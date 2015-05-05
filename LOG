@@ -12,3 +12,5 @@
 0.1.11  - Added homopolymer filter. Fixed no-mp bug.
 0.1.12  - Changed homopolymer default. Readded parallel writing.
 0.1.13  - Added cores parameter, changed reading loops, improved job collection.
+0.2.0   - Big rewrite of the whole multiprocessing approach.
+0.2.1   - Small improvements, comments added.

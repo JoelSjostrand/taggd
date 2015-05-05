@@ -26,7 +26,7 @@ class SAMRecord(Record):
 
     def unwrap(self):
         """
-        :return: a pysam alignment.
+        Returns a pysam alignment.
         """
         cdef object a = pysam.AlignedSegment()
         a.query_name = self.annotation

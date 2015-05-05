@@ -46,8 +46,6 @@ class Match(object):
     def __str__(self):
         """
         String converter.
-        TODO this is slow, python recommends to build strings
-        in the form ''.{} ....
         """
         return (self.record.annotation + '\t' +
                 match_type.match_type_to_str(self.match_type) + '\t' +

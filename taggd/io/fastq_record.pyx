@@ -11,6 +11,7 @@ class FASTQRecord(Record):
         self.attributes["quality"] = fqr[2]
 
     def add_tags(self, list added):
+        """Appends tags"""
         cdef str k
         cdef object v
         for k,v in added:
@@ -18,11 +19,12 @@ class FASTQRecord(Record):
 
     def unwrap(self):
         """
-        :return: (annotation, sequence, quality)
+        Returns (annotation, sequence, quality)
         """
         return (self.annotation, self.sequence, self.attributes["quality"])
 
     def __str__(self):
+        """String representation"""
         cdef str fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
         return fq_format.format(header_comments=self.annotation, 
                                 sequence=self.sequence, quality=self.attributes["quality"])

@@ -93,6 +93,7 @@ class ReadsReaderWriter():
 
 
     def __exit__(self, type, value, tb):
+        """Closes the input file."""
         self.close_read()
 
 

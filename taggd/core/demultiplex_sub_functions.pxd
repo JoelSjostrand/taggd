@@ -1,3 +1,5 @@
+
+
 cdef object demultiplex_lines(str filename_reads,
                             str filename_matched,
                             str filename_ambig,
@@ -7,4 +9,4 @@ cdef object demultiplex_lines(str filename_reads,
                             int ln_mod)
 
 
-cdef object demultiplex_record(object rec)
+cdef list demultiplex_record(object rec)

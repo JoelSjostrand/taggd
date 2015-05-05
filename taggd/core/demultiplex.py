@@ -1,11 +1,11 @@
 """ 
-This class contains the main interface of taggd
-Parameters will be captured, parsed and validated. 
-The main workflow will be executed and output files
-will be generated
+Runs taggd, a tool to demultiplex (link molecular barcodes back to) a file of genetic reads,
+typically obtained by sequencing. For matched reads, the barcode and its related properties
+are added to the read in separate output files.
 """
 import os
 import time
+import multiprocessing as mp
 import argparse
 import taggd.io.barcode_utils as bu
 import taggd.core.demultiplex_core_functions as core
@@ -31,22 +31,18 @@ def main(argv=None):
                         metavar='outfile-prefix', help="The output files prefix.")
 
     # Optional arguments.
-    parser.add_argument('--output-matched',
-                        type=bool,
-                         help='Outputs matched reads (default: %(default)d)',
-                         default=True, metavar="[bool]")
-    parser.add_argument('--output-ambiguous',
-                        type=bool,
-                         help='Outputs ambiguous reads (default: %(default)d)',
-                         default=True, metavar="[bool]")
-    parser.add_argument('--output-unmatched',
-                        type=bool,
-                         help='Outputs unmatched reads (default: %(default)d)',
-                         default=True, metavar="[bool]")
-    parser.add_argument('--output-results',
-                        type=bool,
-                         help='Outputs a tab-separated results file with stats on the reads (default: %(default)d)',
-                         default=True, metavar="[bool]")
+    parser.add_argument('--no-matched-output',
+                         help='Do not output matched reads',
+                         default=False, action='store_true')
+    parser.add_argument('--no-ambiguous-output',
+                         help='Do not output ambiguous reads',
+                         default=False, action='store_true')
+    parser.add_argument('--no-unmatched-output',
+                         help='Do not output unmatched reads',
+                         default=False, action='store_true')
+    parser.add_argument('--no-results-output',
+                         help='Do not output a tab-separated results file with stats on the reads',
+                         default=False, action='store_true')
     parser.add_argument('--start-position', 
                         type=int,
                          help='The start position for barcodes in reads (default: %(default)d)', 
@@ -80,9 +76,9 @@ def main(argv=None):
                         "a homopolymer of the given length, " \
                         "0 means no filter (default: %(default)d)",
                         default=8, metavar="[int]")
-    parser.add_argument('--cores',
+    parser.add_argument('--subprocesses',
                         type=int,
-                        help="Number of cores used (default: # of machine cores - 1)",
+                        help="Number of subprocesses started (default: number of machine cores - 1)",
                         default=0, metavar="[int]")
     parser.add_argument('--estimate-min-edit-distance',
                         type=int, 
@@ -132,8 +128,8 @@ def main(argv=None):
         raise ValueError("Invalid overhang. Must be >= 0.")
     if options.metric == "Hamming" and options.overhang > 0:
         raise ValueError("Invalid overhang. Must be 0 for Hamming metric.")
-    if options.cores < 0:
-        raise ValueError("Invalid no of cores. Must be >= 0.")
+    if options.subprocesses < 0:
+        raise ValueError("Invalid no. of subprocesses. Must be >= 0.")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -143,29 +139,37 @@ def main(argv=None):
     fn_bc = os.path.abspath(options.barcodes_infile)
     fn_reads = os.path.abspath(options.reads_infile)
     fn_prefix = os.path.abspath(options.outfile_prefix)
-    if options.output_matched:
+    if not options.no_matched_output:
         fn_matched = fn_prefix + "_matched." + frmt
     else:
         fn_matched = None
-    if options.output_ambiguous:
+    if not options.no_ambiguous_output:
         fn_ambig = fn_prefix + "_ambiguous." + frmt
     else:
         fn_ambig = None
-    if options.output_unmatched:
+    if not options.no_unmatched_output:
         fn_unmatched = fn_prefix + "_unmatched." + frmt
     else:
-        fn_ambig = None
-    if options.output_results:
+        fn_unmatched = None
+    if not options.no_results_output:
         fn_results = fn_prefix + "_results.tsv"
     else:
-        fn_ambig = None
+        fn_results = None
 
-    print "# Barcodes input file: " + fn_bc
-    print "# Reads input file: " + fn_reads
-    print "# Matched output file: " + fn_matched
-    print "# Ambiguous output file: " + fn_ambig
-    print "# Unmatched output file: " + fn_unmatched
-    print "# Results output file: " + fn_results
+    # Subprocesses
+    if options.subprocesses == 0:
+        subprocesses = mp.cpu_count() - 1
+    else:
+        subprocesses = options.subprocesses
+
+    print "# Options: " + str(options).split("Namespace")[-1]
+    print "# Subprocesses: " + str(subprocesses)
+    print "# Barcodes input file: " + str(fn_bc)
+    print "# Reads input file: " + str(fn_reads)
+    print "# Matched output file: " + str(fn_matched)
+    print "# Ambiguous output file: " + str(fn_ambig)
+    print "# Unmatched output file: " + str(fn_unmatched)
+    print "# Results output file: " + str(fn_results)
     print "# Number of barcodes in input: " + str(len(true_barcodes))
     lngth = len(true_barcodes.keys()[0])
     print "# Barcode length: " + str(lngth)
@@ -182,8 +186,8 @@ def main(argv=None):
     else:
         print "# Estimate of minimum edit distance between true barcodes (may be less): Not estimated"
 
-    # Initialize main components
 
+    # Initialize main components
     sub.init(true_barcodes,
              options.start_position,
              min(options.start_position, options.overhang),
@@ -202,13 +206,13 @@ def main(argv=None):
               options.no_offset_speedup)
 
     # Demultiplex
-    print "# Starting demultiplexing with the following options..." + str(options)
+    print "# Starting demultiplexing..."
     stats = core.demultiplex(fn_reads,
                              fn_matched,
                              fn_ambig,
                              fn_unmatched,
                              fn_results,
-                             options.cores)
+                             subprocesses)
     print "# ...finished demultiplexing"
     print "# Wall time in secs: " + str(time.time() - start_time)
     print str(stats)

@@ -13,6 +13,7 @@ def coroutine(func):
         return cr
     return start
 
+
 def readfq(fp): # this is a generator function
     """
     Heng Li's fasta/fastq reader function.

@@ -6,6 +6,8 @@ multithreading.
 import os
 import fileinput
 import time
+import tempfile
+import uuid
 import pysam as ps
 import multiprocessing as mp
 from collections import deque
@@ -14,20 +16,19 @@ import taggd.core.demultiplex_sub_functions as sub
 from cpython cimport bool
 
 
-def demultiplex(str filename_reads,
-                str filename_matched,
-                str filename_ambig,
-                str filename_unmatched,
-                str filename_results,
-                int cores):
+def demultiplex(str filename_reads,\
+                str filename_matched,\
+                str filename_ambig,\
+                str filename_unmatched,\
+                str filename_results,\
+                int subprocesses):
     """
-    Demultiplexes the contents of a reads file.
+    Demultiplexes the contents of a reads file by dividing the work into
+    parallel subprocesses, each writing its own file, then
+    merging them together to coherent files.
     """
 
-    if cores == 0:
-        cores = mp.cpu_count() - 1
-
-    cdef object pool = mp.Pool(cores)
+    cdef object pool = mp.Pool(subprocesses)
 
     # Fire off workers
     cdef object jobs = deque()
@@ -38,21 +39,24 @@ def demultiplex(str filename_reads,
     cdef list fn_ambig = list()
     cdef list fn_unmatched = list()
     cdef list fn_res = list()
-    cdef str frmt = filename_reads.split(".")[-1]
-    for i in xrange(cores):
+    cdef str frmt = get_format(filename_reads)
+    cdef str tmp = tempfile.gettempdir()
+    if tmp == "" or tmp == None:
+        tmp = "."
+    for i in xrange(subprocesses):
         if filename_matched != None:
-            fm = filename_matched + ".part" + str(i) + "." + frmt
+            fm = tmp + "/" + get_relative_path(filename_matched) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
             fn_matched.append(fm)
         if filename_ambig != None:
-            fa = filename_ambig + ".part" + str(i) + "." + frmt
+            fa = tmp + "/" + get_relative_path(filename_ambig) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
             fn_ambig.append(fa)
         if filename_unmatched != None:
-            fu = filename_unmatched + ".part" + str(i) + "." + frmt
+            fu = tmp + "/" + get_relative_path(filename_unmatched) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
             fn_unmatched.append(fu)
         if filename_results != None:
-            fr = filename_results + ".part" + str(i) + "." + frmt
+            fr = tmp + "/" + get_relative_path(filename_results) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
             fn_res.append(fr)
-        job = pool.apply_async(sub.demultiplex_lines_wrapper, (filename_reads, fm, fa, fu, fr, i, cores,))
+        job = pool.apply_async(sub.demultiplex_lines_wrapper, (filename_reads, fm, fa, fu, fr, i, subprocesses,))
         jobs.append(job)
 
     # Collect results from the workers through the pool result queue.
@@ -84,8 +88,9 @@ def demultiplex(str filename_reads,
 
 
 
-def merge_files(str filename, list part_names):
+cdef merge_files(str filename, list part_names):
     """Merges and deletes temporary files."""
+
     cdef str frmt = filename.split(".")[-1].lower()
     cdef object f
     cdef str part
@@ -116,11 +121,25 @@ def merge_files(str filename, list part_names):
         os.remove(part)
 
 
-def merge_stats(list statss):
-    """Merges stats"""
+cdef merge_stats(list statss):
+    """Merges statistics into one."""
 
     cdef object stats = statss[0]
     cdef int i
     for i in xrange(1,len(statss)):
         stats += statss[i]
     return stats
+
+
+cdef get_format(str filename):
+    """Returns the format of a file."""
+    return filename.split(".")[-1]
+
+
+cdef get_relative_path(str filename):
+    """Returns the relative filename of a file"""
+    if "/" in filename:
+        return filename.split("/")[-1]
+    if "\\" in filename:
+        return filename.split("\\")[-1]
+    return filename

@@ -24,23 +24,16 @@ cdef int HAMMING
 cdef int metric_choice
 
 
-def init(dict true_barcodes_,
-        int k_,
-        int max_edit_distance_,
-        str metric_,
-        int slider_increment_,
-        int pre_overhang_,
-        int post_overhang_,
+def init(dict true_barcodes_,\
+        int k_,\
+        int max_edit_distance_,\
+        str metric_,\
+        int slider_increment_,\
+        int pre_overhang_,\
+        int post_overhang_,\
         bool no_offset_speedup_):
     """
     Initializes settings (global variables).
-    :param true_barcodes_: true barcodes dict to attributes.
-    :param k_: the k-mer length used in the search algorithm.
-    :param max_edit_distance_: max allowed distance.
-    :param metric_: distance metric to use, Subglobal, Levenshtein or Hamming.
-    :param slider_increment_: the number of increments for kmer search. The default, 0 sets it to k.
-    :param pre_overhang: pre-read flanking bases.
-    :param post_overhang: post-read flanking bases.
     """
 
     global k
@@ -80,9 +73,8 @@ def init(dict true_barcodes_,
 
 cdef dict get_candidates(str read_barcode):
     """
-    Returns candidate barcodes for a read barcode.
-    :param read_barcode: read barcode.
-    :return: the candidates as a dict with <barcode, read kmer hits>.
+    Returns candidate barcodes for a read barcode
+    as a dict with <barcode, read kmer hits>.
     """
     cdef dict candidates = dict()
     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
@@ -144,10 +136,8 @@ cdef dict get_candidates(str read_barcode):
 
 cdef list get_distances(str read_barcode, dict candidates):
     """
-    Returns all qualified hits ordered by distance.
-    :param read_barcode: the read barcode.
-    :param candidates: the candidate dictionary.
-    :return: a list of tuples, (barcode,distance,lastpos,ins,del).
+    Returns all qualified hits ordered by distance as
+    a list of tuples, (barcode,distance,lastpos,ins,del).
     """
     cdef list qual_hits = []
     cdef str candidate = None
@@ -187,8 +177,6 @@ cdef list get_distances(str read_barcode, dict candidates):
 cdef list get_top_hits(list qual_hits):
     """
     Returns the top hits.
-    :param qual_hits: the list of qualified hits.
-    :return: the top hits.
     """
     if len(qual_hits) == 0:
         return None

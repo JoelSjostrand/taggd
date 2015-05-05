@@ -10,7 +10,7 @@ class FASTARecord(Record):
         self.sequence = fqr[1]
 
     def add_tags(self, list added):
-        #TODO this can be slow, use ''.{} format instead
+        """Appends tags"""
         cdef str k
         cdef object v
         for k,v in added:
@@ -18,12 +18,13 @@ class FASTARecord(Record):
 
     def unwrap(self):
         """
-        :return: (annotation, sequence).
+        Returns(annotation, sequence).
         """
         return (self.annotation, self.sequence)
 
 
     def __str__(self):
+        """String representation"""
         cdef str fa_format = '>{header_comments}\n{sequence}\n'
         return fa_format.format(header_comments=self.annotation, sequence=self.sequence)
 

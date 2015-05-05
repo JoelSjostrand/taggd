@@ -19,4 +19,4 @@ cdef str match_type_to_str(int match_type):
         return "MATCHED_UNAMBIGUOUSLY"
     elif match_type == 3:
         return "MATCHED_AMBIGUOUSLY"
-    return -1
+    return KILL

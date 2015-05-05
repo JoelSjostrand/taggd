@@ -7,6 +7,7 @@ class Record(object):
     """
 
     def __init__(self):
+        """Constructor"""
         self.annotation = None
         self.sequence = None
         self.attributes = dict()
@@ -20,4 +21,5 @@ class Record(object):
         return
 
     def __str__(self):
+        """String representation"""
         return str(self.annotation) + "\t" + str(self.sequence) + "\t" + str(self.attributes)

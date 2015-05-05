@@ -1,4 +1,4 @@
-
+from cpython cimport bool
 
 cdef dict get_candidates(str read_barcode)
 

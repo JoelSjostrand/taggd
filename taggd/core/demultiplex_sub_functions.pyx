@@ -37,7 +37,7 @@ def init(dict true_barcodes_,
          int homopolymer_filter_,
          str seed_):
     """
-    Initializes variables for matching.
+    Initializes global variables for matching.
     """
 
     global true_barcodes
@@ -73,9 +73,9 @@ def demultiplex_lines_wrapper(str filename_reads,
                       int ln_offset,
                       int ln_mod):
     """
-    Non cdef wrapper for cdef:ed subprocess function.
+    Non cdef wrapper for cdef:ed subprocess function for demultiplexing parts of a file.
+    Demultiplexes every ln_mod line, starting at ln_offset, writing to specified files.
     """
-    #return statistics.Statistics(ln_offset, max_edit_distance)
     return demultiplex_lines(filename_reads,
                             filename_matched,
                             filename_ambig,
@@ -94,7 +94,7 @@ cdef object demultiplex_lines(str filename_reads,
                             int ln_offset,
                             int ln_mod):
     """
-    Demultiplexes certain lines. Init must have been called before.
+    Demultiplexes every ln_mod line, starting at ln_offset, writing to specified files.
     """
 
     # Time
@@ -116,7 +116,7 @@ cdef object demultiplex_lines(str filename_reads,
     if filename_res != None:
         f_res = open(filename_res, "w")
         if header:
-            f_res.write(match.get_match_header())
+            f_res.write(match.get_match_header() + "\n")
 
     # Start demultiplexing.
     cdef object stats = statistics.Statistics(ln_offset, max_edit_distance)
@@ -203,7 +203,7 @@ cdef object demultiplex_lines(str filename_reads,
 
 
 
-cdef object demultiplex_record(object rec):
+cdef list demultiplex_record(object rec):
     """
     Demultiplexes a record and returns a list of match objects (only more than one if ambiguous).
     """
