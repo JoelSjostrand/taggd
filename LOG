@@ -14,3 +14,4 @@
 0.1.13  - Added cores parameter, changed reading loops, improved job collection.
 0.2.0   - Big rewrite of the whole multiprocessing approach.
 0.2.1   - Small improvements, comments added.
+0.2.2   - Readded % stats.

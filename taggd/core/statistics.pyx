@@ -22,15 +22,17 @@ class Statistics(object):
 
     def __str__(self):
         """String representation"""
+        cdef int mat = self.perfect_matches + self.imperfect_unambiguous_matches
+        cdef int amb = self.total_reads - self.perfect_matches - self.imperfect_unambiguous_matches - self.unmatched
         return "# Total execution time in secs: " + str(self.time) +\
             "\n# Total reads: " + str(self.total_reads) +\
             "\n# Total reads written: " + str(self.total_reads_wr) +\
-            "\n# Matches: " + str(self.perfect_matches + self.imperfect_unambiguous_matches) +\
-            "\n#   - Perfect matches: " + str(self.perfect_matches) +\
-            "\n#   - Imperfect matches: " + str(self.imperfect_unambiguous_matches) +\
-            "\n# Ambiguous matches: " + str(self.total_reads - self.perfect_matches - self.imperfect_unambiguous_matches - self.unmatched) +\
+            "\n# Matches: " + str(mat) + "   [" + str(mat*100.0/self.total_reads) + "%]" +\
+            "\n#   - Perfect matches: " + str(self.perfect_matches) + "   [" + str(self.perfect_matches*100.0/self.total_reads) + "%]" +\
+            "\n#   - Imperfect matches: " + str(self.imperfect_unambiguous_matches) + "   [" + str(self.imperfect_unambiguous_matches*100.0/self.total_reads) + "%]" +\
+            "\n# Ambiguous matches: " + str(amb) + "   [" + str(amb*100.0/self.total_reads) + "%]" +\
             "\n#   - Non-unique ambiguous matches: " + str(self.imperfect_ambiguous_matches) +\
-            "\n# Unmatched: " + str(self.unmatched) +\
+            "\n# Unmatched: " + str(self.unmatched) + "   [" + str(self.unmatched*100.0/self.total_reads) + "%]" +\
             "\n# Matched edit distance counts for 0,1,...: " + str(self.edit_distance_counts)
 
     def __iadd__(self, other):
