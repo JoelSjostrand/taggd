@@ -75,14 +75,14 @@ def demultiplex_lines_wrapper(str filename_reads,
     """
     Non cdef wrapper for cdef:ed subprocess function.
     """
-    return statistics.Statistics(ln_offset, max_edit_distance)
-    #return demultiplex_lines(filename_reads,
-    #                        filename_matched,
-    #                        filename_ambig,
-    #                        filename_unmatched,
-    #                        filename_res,
-    #                        ln_offset,
-    #                        ln_mod)
+    #return statistics.Statistics(ln_offset, max_edit_distance)
+    return demultiplex_lines(filename_reads,
+                            filename_matched,
+                            filename_ambig,
+                            filename_unmatched,
+                            filename_res,
+                            ln_offset,
+                            ln_mod)
 
 
 
@@ -101,27 +101,29 @@ cdef object demultiplex_lines(str filename_reads,
     cdef int start_time = time.time()
 
     # Open files
-    cdef object re_wr = rw.ReadsReaderWriter(filename_reads)
     cdef bool header = (ln_offset == 0)
+    cdef object re_wr = rw.ReadsReaderWriter(filename_reads)
     cdef object f_match = None
     cdef object f_ambig = None
     cdef object f_unmatch = None
     cdef object f_res = None
     if filename_matched != None:
-        f_match = re_wr.get_writer(filename_matched, header)
+        f_match = re_wr.get_writer(filename_matched)
     if filename_ambig != None:
-        f_ambig = re_wr.get_writer(filename_ambig, header)
+        f_ambig = re_wr.get_writer(filename_ambig)
     if filename_unmatched != None:
-        f_unmatched = re_wr.get_writer(filename_unmatched, header)
+        f_unmatch = re_wr.get_writer(filename_unmatched)
     if filename_res != None:
-        f_res = re_wr.get_writer(filename_res)
+        f_res = open(filename_res, "w")
         if header:
             f_res.write(match.get_match_header())
 
     # Start demultiplexing.
     cdef object stats = statistics.Statistics(ln_offset, max_edit_distance)
     cdef int i = 0
-    cdef object mtch = None
+    cdef int j
+    cdef list mtch = None
+    cdef object mt = None
     cdef object mtch_amb = None
     cdef object rec = None
     cdef str bcseq = None
@@ -136,47 +138,54 @@ cdef object demultiplex_lines(str filename_reads,
         if i % ln_mod == ln_offset:
             mtch = demultiplex_record(rec)
             stats.total_reads += 1
-            i += 1
 
-            # Write to results file.
-            if f_res != None:
-                f_res.write(str(mtch) + "\n")
+            # Iterate over all matches (only more than one if ambiguous)
+            for mt in mtch:
 
-            # No match.
-            if mtch.match_type == match_type.UNMATCHED:
-                if f_unmatch != None:
-                    re_wr.write_record(f_unmatch, mtch.record)
-                    stats.total_reads_wr += 1
-                stats.unmatched += 1
-                continue
+                # Write to results file.
+                if f_res != None:
+                    f_res.write(str(mt) + "\n")
 
-            # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
-            bc = true_barcodes[mtch.barcode]
-            tags = list()
-            tags.append(("B0:Z", mtch.barcode))
-            for i in xrange(len(bc.attributes)):
-                tags.append(("B" + str(i+1) + ":Z", bc.attributes[i]))
-            mtch.record.add_tags(tags)
+                # No match.
+                if mt.match_type == match_type.UNMATCHED:
+                    if f_unmatch != None:
+                        re_wr.write_record(f_unmatch, mt.record)
+                        stats.total_reads_wr += 1
+                    stats.unmatched += 1
+                    continue
 
-            # Write to output file.
-            if mtch.match_type == match_type.MATCHED_PERFECTLY:
-                if f_match != None:
-                    re_wr.write_record(f_match, mtch.record)
-                    stats.total_reads_wr += 1
-                stats.perfect_matches += 1
-                stats.edit_distance_counts[0] += 1
-            elif mtch.match_type == match_type.MATCHED_UNAMBIGUOUSLY:
-                if f_match != None:
-                    re_wr.write_record(f_match, mtch.record)
-                    stats.total_reads_wr += 1
-                stats.imperfect_unambiguous_matches += 1
-                stats.edit_distance_counts[mtch.edit_distance] += 1
-            else:
-                for mtch_amb in mtch:
+                # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
+                bc = true_barcodes[mt.barcode]
+                tags = list()
+                tags.append(("B0:Z", mt.barcode))
+                for j in xrange(len(bc.attributes)):
+                    tags.append(("B" + str(j+1) + ":Z", bc.attributes[j]))
+                mt.record.add_tags(tags)
+
+                # Write to output file.
+                if mt.match_type == match_type.MATCHED_PERFECTLY:
+                    if f_match != None:
+                        re_wr.write_record(f_match, mt.record)
+                        stats.total_reads_wr += 1
+                    stats.perfect_matches += 1
+                    stats.edit_distance_counts[0] += 1
+                elif mt.match_type == match_type.MATCHED_UNAMBIGUOUSLY:
+                    if f_match != None:
+                        re_wr.write_record(f_match, mt.record)
+                        stats.total_reads_wr += 1
+                    stats.imperfect_unambiguous_matches += 1
+                    stats.edit_distance_counts[mt.edit_distance] += 1
+                elif mt.match_type == match_type.MATCHED_AMBIGUOUSLY:
                     if f_ambig != None:
-                        re_wr.write_record(f_ambig, mtch_amb.record)
+                        re_wr.write_record(f_ambig, mt.record)
                         stats.total_reads_wr += 1
                     stats.imperfect_ambiguous_matches += 1
+                else:
+                    raise ValueError("Invalid match type")
+
+        # Next iteration
+        i += 1
+
 
     # Close files.
     re_wr.reader_close()
@@ -196,8 +205,7 @@ cdef object demultiplex_lines(str filename_reads,
 
 cdef object demultiplex_record(object rec):
     """
-    Demultiplexes a record and returns a match object, or in the case of ambiguous matches,
-    a list of match objects.
+    Demultiplexes a record and returns a list of match objects (only more than one if ambiguous).
     """
 
     cdef str read_barcode = None
@@ -209,14 +217,14 @@ cdef object demultiplex_record(object rec):
     cdef int last_pos = -1
     cdef int a = -1
     cdef int b = -1
-    cdef object mtch = None
+    cdef list mtch = list()
     cdef object mtch_amb = None
     cdef bool homo = False
 
     # Try perfect hit first.
     read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
     if read_barcode in true_barcodes:
-        mtch = match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0)
+        mtch.append(match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0))
         return mtch
 
     # Homopolymer filter.
@@ -229,7 +237,7 @@ cdef object demultiplex_record(object rec):
         # Record   Match type   Barcode
         # [Edit distance, Ambiguous top hits, Qualified candidates,
         # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch = match.Match(rec, match_type.UNMATCHED, "-", -1, 0, -1, -1, -1, -1, -1)
+        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1, 0, -1, -1, -1, -1, -1))
         return mtch
 
     # Include overhang.
@@ -246,7 +254,7 @@ cdef object demultiplex_record(object rec):
         # Record   Match type   Barcode
         # [Edit distance, Ambiguous top hits, Qualified candidates,
         # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch = match.Match(rec, match_type.UNMATCHED, "-", -1, 0, len(qual_hits), len(candidates), -1, -1, -1)
+        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1, 0, len(qual_hits), len(candidates), -1, -1, -1))
         return mtch
 
     if len(top_hits) == 1:
@@ -255,14 +263,13 @@ cdef object demultiplex_record(object rec):
         # Record   Match type   Barcode
         # [Edit distance, Ambiguous top hits, Qualified candidates,
         # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch = match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist, len(top_hits), len(qual_hits),
-                           len(candidates), last_pos, a, b)
+        mtch.append(match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist, len(top_hits), len(qual_hits),
+                           len(candidates), last_pos, a, b))
         return mtch
 
     # AMBIGUOUS MATCHES.
     # Multiple best hits. Shuffle results to avoid biases.
     random.shuffle(top_hits)
-    mtch = list()
     for (bcseq, dist, last_pos, a, b) in top_hits:
         # Record   Match type   Barcode
         # [Edit distance, Ambiguous top hits, Qualified candidates,

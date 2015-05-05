@@ -20,7 +20,7 @@ class ReadsReaderWriter():
     specified files.
     """
 
-    def __init__(self, str reads_infile_name, bool include_header=False):
+    def __init__(self, str reads_infile_name):
         """Constructor"""
 
         self.file_type = -1
@@ -48,7 +48,7 @@ class ReadsReaderWriter():
             raise ValueError("Unsupported reads file format!")
 
         # Read header.
-        if (self.file_type == SAM or self.file_type == BAM) and include_header:
+        if (self.file_type == SAM or self.file_type == BAM):
             self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
             self.infile_header = self.infile.header
             self.infile.close()
@@ -119,15 +119,9 @@ class ReadsReaderWriter():
         if self.file_type == FASTA or self.file_type == FASTQ:
             return open(outfile_name, "w")
         elif self.file_type == SAM:
-            if self.infile_header != None:
-                return ps.AlignmentFile(outfile_name, "wh", header=self.infile_header)
-            else:
-                return ps.AlignmentFile(outfile_name, "wh")
+            return ps.AlignmentFile(outfile_name, "wh", header=self.infile_header)
         elif self.file_type == BAM:
-            if include_header != None:
-                return ps.AlignmentFile(outfile_name, "wb", header=self.infile_header)
-            else:
-                return ps.AlignmentFile(outfile_name, "wb")
+            return ps.AlignmentFile(outfile_name, "wb", header=self.infile_header)
         else:
             raise ValueError("Unknown file format for writer")
 

@@ -44,7 +44,7 @@ class TestDemultiplexer(unittest.TestCase):
         """
         Tests taggd demultiplexer on a variety of small files.
         """
-        args = ["--k", "7", "--max_edit_distance", "7", "--overhang", "2"]
+        args = ["--k", "7", "--max-edit-distance", "7", "--overhang", "2"]
         args += [self.inbarcodes, self.insam, os.path.join(self.outdir, "outfile")]
 
         # Start the demultiplexer
@@ -61,7 +61,7 @@ class TestDemultiplexer(unittest.TestCase):
         """
         Tests taggd demultiplexer on a variety of small files.
         """
-        args = ["--k", "6", "--max_edit_distance", "5", "--overhang", "0"]
+        args = ["--k", "6", "--max-edit-distance", "5", "--overhang", "0"]
         args += [self.inbarcodes, self.inbam, os.path.join(self.outdir, "outfile")]
 
         # Start the demultiplexer
@@ -78,7 +78,7 @@ class TestDemultiplexer(unittest.TestCase):
         """
         Tests taggd demultiplexer on a variety of small files.
         """
-        args = ["--k", "8", "--max_edit_distance", "8", "--overhang", "10"]
+        args = ["--k", "8", "--max-edit-distance", "8", "--overhang", "10"]
         args += [self.inbarcodes, self.infq, os.path.join(self.outdir, "outfile")]
 
         # Start the demultiplexer
@@ -95,7 +95,7 @@ class TestDemultiplexer(unittest.TestCase):
         """
         Tests taggd demultiplexer on a variety of small files.
         """
-        args = ["--k", "4", "--max_edit_distance", "8", "--overhang", "3"]
+        args = ["--k", "4", "--max-edit-distance", "8", "--overhang", "3"]
         args += [self.inbarcodes, self.infa, os.path.join(self.outdir, "outfile")]
 
         # Start the demultiplexer
@@ -114,10 +114,10 @@ class TestDemultiplexer(unittest.TestCase):
         # Verify existence of output files and temp files
         self.assertNotEqual(os.listdir(self.outdir), [], "Output folder is not empty")
 
-        match = os.path.join(self.outdir, "outfile.matched." + suffix)
-        unmatch = os.path.join(self.outdir, "outfile.unmatched." + suffix)
-        ambig = os.path.join(self.outdir, "outfile.ambiguous." + suffix)
-        res = os.path.join(self.outdir, "outfile.results.tsv")
+        match = os.path.join(self.outdir, "outfile_matched." + suffix)
+        unmatch = os.path.join(self.outdir, "outfile_unmatched." + suffix)
+        ambig = os.path.join(self.outdir, "outfile_ambiguous." + suffix)
+        res = os.path.join(self.outdir, "outfile_results.tsv")
 
         self.assertTrue(os.path.exists(match), "Matched file exists")
         self.assertTrue(os.path.exists(unmatch), "Unmatched file exists")

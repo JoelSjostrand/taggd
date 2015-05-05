@@ -144,15 +144,15 @@ def main(argv=None):
     fn_reads = os.path.abspath(options.reads_infile)
     fn_prefix = os.path.abspath(options.outfile_prefix)
     if options.output_matched:
-        fn_matched = fn_prefix + "_matched" + frmt
+        fn_matched = fn_prefix + "_matched." + frmt
     else:
         fn_matched = None
     if options.output_ambiguous:
-        fn_ambig = fn_prefix + "_ambiguous" + frmt
+        fn_ambig = fn_prefix + "_ambiguous." + frmt
     else:
         fn_ambig = None
     if options.output_unmatched:
-        fn_unmatched = fn_prefix + "_unmatched" + frmt
+        fn_unmatched = fn_prefix + "_unmatched." + frmt
     else:
         fn_ambig = None
     if options.output_results:
@@ -211,32 +211,4 @@ def main(argv=None):
                              options.cores)
     print "# ...finished demultiplexing"
     print "# Wall time in secs: " + str(time.time() - start_time)
-    print stats
-
-
-    #print "# Total reads processed from infile: " \
-    #    + str(stats_total_reads.value())
-    #print "# Total reads written (including multiple ambiguities): " \
-    #    + str(stats_total_reads_wr.value())
-    #cdef int matched_unam = stats_perfect_matches.value() + stats_imperfect_unambiguous_matches.value()
-    #cdef float tot = float(stats_total_reads.value())
-    #print "# Reads matched unambiguously: " \
-    #    + str(matched_unam) + " [" + str(matched_unam / tot * 100) + "%]"
-    #print "#    - Reads matched perfectly: " \
-    #    + str(stats_perfect_matches.value()) + " [" + str(stats_perfect_matches.value() / tot * 100) + "%]"
-    #print "#    - Reads matched imperfectly: " \
-    #    + str(stats_imperfect_unambiguous_matches.value()) \
-    #    + " [" + str(stats_imperfect_unambiguous_matches.value() / tot * 100) + "%]"
-    #cdef int uniq_amb = stats_total_reads.value() - stats_perfect_matches.value() - \
-    #                    stats_imperfect_unambiguous_matches.value() - stats_unmatched.value()
-    #print "# Reads matched ambiguously: " + str(uniq_amb) + " unique (making " \
-    #    + str(stats_imperfect_ambiguous_matches.value()) + " overall) " \
-    #    + " [" + str(uniq_amb / tot * 100) + "%]"
-    #print "# Reads unmatched: " \
-    #    + str(stats_unmatched.value()) + " [" + str(stats_unmatched.value() / tot * 100) + "%]"
-    #cdef list distr = []
-    #cdef int i = 0
-    #for i in xrange(max_edit_distance + 1):
-    #    distr.append(str(stats_edit_distance_counts[i].value()))
-    #print("# Edit distance counts for [0,...," + str(max_edit_distance) + "]: [" + ", ".join(distr) + "]")
-    #print "# Total subprocess time: "
+    print str(stats)
