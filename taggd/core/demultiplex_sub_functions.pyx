@@ -62,7 +62,6 @@ def init(dict true_barcodes_,
         homopolymers.append(c * homopolymer_filter)
     global seed
     seed = seed_
-    random.seed(seed)
 
 
 def demultiplex_lines_wrapper(str filename_reads,
@@ -96,6 +95,8 @@ cdef object demultiplex_lines(str filename_reads,
     """
     Demultiplexes every ln_mod line, starting at ln_offset, writing to specified files.
     """
+
+    random.seed(seed)
 
     # Time
     cdef int start_time = time.time()
@@ -269,6 +270,8 @@ cdef list demultiplex_record(object rec):
 
     # AMBIGUOUS MATCHES.
     # Multiple best hits. Shuffle results to avoid biases.
+
+
     random.shuffle(top_hits)
     for (bcseq, dist, last_pos, a, b) in top_hits:
         # Record   Match type   Barcode

@@ -8,19 +8,21 @@ class FASTARecord(Record):
         Record.__init__(self)
         self.annotation = fqr[0]
         self.sequence = fqr[1]
+        self.taggdtags = ""
 
     def add_tags(self, list added):
         """Appends tags"""
+        self.taggdtags = ""
         cdef str k
         cdef object v
         for k,v in added:
-            self.annotation += " " + k + ":" + str(v)
+            self.taggdtags += " " + k + ":" + str(v)
 
     def unwrap(self):
         """
         Returns(annotation, sequence).
         """
-        return (self.annotation, self.sequence)
+        return (self.annotation + self.taggdtags, self.sequence)
 
 
     def __str__(self):

@@ -19,10 +19,11 @@ class SAMRecord(Record):
         self.attributes["template_length"] = alseq.template_length
         self.attributes["query_qualities"] = alseq.query_qualities
         self.attributes["tags"] = alseq.tags
+        self.attributes["taggdtags"] = None
 
     def add_tags(self, list added):
         """Appends SAM tags."""
-        self.attributes["tags"] += added
+        self.attributes["taggdtags"] = added
 
     def unwrap(self):
         """
@@ -41,4 +42,6 @@ class SAMRecord(Record):
         a.query_sequence = self.sequence
         a.query_qualities = self.attributes["query_qualities"]
         a.tags = self.attributes["tags"]
+        if self.attributes["taggdtags"] != None:
+                a.tags += self.attributes["taggdtags"]
         return a
