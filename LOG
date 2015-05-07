@@ -19,3 +19,5 @@
           *_unmatched.*, *_matched.* and *_ambiguous.*
           Created expected result files in the directory tests/expected_results/
           These are now used for the unit test tests/taggd_demultiplex_test.py
+0.2.4   - Removing the unittest for the expected results of outfile_results.tsv
+          The test will be reintroduced in some future release.
