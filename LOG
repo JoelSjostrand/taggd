@@ -15,3 +15,7 @@
 0.2.0   - Big rewrite of the whole multiprocessing approach.
 0.2.1   - Small improvements, comments added.
 0.2.2   - Readded % stats.
+0.2.3   - Fixed a bug that produced wrong output in the output files
+          *_unmatched.*, *_matched.* and *_ambiguous.*
+          Created expected result files in the directory tests/expected_results/
+          These are now used for the unit test tests/taggd_demultiplex_test.py
