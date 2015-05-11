@@ -12,3 +12,5 @@ Contact: {joel.sjostrand, jose.fernandez.navarro}@scilifelab.se.
 
 See https://github.com/pelinakan/UBD for the manual and the most recent source code
 of the corresponding multiplexer.
+
+[![Build Status](https://travis-ci.org/eriksjolund/taggd.svg?branch=master)](https://travis-ci.org/eriksjolund/taggd)
