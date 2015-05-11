@@ -21,3 +21,4 @@
           These are now used for the unit test tests/taggd_demultiplex_test.py
 0.2.4   - Removing the unittest for the expected results of outfile_results.tsv
           The test will be reintroduced in some future release.
+0.2.5   - Fixed homopolymer-filter=0 bug, readded c files to git.

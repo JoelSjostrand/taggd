@@ -58,8 +58,9 @@ def init(dict true_barcodes_,
     homopolymer_filter = max(homopolymer_filter_, 0)
     global homopolymers
     homopolymers = list()
-    for c in "ACGT":
-        homopolymers.append(c * homopolymer_filter)
+    if homopolymer_filter > 0:
+        for c in "ACGT":
+            homopolymers.append(c * homopolymer_filter)
     global seed
     seed = seed_
 
