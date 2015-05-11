@@ -42,10 +42,11 @@ if use_cython:
 else:
     ext_modules += [
     Extension("taggd.core.demultiplex_core_functions",   ["taggd/core/demultiplex_core_functions.c"]),
-    Extension("taggd.core.demultiplex_record_functions", ["taggd/core/demultiplex_record_functions.c"]),
+    Extension("taggd.core.demultiplex_sub_functions",    ["taggd/core/demultiplex_sub_functions.c"]),
     Extension("taggd.core.demultiplex_search_functions", ["taggd/core/demultiplex_search_functions.c"]),
     Extension("taggd.core.match",                        ["taggd/core/match.c"]),
     Extension("taggd.core.match_type",                   ["taggd/core/match_type.c"]),
+    Extension("taggd.core.statistics",                   ["taggd/core/statistics.c"]),
     Extension("taggd.misc.distance_metrics",             ["taggd/misc/distance_metrics.c"]),
     Extension("taggd.misc.kmer_utils",                   ["taggd/misc/kmer_utils.c"]),
 	Extension("taggd.misc.counter",                      ["taggd/misc/counter.c"]),
@@ -62,13 +63,13 @@ else:
 
 setup(
 	name="taggd",
-	version = '0.2.4',
+	version = '0.2.5',
 	author = 'Joel Sjostrand',
 	author_email = 'joel.sjostrand@scilifelab.se',
 	license = 'Open BSD',
     description = 'Bioinformatics genetic barcode demultiplexing',
     url = 'https://github.com/JoelSjostrand/taggd',
-    download_url = 'https://github.com/JoelSjostrand/taggd/0.2.4',
+    download_url = 'https://github.com/JoelSjostrand/taggd/0.2.5',
 	scripts = glob("scripts/*.py"),
     packages = ['taggd', 'taggd.core', 'taggd.io', 'taggd.misc'],
     package_data = {'': ['*.pyx', '*.pxd', '*.h', '*.c'], },
