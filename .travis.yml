@@ -3,7 +3,7 @@ python:
   - 2.7
 
 before_install:
-  - pip install --use-mirrors Cython
+  - pip install --use-mirrors Cython htslib samtools pysam
 
 install:
   - python setup.py build
