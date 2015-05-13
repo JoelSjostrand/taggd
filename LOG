@@ -25,4 +25,4 @@
           The test will be reintroduced in some future release.
 0.2.5   - Fixed homopolymer-filter=0 bug, readded c files to git.
 0.2.6   - Added Travis, readded unittest for the expected results of
-          outfile_results.tsv for each format.
+          outfile_results.tsv for each format. 
