@@ -13,10 +13,10 @@ When updating for a new version on PyPI, do the following:
 NOTE: Make sure you are registered in pypi and pypitest
 and that your user is added to the contributors list
 
-6) Upload to PYPI test:   sudo python setup.py register -r pypitest
+6) Upload to PYPI test:   python setup.py register -r pypitest
 
-7) Test on PYPI test:     sudo python setup.py sdist upload -r pypitest
+7) Test on PYPI test:     python setup.py sdist upload -r pypitest
 
-8) Upload to PyPI Live:   sudo python setup.py register -r pypi
+8) Upload to PyPI Live:   python setup.py register -r pypi
 
-9) Test on PYPI Live:     sudo python setup.py sdist upload -r pypi
+9) Test on PYPI Live:     python setup.py sdist upload -r pypi

@@ -113,10 +113,12 @@ class TestDemultiplexer(unittest.TestCase):
             self.assertTrue(0, "Running Normal Fasta test failed\n")
 
 
-    def compare_to_expected_results(self, filename, file_description, outdir):
+    def compare_to_expected_results(self, suffix, filename, file_description, outdir):
          filepath_from_test = os.path.join(outdir, filename)
          expected_result_dir =  os.path.join(self.testdir, "expected_results")
-         expected_result_filepath = os.path.join(expected_result_dir, filename)
+         # The value of the variable "suffix" is used here as a name for a subdirectory
+         expected_result_dir2 =  os.path.join(expected_result_dir, suffix)
+         expected_result_filepath = os.path.join(expected_result_dir2, filename)
          self.assertTrue(os.path.exists(expected_result_filepath), expected_result_filepath + " exists")
          self.assertTrue(os.path.exists(filepath_from_test), file_description + " exists")
          comp = filecmp.cmp(filepath_from_test, expected_result_filepath, shallow=False)
@@ -129,12 +131,10 @@ class TestDemultiplexer(unittest.TestCase):
         self.assertNotEqual(os.listdir(outdir), [], "Output folder is not empty")
 
         time.sleep(2)
-        self.compare_to_expected_results("outfile_matched." + suffix, "Matched file", outdir)
-        self.compare_to_expected_results("outfile_unmatched." + suffix, "Unmatched file", outdir)
-        self.compare_to_expected_results("outfile_ambiguous." + suffix, "Ambiguous file", outdir)
-        # Commenting out the test for outfile_results.tsv because it fails.
-        # The possible bug is being investigated.
-        # self.compare_to_expected_results("outfile_results.tsv", "Results file", outdir)
+        self.compare_to_expected_results(suffix, "outfile_matched." + suffix, "Matched file", outdir)
+        self.compare_to_expected_results(suffix, "outfile_unmatched." + suffix, "Unmatched file", outdir)
+        self.compare_to_expected_results(suffix, "outfile_ambiguous." + suffix, "Ambiguous file", outdir)
+        self.compare_to_expected_results(suffix, "outfile_results.tsv", "Results file", outdir)
 
 
 if __name__ == '__main__':
