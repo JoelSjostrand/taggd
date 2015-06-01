@@ -58,7 +58,13 @@ def main(argv=None):
     parser.add_argument('--metric', 
                         help= "Distance metric: Subglobal, Levenshtein or Hamming (default: %(default)s)", 
                         default="Subglobal", metavar="[string]")
-    parser.add_argument('--slider-increment', 
+    parser.add_argument('--ambiguity-range',
+                        type=int,
+                        help='Top hits within this edit-distance range are considered ambiguous,'
+                             ' for instance with range=1, having one hit with distance 0 and two hits '
+                             'with distance 1 yields all three hits ambiguous (default: %(default)d)',
+                        default=0, metavar="[int]")
+    parser.add_argument('--slider-increment',
                         type=int, help="Space between kmer searches, " \
                         "0 yields kmer length (default: %(default)d)", 
                         default=0, metavar="[int]")
@@ -203,6 +209,7 @@ def main(argv=None):
               options.slider_increment, 
               min(options.start_position, options.overhang), 
               options.overhang,
+              options.ambiguity_range,
               options.no_offset_speedup)
 
     # Demultiplex

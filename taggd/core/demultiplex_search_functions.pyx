@@ -12,6 +12,7 @@ cdef str metric
 cdef int slider_increment
 cdef int pre_overhang
 cdef int post_overhang
+cdef int ambiguity_range
 cdef bool no_offset_speedup
 
 # Dictionary
@@ -31,6 +32,7 @@ def init(dict true_barcodes_,\
         int slider_increment_,\
         int pre_overhang_,\
         int post_overhang_,\
+        int ambiguity_range_,\
         bool no_offset_speedup_):
     """
     Initializes settings (global variables).
@@ -48,6 +50,8 @@ def init(dict true_barcodes_,\
     pre_overhang = pre_overhang_
     global post_overhang
     post_overhang = post_overhang_
+    global ambiguity_range
+    ambiguity_range = ambiguity_range_
     global no_offset_speedup
     no_offset_speedup = no_offset_speedup_
 
@@ -198,6 +202,6 @@ cdef list get_top_hits(list qual_hits):
     cdef list top_hits = []
     append = top_hits.append
     for cand, dist, last_pos, a, b in qual_hits:
-        if dist == mini:
+        if dist <= mini + ambiguity_range:
             append((cand, dist, last_pos, a, b))
     return top_hits
