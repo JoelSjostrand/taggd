@@ -1,7 +1,21 @@
 """ 
 Runs taggd, a tool to demultiplex (link molecular barcodes back to) a file of genetic reads,
 typically obtained by sequencing. For matched reads, the barcode and its related properties
-are added to the read in separate output files.
+are added to the read. Unmatched reads, ambiguously matched reads, and stats are by default
+produced as output files as well.
+
+The input ID file should be tab-delimited with the following format:
+<barcode>   <prop1>   <prop2>   ...
+<barcode>   <prop1>   <prop2>   ...
+
+The input files can be in FASTA, FASTQ, SAM or BAM format. Matched files will be appended
+with the barcode and properties like this:
+
+B0:Z:<barcode> B1:Z:<prop1> B2:Z:<prop3> ...
+
+Source:          https://github.com/JoelSjostrand/taggd
+Python package:  https://pypi.python.org/pypi/taggd
+Contact:         joel.sjostrand@gmail.com
 """
 import os
 import time
@@ -18,7 +32,7 @@ def main(argv=None):
     start_time = time.time()
 
     # Create a parser
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
 
     # Needed parameters
     parser.add_argument('barcodes_infile', 
@@ -50,7 +64,7 @@ def main(argv=None):
     parser.add_argument('--k', 
                         type=int, 
                         help='The kmer length (default: %(default)d)', 
-                        default=7, metavar="[int]")
+                        default=6, metavar="[int]")
     parser.add_argument('--max-edit-distance', 
                         type=int, 
                         help='The max edit distance for allowing hits (default: %(default)d)', 
@@ -60,9 +74,10 @@ def main(argv=None):
                         default="Subglobal", metavar="[string]")
     parser.add_argument('--ambiguity-range',
                         type=int,
-                        help='Top hits within this edit-distance range are considered ambiguous,'
-                             ' for instance with range=1, having one hit with distance 0 and two hits '
-                             'with distance 1 yields all three hits ambiguous (default: %(default)d)',
+                        help='Top matches within this edit-distance range are considered ambiguous,\n'
+                             'for instance with range=1, having one match with distance 3 and two matches\n'
+                             'with distance 4 yields all three matches as ambiguous hits. Perfect hits are always\n'
+                             ' considered non-ambiguous, irrespective of range. (default: %(default)d)',
                         default=0, metavar="[int]")
     parser.add_argument('--slider-increment',
                         type=int, help="Space between kmer searches, " \
@@ -70,7 +85,7 @@ def main(argv=None):
                         default=0, metavar="[int]")
     parser.add_argument('--overhang', 
                         type=int, 
-                        help="Additional flanking bases around read barcode " \
+                        help="Additional flanking bases around read barcode\n" \
                         "to allow for insertions when matching (default: %(default)d)",
                         default=2, metavar="[int]")
     parser.add_argument('--seed', 
@@ -78,8 +93,8 @@ def main(argv=None):
                         default=None, metavar="[string]")
     parser.add_argument('--homopolymer-filter',
                         type=int,
-                        help="If set, excludes reads where the barcode part contains " \
-                        "a homopolymer of the given length, " \
+                        help="If set, excludes reads where the barcode part contains\n" \
+                        "a homopolymer of the given length,\n" \
                         "0 means no filter (default: %(default)d)",
                         default=8, metavar="[int]")
     parser.add_argument('--subprocesses',
@@ -88,12 +103,12 @@ def main(argv=None):
                         default=0, metavar="[int]")
     parser.add_argument('--estimate-min-edit-distance',
                         type=int, 
-                        help="If set, estimates the min edit distance among true " \
-                        "barcodes by comparing the specified number of pairs, " \
+                        help="If set, estimates the min edit distance among true\n" \
+                        "barcodes by comparing the specified number of pairs,\n" \
                         "0 means no estimation (default: %(default)d)", 
                         default=0, metavar="[int]")
     parser.add_argument('--no-offset-speedup', 
-                        help="Turns off an offset speedup routine. " \
+                        help="Turns off an offset speedup routine.\n" \
                         "Increases running time but may yield more hits.",
                         default=False, action='store_true')
 

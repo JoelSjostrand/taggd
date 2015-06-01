@@ -27,3 +27,4 @@
 0.2.6   - Added Travis, readded unittest for the expected results of
           outfile_results.tsv for each format.
 0.2.7   - Added ambiguity range option.
+0.2.8   - Improved help messages.
