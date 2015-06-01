@@ -72,13 +72,13 @@ def main(argv=None):
     parser.add_argument('--metric', 
                         help= "Distance metric: Subglobal, Levenshtein or Hamming (default: %(default)s)", 
                         default="Subglobal", metavar="[string]")
-    parser.add_argument('--ambiguity-range',
-                        type=int,
-                        help='Top matches within this edit-distance range are considered ambiguous,\n'
-                             'for instance with range=1, having one match with distance 3 and two matches\n'
+    parser.add_argument('--ambiguity-factor',
+                        type=float,
+                        help='Top matches within this factor from the best match are considered ambiguous,\n'
+                             'for instance with factor=1.5, having one match with distance 2 and two matches\n'
                              'with distance 4 yields all three matches as ambiguous hits. Perfect hits are always\n'
-                             ' considered non-ambiguous, irrespective of range. (default: %(default)d)',
-                        default=0, metavar="[int]")
+                             ' considered non-ambiguous, irrespective of factor. (default: %(default)d)',
+                        default=1.0, metavar="[int]")
     parser.add_argument('--slider-increment',
                         type=int, help="Space between kmer searches, " \
                         "0 yields kmer length (default: %(default)d)", 
@@ -99,7 +99,7 @@ def main(argv=None):
                         default=8, metavar="[int]")
     parser.add_argument('--subprocesses',
                         type=int,
-                        help="Number of subprocesses started (default: number of machine cores - 1)",
+                        help="Number of subprocesses started (default: 0, yielding number of machine cores - 1)",
                         default=0, metavar="[int]")
     parser.add_argument('--estimate-min-edit-distance',
                         type=int, 
@@ -151,6 +151,8 @@ def main(argv=None):
         raise ValueError("Invalid overhang. Must be 0 for Hamming metric.")
     if options.subprocesses < 0:
         raise ValueError("Invalid no. of subprocesses. Must be >= 0.")
+    if options.ambiguity_factor < 1.0:
+        raise ValueError("Invalid ambiguity factor. Must be >= 1.")
 
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -179,12 +181,9 @@ def main(argv=None):
 
     # Subprocesses
     if options.subprocesses == 0:
-        subprocesses = mp.cpu_count() - 1
-    else:
-        subprocesses = options.subprocesses
+        options.subprocesses = mp.cpu_count() - 1
 
     print "# Options: " + str(options).split("Namespace")[-1]
-    print "# Subprocesses: " + str(subprocesses)
     print "# Barcodes input file: " + str(fn_bc)
     print "# Reads input file: " + str(fn_reads)
     print "# Matched output file: " + str(fn_matched)
@@ -224,7 +223,7 @@ def main(argv=None):
               options.slider_increment, 
               min(options.start_position, options.overhang), 
               options.overhang,
-              options.ambiguity_range,
+              options.ambiguity_factor,
               options.no_offset_speedup)
 
     # Demultiplex
@@ -234,7 +233,7 @@ def main(argv=None):
                              fn_ambig,
                              fn_unmatched,
                              fn_results,
-                             subprocesses)
+                             options.subprocesses)
     print "# ...finished demultiplexing"
     print "# Wall time in secs: " + str(time.time() - start_time)
     print str(stats)
