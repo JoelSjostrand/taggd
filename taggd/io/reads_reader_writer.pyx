@@ -1,7 +1,7 @@
 """
-Interface for writing/reading FASTAQ and SAM files
+Interface for writing/reading FASTQ/FASTA and SAM files
+The idea is to write always the abstract class called Record
 """
-
 import pysam as ps
 import sys
 import os
@@ -21,7 +21,9 @@ class ReadsReaderWriter():
     """
 
     def __init__(self, str reads_infile_name):
-        """Constructor"""
+        """
+        Constructor
+        """
 
         self.file_type = -1
         self.infile_name = reads_infile_name
@@ -35,28 +37,33 @@ class ReadsReaderWriter():
         global BAM
         FASTQ, FASTA, SAM, BAM = range(4)
 
-        cdef str suffix = self.infile_name.split(".")[-1].lower()
-        if suffix == "fa" or suffix == "fasta":
+        # Extract the file type
+        cdef str suffix = os.path.splitext(self.infile_name)[1].lower()
+        if suffix == ".fa" or suffix == ".fasta":
             self.file_type = FASTA
-        elif suffix == "fq" or suffix == "fastq":
+        elif suffix == ".fq" or suffix == ".fastq":
             self.file_type = FASTQ
-        elif suffix == "sam":
+        elif suffix == ".sam":
             self.file_type = SAM
-        elif suffix == "bam":
+        elif suffix == ".bam":
             self.file_type = BAM
         else:
             raise ValueError("Unsupported reads file format!")
 
         # Read header.
-        if (self.file_type == SAM or self.file_type == BAM):
-            self.infile = ps.AlignmentFile(self.infile_name, "r", check_header=True, check_sq=False)
+        if self.file_type == SAM or self.file_type == BAM:
+            self.infile = ps.AlignmentFile(self.infile_name, "r", 
+                                           check_header=True, check_sq=False)
             self.infile_header = self.infile.header
             self.infile.close()
 
-
     def reader_open(self):
-        """Opens the reads file using appropriate format."""
-
+        """
+        Opens the reads file using appropriate format.
+        """
+        # Ensure to close
+        self.reader_close()
+        
         # Open file.
         if self.file_type == FASTA or self.file_type == FASTQ:
             self.infile = fu.readfq(open(self.infile_name, "r"))
@@ -77,28 +84,29 @@ class ReadsReaderWriter():
             for orig in self.infile:
                 rec = FASTQRecord(orig)
                 yield rec
-        elif self.file_type == SAM or self.file_type == BAM:
+        else:
             for orig in self.infile:
                 rec = SAMRecord(orig)
                 yield rec
-        else:
-            raise ValueError("Unsupported reads file format!")
-
 
     def reader_close(self):
-        """Closes the infile."""
+        """
+        Closes the input file handler.
+        """
         if self.infile != None:
             self.infile.close()
             self.infile = None
 
-
     def __exit__(self, type, value, tb):
-        """Closes the input file."""
-        self.close_read()
-
+        """
+        Always close the input file.
+        """
+        self.reader_close()
 
     def get_format(self):
-        """Returns the file format."""
+        """
+        Returns the file format.
+        """
         if self.file_type == FASTA:
             return "fa"
         if self.file_type == FASTQ:
@@ -113,10 +121,13 @@ class ReadsReaderWriter():
     def get_writer(self, str outfile_name):
         """
         Returns a writer.
+        :param outfile_name the name of the file to create
+        :return the file handler so records can be written on it.
         """
+        # Remove if exists
         if os.path.exists(outfile_name):
             os.remove(outfile_name)
-
+        # Open the file and returns the handler
         if self.file_type == FASTA or self.file_type == FASTQ:
             return open(outfile_name, "w")
         elif self.file_type == SAM:
@@ -126,9 +137,15 @@ class ReadsReaderWriter():
         else:
             raise ValueError("Unknown file format for writer")
 
-
     def write_record(self, outfile, record):
-        """Writes a record."""
+        """
+        Writes a record in the filename descriptor given.
+        Important out_handler must be a descriptor opened (using get_writer())
+        Record's type should be the same as the one this instance was created from
+        :param out_handler the outpuf file handler
+        :param record the Record object to write
+        """
+        #TODO record could not be the same type of the file handler(check this)
         if self.file_type == FASTA:
             fu.writefa_record(outfile, record.unwrap())
         elif self.file_type == FASTQ:

@@ -1,3 +1,6 @@
+# cython: boundscheck=False
+# cython: cdivision=True
+# cython: wraparound=False
 """
 Contains utilities for handling barcodes.
 """
@@ -7,13 +10,12 @@ import random
 
 cdef class Barcode:
     """
-    Holds a Spatial Transcriptomics barcode sequence and attibutes such as feature coordinates.
+    Holds a Spatial Transcriptomics barcode sequence and 
+    attributes such as feature coordinates.
     """
-
-    def __cinit__(self, str seq_, list attributes_):
-        self.sequence = seq_
-        self.attributes = attributes_
-
+    def __cinit__(self, str seq, list attributes):
+        self.sequence = seq
+        self.attributes = attributes
 
 cpdef dict read_barcode_file(str infile_path):
     """
@@ -40,33 +42,29 @@ cpdef dict read_barcode_file(str infile_path):
             res_dict[tmp[0]] = Barcode(tmp[0], tmp[1:])
     return res_dict
 
-
 cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):
     """
     Reads a barcodes dict and estimates the minimum edit distance
     by comparing a certain number of pairs.
+    :param a dict of barcode -> Barcode
+    :param max_iters the max number of iterations to try
     """
-
-    cdef int length = 0
-    cdef int min_dist = 1000000000
-    cdef str ln
-    cdef list tmp
-    cdef str seq
-
     # Compute minimum edit distance.
+    # Get the barcodes and shuffle them
     cdef list seqslist = true_barcodes.keys()
     random.shuffle(seqslist)
+    # Iterate the barcodes to see if the comply the min distance requirement
+    cdef int min_dist = 1000000000
+    cdef str barcode1
+    cdef str barcode2
     cdef int i
-    cdef int j
     cdef int dist
     cdef int iter = 0
-    for i in xrange(len(seqslist)):
-        for j in xrange(int(i+1), len(seqslist)):
-            dist = hamming_distance(seqslist[i], seqslist[j], min_dist)
-            if dist < min_dist:
-                min_dist = dist
+    for i,barcode1 in enumerate(seqslist):
+        for barcode2 in seqslist[(i+1):]:
+            dist = hamming_distance(barcode1, barcode2, min_dist)
+            if dist < min_dist: min_dist = dist
             iter += 1
             if iter >= max_iters:
                 return min_dist
-            #print str(i) + " vs " + str(j) + ": " + str(dist)
     return min_dist

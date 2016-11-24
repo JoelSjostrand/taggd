@@ -29,15 +29,6 @@ class TestDemultiplexer(unittest.TestCase):
         assert (os.path.exists(self.infa))
 
 
-
-    #@classmethod
-    #def tearDownClass(self):
-        # outcnt = os.listdir(self.outdir)
-        # for cnt in outcnt:
-        # 	os.remove(os.path.join(self.outdir, cnt))
-        # os.removedirs(self.outdir)
-
-
     def test_normal_sam_run(self):
         """
         Tests taggd demultiplexer on a variety of small files.
@@ -46,7 +37,8 @@ class TestDemultiplexer(unittest.TestCase):
         outdir = tempfile.mkdtemp(prefix="taggd_demultiplex_test_out_sam_")
         print "# Demultiplexer test output directory: " + outdir
 
-        args = ["--k", "7", "--max-edit-distance", "7", "--overhang", "2", "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
+        args = ["--k", "7", "--max-edit-distance", "7", "--overhang", "2", 
+                "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
         args += [self.inbarcodes, self.insam, os.path.join(outdir, "outfile")]
 
         # Start the demultiplexer
@@ -64,7 +56,8 @@ class TestDemultiplexer(unittest.TestCase):
         Tests taggd demultiplexer on a variety of small files.
         """
         outdir = tempfile.mkdtemp(prefix="taggd_demultiplex_test_out_bam_")
-        args = ["--k", "6", "--max-edit-distance", "5", "--overhang", "0", "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
+        args = ["--k", "6", "--max-edit-distance", "5", "--overhang", "0", 
+                "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
         args += [self.inbarcodes, self.inbam, os.path.join(outdir, "outfile")]
 
         # Start the demultiplexer
@@ -82,7 +75,8 @@ class TestDemultiplexer(unittest.TestCase):
         Tests taggd demultiplexer on a variety of small files.
         """
         outdir = tempfile.mkdtemp(prefix="taggd_demultiplex_test_out_fastq_")
-        args = ["--k", "4", "--max-edit-distance", "8", "--overhang", "3", "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
+        args = ["--k", "4", "--max-edit-distance", "8", "--overhang", "3", 
+                "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
         args += [self.inbarcodes, self.infq, os.path.join(outdir, "outfile")]
 
         # Start the demultiplexer
@@ -100,7 +94,8 @@ class TestDemultiplexer(unittest.TestCase):
         Tests taggd demultiplexer on a variety of small files.
         """
         outdir = tempfile.mkdtemp(prefix="taggd_demultiplex_test_out_fasta_")
-        args = ["--k", "4", "--max-edit-distance", "8", "--overhang", "3", "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
+        args = ["--k", "4", "--max-edit-distance", "8", "--overhang", "3", 
+                "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
         args += [self.inbarcodes, self.infa, os.path.join(outdir, "outfile")]
 
         # Start the demultiplexer
@@ -114,15 +109,15 @@ class TestDemultiplexer(unittest.TestCase):
 
 
     def compare_to_expected_results(self, suffix, filename, file_description, outdir):
-         filepath_from_test = os.path.join(outdir, filename)
-         expected_result_dir =  os.path.join(self.testdir, "expected_results")
-         # The value of the variable "suffix" is used here as a name for a subdirectory
-         expected_result_dir2 =  os.path.join(expected_result_dir, suffix)
-         expected_result_filepath = os.path.join(expected_result_dir2, filename)
-         self.assertTrue(os.path.exists(expected_result_filepath), expected_result_filepath + " exists")
-         self.assertTrue(os.path.exists(filepath_from_test), file_description + " exists")
-         comp = filecmp.cmp(filepath_from_test, expected_result_filepath, shallow=False)
-         self.assertTrue(comp, file_description + " has the expected contents")
+        filepath_from_test = os.path.join(outdir, filename)
+        expected_result_dir = os.path.join(self.testdir, "expected_results")
+        # The value of the variable "suffix" is used here as a name for a subdirectory
+        expected_result_dir2 = os.path.join(expected_result_dir, suffix)
+        expected_result_filepath = os.path.join(expected_result_dir2, filename)
+        self.assertTrue(os.path.exists(expected_result_filepath), expected_result_filepath + " exists")
+        self.assertTrue(os.path.exists(filepath_from_test), file_description + " exists")
+        comp = filecmp.cmp(filepath_from_test, expected_result_filepath, shallow=False)
+        self.assertTrue(comp, file_description + " has the expected contents")
 
     def validate_output_data(self, expName, suffix, outdir):
         print "# Validating test " + expName

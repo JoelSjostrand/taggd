@@ -1,18 +1,13 @@
-from setuptools import find_packages
+from setuptools import setup, find_packages
+from setuptools.extension import Extension
 from glob import glob
 import numpy
-from distutils.core import setup
-from distutils.extension import Extension
 try:
     from Cython.Distutils import build_ext
 except ImportError:
     use_cython = False
 else:
     use_cython = True
-#from Cython.Distutils.extension import Extension
-#from Cython.Distutils import build_ext
-#from Cython.Build import cythonize
-
 
 cmdclass = { }
 ext_modules = [ ]
@@ -28,8 +23,6 @@ if use_cython:
     Extension("taggd.core.statistics",                   ["taggd/core/statistics.pyx"]),
     Extension("taggd.misc.distance_metrics",             ["taggd/misc/distance_metrics.pyx"]),
     Extension("taggd.misc.kmer_utils",                   ["taggd/misc/kmer_utils.pyx"]),
-	Extension("taggd.misc.counter",                      ["taggd/misc/counter.pyx"]),
-	Extension("taggd.io.phred_utils",                    ["taggd/io/phred_utils.pyx"]),
     Extension("taggd.io.fastq_utils",                    ["taggd/io/fastq_utils.pyx"]),
     Extension("taggd.io.barcode_utils",                  ["taggd/io/barcode_utils.pyx"]),
     Extension("taggd.io.record",                         ["taggd/io/record.pyx"]),
@@ -49,8 +42,6 @@ else:
     Extension("taggd.core.statistics",                   ["taggd/core/statistics.c"]),
     Extension("taggd.misc.distance_metrics",             ["taggd/misc/distance_metrics.c"]),
     Extension("taggd.misc.kmer_utils",                   ["taggd/misc/kmer_utils.c"]),
-	Extension("taggd.misc.counter",                      ["taggd/misc/counter.c"]),
-	Extension("taggd.io.phred_utils",                    ["taggd/io/phred_utils.c"]),
     Extension("taggd.io.fastq_utils",                    ["taggd/io/fastq_utils.c"]),
     Extension("taggd.io.barcode_utils",                  ["taggd/io/barcode_utils.c"]),
     Extension("taggd.io.record",                         ["taggd/io/record.c"]),
@@ -62,14 +53,14 @@ else:
 
 
 setup(
-	name="taggd",
-	version = '0.2.9',
+	name = "taggd",
+	version = '0.3.0',
 	author = 'Joel Sjostrand',
-	author_email = 'joel.sjostrand@scilifelab.se',
+	author_email = 'joel.sjostrand@scilifelab.se, jose.fernandez.navarro@scilifelab.se',
 	license = 'Open BSD',
     description = 'Bioinformatics genetic barcode demultiplexing',
-    url = 'https://github.com/JoelSjostrand/taggd',
-    download_url = 'https://github.com/JoelSjostrand/taggd/0.2.9',
+    url = 'https://github.com/SpatialTranscriptomicsResearch/taggd',
+    download_url = 'https://github.com/SpatialTranscriptomicsResearch/taggd/0.3.0',
 	scripts = glob("scripts/*.py"),
     packages = ['taggd', 'taggd.core', 'taggd.io', 'taggd.misc'],
     package_data = {'': ['*.pyx', '*.pxd', '*.h', '*.c'], },
@@ -80,7 +71,7 @@ setup(
 	],
 	test_suite = 'tests',
 	cmdclass = cmdclass,
-    ext_modules=ext_modules,
+    ext_modules = ext_modules,
 	include_dirs = [numpy.get_include(), '.'],
     keywords = ['bioinformatics', 'demultiplexing']
     )

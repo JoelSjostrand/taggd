@@ -13,7 +13,6 @@ def coroutine(func):
         return cr
     return start
 
-
 def readfq(fp): # this is a generator function
     """
     Heng Li's fasta/fastq reader function.
@@ -52,7 +51,6 @@ def readfq(fp): # this is a generator function
                 yield name, seq, None  # yield a fasta record instead
                 break
 
-
 @coroutine
 def writefq(fp):  # This is a coroutine
     """
@@ -66,12 +64,12 @@ def writefq(fp):  # This is a coroutine
     try:
         while True:
             record = yield
-            read = fq_format.format(header_comments=record[0], sequence=record[1], quality=record[2])
+            read = fq_format.format(header_comments=record[0], 
+                                    sequence=record[1], quality=record[2])
             fp.write(read)
 
     except GeneratorExit:
         return
-
 
 @coroutine
 def writefa(fp):  # This is a coroutine
@@ -98,7 +96,8 @@ def writefq_record(fp, record):
     the specified file pointer.
     """
     cdef str fq_format = '@{header_comments}\n{sequence}\n+\n{quality}\n'
-    cdef str read = fq_format.format(header_comments=record[0], sequence=record[1], quality=record[2])
+    cdef str read = fq_format.format(header_comments=record[0], 
+                                     sequence=record[1], quality=record[2])
     fp.write(read)
 
 

@@ -1,11 +1,22 @@
+"""
+A simple class that is meant to mimic a Pysam record
+and add some extra attributes so it can later be
+written to a sam file
+"""
 import pysam
 from taggd.io.record import Record
 
 class SAMRecord(Record):
-    """Holds a SAM record. Not cdef-cythonized so as to be threading compatible. Follows pysam's representation."""
+    """
+    Holds a SAM record.
+    Follows pysam's representation.
+    """
 
     def __init__(self, object alseq):
-        """Constructor. Represents a pysam.AlignedSequence as a Record."""
+        """
+        Constructor. 
+        Represents a pysam.AlignedSequence as a Record.
+        """
         Record.__init__(self)
         self.annotation = str(alseq.query_name)
         self.sequence = str(alseq.query_sequence)
@@ -22,7 +33,10 @@ class SAMRecord(Record):
         self.attributes["taggdtags"] = None
 
     def add_tags(self, list added):
-        """Appends SAM tags."""
+        """
+        Appends extra tags for taggd.
+        :param added a list of tag tuples (name,value)
+        """
         self.attributes["taggdtags"] = added
 
     def unwrap(self):

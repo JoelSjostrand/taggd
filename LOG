@@ -29,3 +29,5 @@
 0.2.7   - Added ambiguity range option.
 0.2.8   - Improved help messages.
 0.2.9   - Changed ambiguity range to factor.
+0.3.0   - Formatted code and added option to include one match when there are 
+		  multiple hits.

@@ -16,11 +16,11 @@ import taggd.core.demultiplex_sub_functions as sub
 from cpython cimport bool
 
 
-def demultiplex(str filename_reads,\
-                str filename_matched,\
-                str filename_ambig,\
-                str filename_unmatched,\
-                str filename_results,\
+def demultiplex(str filename_reads,
+                str filename_matched,
+                str filename_ambig,
+                str filename_unmatched,
+                str filename_results,
                 int subprocesses):
     """
     Demultiplexes the contents of a reads file by dividing the work into
@@ -39,22 +39,29 @@ def demultiplex(str filename_reads,\
     cdef list fn_ambig = list()
     cdef list fn_unmatched = list()
     cdef list fn_res = list()
-    cdef str frmt = get_format(filename_reads)
+    cdef str frmt = filename_reads.split(".")[-1].lower()
     cdef str tmp = tempfile.gettempdir()
-    if tmp == "" or tmp == None:
-        tmp = "."
+    if tmp == "" or tmp == None: tmp = "."
     for i in xrange(subprocesses):
         if filename_matched != None:
-            fm = tmp + "/" + get_relative_path(filename_matched) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
+            fm = "{}{}_part{}_{}.{}".format(tmp, 
+                                            os.path.join(os.sep, os.path.basename(filename_matched)), 
+                                            i, uuid.uuid4(), frmt)
             fn_matched.append(fm)
         if filename_ambig != None:
-            fa = tmp + "/" + get_relative_path(filename_ambig) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
+            fa = "{}{}_part{}_{}.{}".format(tmp, 
+                                            os.path.join(os.sep, os.path.basename(filename_ambig)), 
+                                            i, uuid.uuid4(), frmt)
             fn_ambig.append(fa)
         if filename_unmatched != None:
-            fu = tmp + "/" + get_relative_path(filename_unmatched) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
+            fu = "{}{}_part{}_{}.{}".format(tmp, 
+                                            os.path.join(os.sep, os.path.basename(filename_unmatched)), 
+                                            i, uuid.uuid4(), frmt)
             fn_unmatched.append(fu)
         if filename_results != None:
-            fr = tmp + "/" + get_relative_path(filename_results) + "_part" + str(i) + "_" + str(uuid.uuid4()) + "." + frmt
+            fr = "{}{}_part{}_{}.{}".format(tmp, 
+                                            os.path.join(os.sep, os.path.basename(filename_results)), 
+                                            i, uuid.uuid4(), frmt)
             fn_res.append(fr)
         job = pool.apply_async(sub.demultiplex_lines_wrapper, (filename_reads, fm, fa, fu, fr, i, subprocesses,))
         jobs.append(job)
@@ -86,11 +93,10 @@ def demultiplex(str filename_reads,\
     # Merge stats
     return merge_stats(statss)
 
-
-
 cdef merge_files(str filename, list part_names):
-    """Merges and deletes temporary files."""
-
+    """
+    Merges and deletes temporary files.
+    """
     cdef str frmt = filename.split(".")[-1].lower()
     cdef object f
     cdef str part
@@ -101,16 +107,16 @@ cdef merge_files(str filename, list part_names):
         with open(filename, 'w') as f:
             for ln in fileinput.input(part_names):
                 f.write(ln)
-    elif frmt == "sam":
-        with ps.AlignmentFile(filename, "wh", template=ps.AlignmentFile(part_names[0], "r", check_header=True, check_sq=False)) as f:
+    elif frmt == "sam" or frmt == "bam":
+        write_attrib = "wh" if frmt == "sam" else "wb"
+        read_attrib = "r" if frmt == "sam" else "rb" 
+        with ps.AlignmentFile(filename, write_attrib, 
+                              template=ps.AlignmentFile(part_names[0], 
+                                                        read_attrib,
+                                                        check_header=True, 
+                                                        check_sq=False)) as f:
             for part in part_names:
-                with ps.AlignmentFile(part, "r", check_header=True, check_sq=False) as p:
-                    for rec in p:
-                        f.write(rec)
-    elif frmt == "bam":
-        with ps.AlignmentFile(filename, "wb", template=ps.AlignmentFile(part_names[0], "rb", check_header=True, check_sq=False)) as f:
-            for part in part_names:
-                with ps.AlignmentFile(part, "rb", check_header=True, check_sq=False) as p:
+                with ps.AlignmentFile(part, read_attrib, check_header=True, check_sq=False) as p:
                     for rec in p:
                         f.write(rec)
     else:
@@ -118,28 +124,13 @@ cdef merge_files(str filename, list part_names):
 
     # Delete parts
     for part in part_names:
-        os.remove(part)
-
+        if os.path.isfile(part): os.remove(part)
 
 cdef merge_stats(list statss):
-    """Merges statistics into one."""
-
-    cdef object stats = statss[0]
-    cdef int i
-    for i in xrange(1,len(statss)):
-        stats += statss[i]
-    return stats
-
-
-cdef get_format(str filename):
-    """Returns the format of a file."""
-    return filename.split(".")[-1]
-
-
-cdef get_relative_path(str filename):
-    """Returns the relative filename of a file"""
-    if "/" in filename:
-        return filename.split("/")[-1]
-    if "\\" in filename:
-        return filename.split("\\")[-1]
-    return filename
+    """
+    Merges statistics into one.
+    """
+    cdef object merged_stats = statss[0]
+    for stats in statss[1:]:
+        merged_stats += stats
+    return merged_stats
