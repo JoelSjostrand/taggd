@@ -8,13 +8,14 @@ cimport cython
 from cpython cimport bool
 from collections import defaultdict
 
-cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False):
+cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):
     """
     Returns dictionaries for kmers of a list of sequences.
     The last kmer is always included, irrespective of slider increment.
     :param seqs: the sequences.
     :param k: the k-mer length.
     :param round_robin: if to treat the sequence as circular.
+    :param slider_increment determines how the kmers are obtained
     :returns: a dictionary: kmer -> dictionary of seqs holding kmer -> 
     list of offsets of kmer in seq
     """
@@ -23,7 +24,6 @@ cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False):
     cdef str seqq
     cdef str kmer
     cdef int i
-    cdef int slider_increment = 1
     for seq in seqs:
         # Adjust barcode if round robin
         seqq = seq + seq[0:(k-1)] if round_robin else seq
@@ -40,20 +40,20 @@ cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False):
     kmer2seq.default_factory = None
     return kmer2seq
 
-cdef list get_kmers(str seq, int k, bool round_robin=False):
+cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=0):
     """
     Returns the kmers of a sequence as a list of kmer-offset tuples. 
     The last kmer will always be included irrespective of the slider increment.
     :param seq: sequence.
     :param k: kmer length.
     :param round_robin: if to treat the sequence as circular.
+    :param slider_increment determines how the kmers are obtained
     :return: the kmers list (kmer, offset).
     """
-    cdef list kmer_list = []
+    cdef list kmer_list = list()
     cdef str seqq = seq + seq[0:(k-1)] if round_robin else seq
     cdef str kmer
     cdef int i
-    cdef int slider_increment = 1
     # Simply compute kmers for the sequence
     #TODO this function could be used in get_kmers_dictst to avoid code duplication
     for i in xrange(0, len(seqq)-k+1, slider_increment):

@@ -68,12 +68,12 @@ def init(dict true_barcodes_,
     multiple_hits_keep_one = multiple_hits_keep_one_
 
 def demultiplex_lines_wrapper(str filename_reads,
-                      str filename_matched,
-                      str filename_ambig,
-                      str filename_unmatched,
-                      str filename_res,
-                      int ln_offset,
-                      int ln_mod):
+                              str filename_matched,
+                              str filename_ambig,
+                              str filename_unmatched,
+                              str filename_res,
+                              int ln_offset,
+                              int ln_mod):
     """
     Non cdef wrapper for cdef:ed subprocess function for demultiplexing parts of a file.
     Demultiplexes every ln_mod line, starting at ln_offset, writing to specified files.
@@ -119,11 +119,9 @@ cdef object demultiplex_lines(str filename_reads,
     cdef int j
     cdef list mtch = None
     cdef object mt = None
-    cdef object mtch_amb = None
     cdef object rec = None
     cdef str bcseq = None
     cdef object bc = None
-    cdef list props = None
     cdef list tags = None
 
     # Iterate over all input lines.
@@ -138,7 +136,7 @@ cdef object demultiplex_lines(str filename_reads,
             for mt in mtch:
 
                 # Write to results file.
-                if f_res != None: f_res.write(str(mt) + "\n")
+                if f_res != None: f_res.write("{}\n".format(mt))
 
                 # No match.
                 if mt.match_type == match_type.UNMATCHED:
@@ -222,7 +220,7 @@ cdef list demultiplex_record(object rec):
                         (start_position + barcode_length + post_overhang))]
 
     # Narrow down hits.
-    cdef candidates = srch.get_candidates(read_barcode)
+    cdef list candidates = srch.get_candidates(read_barcode)
     cdef qual_hits = srch.get_distances(read_barcode, candidates)
     cdef top_hits = srch.get_top_hits(qual_hits)
     

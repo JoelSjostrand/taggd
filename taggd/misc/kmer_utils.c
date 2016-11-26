@@ -460,22 +460,24 @@ struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers;
 /* "taggd/misc/kmer_utils.pxd":3
  * from cpython cimport bool
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?)             # <<<<<<<<<<<<<<
- * cdef list get_kmers(str seq, int k, bool round_robin=?)
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?, int slider_increment=?)             # <<<<<<<<<<<<<<
+ * cdef list get_kmers(str seq, int k, bool round_robin=?, int slider_increment=?)
  */
 struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts {
   int __pyx_n;
   PyBoolObject *round_robin;
+  int slider_increment;
 };
 
 /* "taggd/misc/kmer_utils.pxd":4
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?)
- * cdef list get_kmers(str seq, int k, bool round_robin=?)             # <<<<<<<<<<<<<<
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?, int slider_increment=?)
+ * cdef list get_kmers(str seq, int k, bool round_robin=?, int slider_increment=?)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers {
   int __pyx_n;
   PyBoolObject *round_robin;
+  int slider_increment;
 };
 
 /* --- Runtime support code (head) --- */
@@ -831,7 +833,7 @@ static PyObject *__pyx_n_s_xrange;
 static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_int_0;
 
-/* "taggd/misc/kmer_utils.pyx":21
+/* "taggd/misc/kmer_utils.pyx":22
  *     list of offsets of kmer in seq
  *     """
  *     cdef object kmer2seq = defaultdict(lambda : defaultdict(list))             # <<<<<<<<<<<<<<
@@ -865,7 +867,7 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -878,16 +880,16 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)(&PyList_Type))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)(&PyList_Type))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     __Pyx_INCREF(((PyObject *)(&PyList_Type)));
     __Pyx_GIVEREF(((PyObject *)(&PyList_Type)));
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)(&PyList_Type)));
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -913,19 +915,19 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
 /* "taggd/misc/kmer_utils.pyx":11
  * from collections import defaultdict
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False):             # <<<<<<<<<<<<<<
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):             # <<<<<<<<<<<<<<
  *     """
  *     Returns dictionaries for kmers of a list of sequences.
  */
 
 static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__pyx_v_seqs, int __pyx_v_k, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts *__pyx_optional_args) {
   PyBoolObject *__pyx_v_round_robin = ((PyBoolObject *)Py_False);
+  int __pyx_v_slider_increment = ((int)1);
   PyObject *__pyx_v_kmer2seq = 0;
   PyObject *__pyx_v_seq = 0;
   PyObject *__pyx_v_seqq = 0;
   PyObject *__pyx_v_kmer = 0;
   int __pyx_v_i;
-  int __pyx_v_slider_increment;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -947,19 +949,22 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_round_robin = __pyx_optional_args->round_robin;
+      if (__pyx_optional_args->__pyx_n > 1) {
+        __pyx_v_slider_increment = __pyx_optional_args->slider_increment;
+      }
     }
   }
 
-  /* "taggd/misc/kmer_utils.pyx":21
+  /* "taggd/misc/kmer_utils.pyx":22
  *     list of offsets of kmer in seq
  *     """
  *     cdef object kmer2seq = defaultdict(lambda : defaultdict(list))             # <<<<<<<<<<<<<<
  *     cdef str seq
  *     cdef str seqq
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5taggd_4misc_10kmer_utils_15get_kmers_dicts_lambda, 0, __pyx_n_s_get_kmers_dicts_locals_lambda, NULL, __pyx_n_s_taggd_misc_kmer_utils, __pyx_d, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_5taggd_4misc_10kmer_utils_15get_kmers_dicts_lambda, 0, __pyx_n_s_get_kmers_dicts_locals_lambda, NULL, __pyx_n_s_taggd_misc_kmer_utils, __pyx_d, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -972,17 +977,17 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -990,18 +995,9 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
   __pyx_v_kmer2seq = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "taggd/misc/kmer_utils.pyx":26
+  /* "taggd/misc/kmer_utils.pyx":27
  *     cdef str kmer
  *     cdef int i
- *     cdef int slider_increment = 1             # <<<<<<<<<<<<<<
- *     for seq in seqs:
- *         # Adjust barcode if round robin
- */
-  __pyx_v_slider_increment = 1;
-
-  /* "taggd/misc/kmer_utils.pyx":27
- *     cdef int i
- *     cdef int slider_increment = 1
  *     for seq in seqs:             # <<<<<<<<<<<<<<
  *         # Adjust barcode if round robin
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq
@@ -1257,8 +1253,8 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
     }
 
     /* "taggd/misc/kmer_utils.pyx":27
+ *     cdef str kmer
  *     cdef int i
- *     cdef int slider_increment = 1
  *     for seq in seqs:             # <<<<<<<<<<<<<<
  *         # Adjust barcode if round robin
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq
@@ -1280,7 +1276,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
  *     kmer2seq.default_factory = None
  *     return kmer2seq             # <<<<<<<<<<<<<<
  * 
- * cdef list get_kmers(str seq, int k, bool round_robin=False):
+ * cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=0):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_kmer2seq);
@@ -1290,7 +1286,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
   /* "taggd/misc/kmer_utils.pyx":11
  * from collections import defaultdict
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False):             # <<<<<<<<<<<<<<
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):             # <<<<<<<<<<<<<<
  *     """
  *     Returns dictionaries for kmers of a list of sequences.
  */
@@ -1318,18 +1314,18 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 /* "taggd/misc/kmer_utils.pyx":43
  *     return kmer2seq
  * 
- * cdef list get_kmers(str seq, int k, bool round_robin=False):             # <<<<<<<<<<<<<<
+ * cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=0):             # <<<<<<<<<<<<<<
  *     """
  *     Returns the kmers of a sequence as a list of kmer-offset tuples.
  */
 
 static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_seq, int __pyx_v_k, struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers *__pyx_optional_args) {
   PyBoolObject *__pyx_v_round_robin = ((PyBoolObject *)Py_False);
+  int __pyx_v_slider_increment = ((int)0);
   PyObject *__pyx_v_kmer_list = 0;
   PyObject *__pyx_v_seqq = 0;
   PyObject *__pyx_v_kmer = 0;
   int __pyx_v_i;
-  int __pyx_v_slider_increment;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1347,37 +1343,40 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_round_robin = __pyx_optional_args->round_robin;
+      if (__pyx_optional_args->__pyx_n > 1) {
+        __pyx_v_slider_increment = __pyx_optional_args->slider_increment;
+      }
     }
   }
 
-  /* "taggd/misc/kmer_utils.pyx":52
+  /* "taggd/misc/kmer_utils.pyx":53
  *     :return: the kmers list (kmer, offset).
  *     """
- *     cdef list kmer_list = []             # <<<<<<<<<<<<<<
+ *     cdef list kmer_list = list()             # <<<<<<<<<<<<<<
  *     cdef str seqq = seq + seq[0:(k-1)] if round_robin else seq
  *     cdef str kmer
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_kmer_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/misc/kmer_utils.pyx":53
+  /* "taggd/misc/kmer_utils.pyx":54
  *     """
- *     cdef list kmer_list = []
+ *     cdef list kmer_list = list()
  *     cdef str seqq = seq + seq[0:(k-1)] if round_robin else seq             # <<<<<<<<<<<<<<
  *     cdef str kmer
  *     cdef int i
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_round_robin)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_round_robin)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_2) {
     if (unlikely(__pyx_v_seq == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_3 = PySequence_GetSlice(__pyx_v_seq, 0, (__pyx_v_k - 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PySequence_GetSlice(__pyx_v_seq, 0, (__pyx_v_k - 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyNumber_Add(__pyx_v_seq, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyNumber_Add(__pyx_v_seq, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_1 = __pyx_t_4;
@@ -1388,15 +1387,6 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   }
   __pyx_v_seqq = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
-
-  /* "taggd/misc/kmer_utils.pyx":56
- *     cdef str kmer
- *     cdef int i
- *     cdef int slider_increment = 1             # <<<<<<<<<<<<<<
- *     # Simply compute kmers for the sequence
- *     #TODO this function could be used in get_kmers_dictst to avoid code duplication
- */
-  __pyx_v_slider_increment = 1;
 
   /* "taggd/misc/kmer_utils.pyx":59
  *     # Simply compute kmers for the sequence
@@ -1593,7 +1583,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   /* "taggd/misc/kmer_utils.pyx":43
  *     return kmer2seq
  * 
- * cdef list get_kmers(str seq, int k, bool round_robin=False):             # <<<<<<<<<<<<<<
+ * cdef list get_kmers(str seq, int k, bool round_robin=False, int slider_increment=0):             # <<<<<<<<<<<<<<
  *     """
  *     Returns the kmers of a sequence as a list of kmer-offset tuples.
  */
@@ -1788,7 +1778,7 @@ PyMODINIT_FUNC PyInit_kmer_utils(void)
  * from cpython cimport bool
  * from collections import defaultdict             # <<<<<<<<<<<<<<
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False):
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider_increment=1):
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);

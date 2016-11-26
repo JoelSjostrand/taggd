@@ -15,7 +15,7 @@ cdef int post_overhang
 cdef float ambiguity_factor
 cdef bool no_offset_speedup
 
-# Dictionary
+# Dictionary of kmer to sequences
 cdef object kmer2seq = None
 
 # Metrics
@@ -57,7 +57,7 @@ def init(dict true_barcodes_,
     # Create k-mer mappings with ALL kmers
     global kmer2seq
     kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False)
-    
+    print "Numer of kmers " + str(len(kmer2seq.keys()))
     # Metrics
     global SUBGLOBAL
     global LEVENSHTEIN
@@ -76,20 +76,25 @@ def init(dict true_barcodes_,
 cdef list get_candidates(str read_barcode):
     """
     Returns candidate barcodes for a read barcode
-    as a dict with <barcode, read kmer hits>.
+    as a list of barcodes
+    First, split the barcode in kmers and then
+    finds all the candidate barcodes of the kmers
     :param read_barcode the barcode from which to get candidates
-    :return a list of candidatess
+    :return a list of candidates barcodes
     """
     # NOTE probably faster to keep kmer_offsets in memory as we will call
     #      this function several times with the same barcode but we get a penalty in memory use
     cdef dict candidates = dict()
-    cdef kmers_offsets = ku.get_kmers(read_barcode, k, False)
+    cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
     cdef int penalty = 0
     cdef int min_penalty = 0
     cdef str kmer
     cdef int offset
-    cdef dict hits
+    cdef object hits
     cdef int hit_offset
+    cdef str hit
+    cdef list hit_offsets
+    
     # Iterate all the kmer-offset combinations found in the input barcode
     for kmer, offset in kmers_offsets:
         # Obtain all the barcodes that matched for the current kmer
@@ -99,7 +104,7 @@ cdef list get_candidates(str read_barcode):
             continue
         # For each true barcode containing read's kmer.
         # Hit refers to barcode and hit_offsets to where the kmer was in the barcode
-        for hit, hit_offsets in hits:
+        for hit, hit_offsets in hits.iteritems():
             if no_offset_speedup:
                 # NON-OPTIMIZED CASE
                 # For each kmer in read (typically incremented by k positions at a time).
@@ -121,11 +126,8 @@ cdef list get_candidates(str read_barcode):
                 candidates[hit] = max(min_penalty, candidates[hit])
             except KeyError:
                 candidates[hit] = min_penalty
-            
-    # Clear out all candidates with a forced offset penalty greater than the max edit distance:
-    cdef filtered_candidates = [hit for hit,penal in candidates if penal > max_edit_distance]
-    # Return the candidates
-    return filtered_candidates
+    # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
+    return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
     
 cdef list get_distances(str read_barcode, list candidates):
     """

@@ -27,9 +27,8 @@ def demultiplex(str filename_reads,
     parallel subprocesses, each writing its own file, then
     merging them together to coherent files.
     """
-
     cdef object pool = mp.Pool(subprocesses)
-
+    
     # Fire off workers
     cdef object jobs = deque()
     cdef object job = None
