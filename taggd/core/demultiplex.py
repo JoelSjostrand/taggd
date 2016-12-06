@@ -13,9 +13,9 @@ with the barcode and properties like this:
 
 B0:Z:<barcode> B1:Z:<prop1> B2:Z:<prop3> ...
 
-Source:          https://github.com/JoelSjostrand/taggd
+Source:          https://github.com/SpatialTranscriptomicsResearch/taggd
 Python package:  https://pypi.python.org/pypi/taggd
-Contact:         joel.sjostrand@gmail.com
+Contact:         joel.sjostrand@gmail.com;jose.fernandez.navarro@scilifelab.se
 """
 import os
 import time
@@ -27,12 +27,17 @@ import taggd.core.demultiplex_sub_functions as sub
 import taggd.core.demultiplex_search_functions as srch
 
 def main(argv=None):
-    """Main application."""
+    """
+    Main application.
+    Starts a timer, create parameter parsers, parsers parameters
+    and run all the steps for the demultiplexing.
+    """
 
     start_time = time.time()
 
     # Create a parser
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, 
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
     # Needed parameters
     parser.add_argument('barcodes_infile', 
@@ -111,6 +116,11 @@ def main(argv=None):
                         help="Turns off an offset speedup routine.\n" \
                         "Increases running time but may yield more hits.",
                         default=False, action='store_true')
+    parser.add_argument('--multiple-hits-keep-one', 
+                        help="When multiple kmer hits are found for a record\n" \
+                        "keep one as unambiguous and the rest as ambiguous",
+                        default=False, action='store_true')
+    parser.add_argument('--version', action='version', version='%(prog)s ' + "0.3.0")
 
     # Parse
     if argv == None:
@@ -162,22 +172,10 @@ def main(argv=None):
     fn_bc = os.path.abspath(options.barcodes_infile)
     fn_reads = os.path.abspath(options.reads_infile)
     fn_prefix = os.path.abspath(options.outfile_prefix)
-    if not options.no_matched_output:
-        fn_matched = fn_prefix + "_matched." + frmt
-    else:
-        fn_matched = None
-    if not options.no_ambiguous_output:
-        fn_ambig = fn_prefix + "_ambiguous." + frmt
-    else:
-        fn_ambig = None
-    if not options.no_unmatched_output:
-        fn_unmatched = fn_prefix + "_unmatched." + frmt
-    else:
-        fn_unmatched = None
-    if not options.no_results_output:
-        fn_results = fn_prefix + "_results.tsv"
-    else:
-        fn_results = None
+    fn_matched = None if options.no_matched_output else fn_prefix + "_matched." + frmt
+    fn_ambig = None if options.no_ambiguous_output else fn_prefix + "_ambiguous." + frmt
+    fn_unmatched = None if options.no_unmatched_output else fn_prefix + "_unmatched." + frmt
+    fn_results = None if options.no_results_output else fn_prefix + "_results.tsv"
 
     # Subprocesses
     if options.subprocesses == 0:
@@ -193,12 +191,12 @@ def main(argv=None):
     print "# Number of barcodes in input: " + str(len(true_barcodes))
     lngth = len(true_barcodes.keys()[0])
     print "# Barcode length: " + str(lngth)
-    print "# Barcode length when overhang added: " + str(lngth + min(options.start_position, options.overhang) +
-        options.overhang)
+    print "# Barcode length when overhang added: " + \
+    str(lngth + min(options.start_position, options.overhang) + options.overhang)
 
     # Check barcodes file.
     if options.estimate_min_edit_distance > 0:
-        min_dist = bu.estimate_min_edit_distance(true_barcodes, options.estimate_min_edit_distance)
+        min_dist = estimate_min_edit_distance(true_barcodes, options.estimate_min_edit_distance)
         if min_dist <= options.max_edit_distance:
             raise ValueError("Invalid max edit distance: exceeds or equal " \
                              "to estimated minimum edit distance among true barcodes.")
@@ -214,7 +212,8 @@ def main(argv=None):
              options.overhang,
              options.max_edit_distance,
              options.homopolymer_filter,
-             options.seed)
+             options.seed,
+             options.multiple_hits_keep_one)
 
     srch.init(true_barcodes,
               options.k,

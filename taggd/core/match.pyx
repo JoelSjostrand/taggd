@@ -9,51 +9,32 @@ cdef str get_match_header():
     """
     Returns a header for the match-to-string conversion.
     """
-    return "#Annotation\tMatch_result\tBarcode\tEdit_distance\tAmbiguous_top_hits\t" \
-        "Qualified_candidates\tRaw_candidates\tLast_position\tApprox_insertions\tApprox_deletions"
+    return "#Annotation\tMatch_result\tBarcode\tEdit_distance"
 
 class Match(object):
     """
-    Shorthand for a match. Not cdef-cythonized so as to keep threading compatible.
+    Shorthand for a match. 
+    Not cdef-cythonized so as to keep threading compatible.
     """
 
     def __init__(self,
-                 object record_,
-                 int match_type_,
-                 str barcode_,
-                 int edit_distance_,
-                 int ambiguous_top_hits_,
-                 int qualified_candidates_,
-                 int raw_candidates_,
-                 int last_position_,
-                 int insertions_read_,
-                 int insertions_barcode_):
+                 object record,
+                 int match_type,
+                 str barcode,
+                 int edit_distance = 1):
         """
         Constructor.
         """
-        self.record = record_
-        self.match_type = match_type_
-        self.barcode = barcode_
-        self.edit_distance = edit_distance_
-        self.ambiguous_top_hits = ambiguous_top_hits_
-        self.qualified_candidates = qualified_candidates_
-        self.raw_candidates = raw_candidates_
-        self.last_position = last_position_
-        self.insertions_read = insertions_read_
-        self.insertions_barcode = insertions_barcode_
+        self.record = record
+        self.match_type = match_type
+        self.barcode = barcode
+        self.edit_distance = edit_distance
 
 
     def __str__(self):
         """
         String converter.
         """
-        return (self.record.annotation + '\t' +
-                match_type.match_type_to_str(self.match_type) + '\t' +
-                self.barcode + '\t' +
-                str(self.edit_distance) + '\t' +
-                str(self.ambiguous_top_hits) + '\t' +
-                str(self.qualified_candidates) + '\t' +
-                str(self.raw_candidates) + '\t' +
-                str(self.last_position) + '\t' +
-                str(self.insertions_read) + '\t' +
-                str(self.insertions_barcode))
+        return ("%s\t%s\t%s\t%i" % (self.record.annotation, 
+                                    match_type.match_type_to_str(self.match_type), 
+                                    self.barcode, self.edit_distance))

@@ -1,6 +1,8 @@
 """
-Contains functions for demultiplexing every i-th line of a an input file,
-writing to one or more output files.
+Contains functions for demultiplexing records.
+It uses a multi-thread approach where several file descriptors
+are open and every i line of the input file is processed.
+The resulting file are then merged
 """
 
 import random
@@ -15,8 +17,6 @@ import taggd.core.statistics as statistics
 import taggd.core.demultiplex_search_functions as srch
 cimport taggd.core.demultiplex_search_functions as srch
 
-
-
 # User settings.
 cdef dict true_barcodes
 cdef int start_position
@@ -27,7 +27,7 @@ cdef int max_edit_distance
 cdef int homopolymer_filter
 cdef list homopolymers
 cdef str seed
-
+cdef bool multiple_hits_keep_one
 
 def init(dict true_barcodes_,
          int start_position_,
@@ -35,7 +35,8 @@ def init(dict true_barcodes_,
          int post_overhang_,
          int max_edit_distance_,
          int homopolymer_filter_,
-         str seed_):
+         str seed_,
+         bool multiple_hits_keep_one_):
     """
     Initializes global variables for matching.
     """
@@ -63,15 +64,16 @@ def init(dict true_barcodes_,
             homopolymers.append(c * homopolymer_filter)
     global seed
     seed = seed_
-
+    global multiple_hits_keep_one
+    multiple_hits_keep_one = multiple_hits_keep_one_
 
 def demultiplex_lines_wrapper(str filename_reads,
-                      str filename_matched,
-                      str filename_ambig,
-                      str filename_unmatched,
-                      str filename_res,
-                      int ln_offset,
-                      int ln_mod):
+                              str filename_matched,
+                              str filename_ambig,
+                              str filename_unmatched,
+                              str filename_res,
+                              int ln_offset,
+                              int ln_mod):
     """
     Non cdef wrapper for cdef:ed subprocess function for demultiplexing parts of a file.
     Demultiplexes every ln_mod line, starting at ln_offset, writing to specified files.
@@ -84,15 +86,13 @@ def demultiplex_lines_wrapper(str filename_reads,
                             ln_offset,
                             ln_mod)
 
-
-
 cdef object demultiplex_lines(str filename_reads,
-                            str filename_matched,
-                            str filename_ambig,
-                            str filename_unmatched,
-                            str filename_res,
-                            int ln_offset,
-                            int ln_mod):
+                              str filename_matched,
+                              str filename_ambig,
+                              str filename_unmatched,
+                              str filename_res,
+                              int ln_offset,
+                              int ln_mod):
     """
     Demultiplexes every ln_mod line, starting at ln_offset, writing to specified files.
     """
@@ -103,22 +103,15 @@ cdef object demultiplex_lines(str filename_reads,
     cdef int start_time = time.time()
 
     # Open files
+    # TODO check they are not open already
     cdef bool header = (ln_offset == 0)
     cdef object re_wr = rw.ReadsReaderWriter(filename_reads)
-    cdef object f_match = None
-    cdef object f_ambig = None
-    cdef object f_unmatch = None
-    cdef object f_res = None
-    if filename_matched != None:
-        f_match = re_wr.get_writer(filename_matched)
-    if filename_ambig != None:
-        f_ambig = re_wr.get_writer(filename_ambig)
-    if filename_unmatched != None:
-        f_unmatch = re_wr.get_writer(filename_unmatched)
-    if filename_res != None:
-        f_res = open(filename_res, "w")
-        if header:
-            f_res.write(match.get_match_header() + "\n")
+    re_wr.reader_open()
+    cdef object f_match = re_wr.get_writer(filename_matched) if filename_matched else None 
+    cdef object f_ambig = re_wr.get_writer(filename_ambig) if filename_ambig else None
+    cdef object f_unmatch = re_wr.get_writer(filename_unmatched) if filename_unmatched else None
+    cdef object f_res = open(filename_res, "w") if filename_res else None
+    if f_res != None and header: f_res.write(match.get_match_header() + "\n")
 
     # Start demultiplexing.
     cdef object stats = statistics.Statistics(ln_offset, max_edit_distance)
@@ -126,11 +119,9 @@ cdef object demultiplex_lines(str filename_reads,
     cdef int j
     cdef list mtch = None
     cdef object mt = None
-    cdef object mtch_amb = None
     cdef object rec = None
     cdef str bcseq = None
     cdef object bc = None
-    cdef list props = None
     cdef list tags = None
 
     # Iterate over all input lines.
@@ -145,8 +136,7 @@ cdef object demultiplex_lines(str filename_reads,
             for mt in mtch:
 
                 # Write to results file.
-                if f_res != None:
-                    f_res.write(str(mt) + "\n")
+                if f_res != None: f_res.write("{}\n".format(mt))
 
                 # No match.
                 if mt.match_type == match_type.UNMATCHED:
@@ -161,7 +151,7 @@ cdef object demultiplex_lines(str filename_reads,
                 tags = list()
                 tags.append(("B0:Z", mt.barcode))
                 for j in xrange(len(bc.attributes)):
-                    tags.append(("B" + str(j+1) + ":Z", bc.attributes[j]))
+                    tags.append(("B{}:Z".format(j+1), bc.attributes[j]))
                 mt.record.add_tags(tags)
 
                 # Write to output file.
@@ -188,58 +178,41 @@ cdef object demultiplex_lines(str filename_reads,
         # Next iteration
         i += 1
 
-
     # Close files.
     re_wr.reader_close()
-    if f_match != None:
-        f_match.close()
-    if f_ambig != None:
-        f_ambig.close()
-    if f_unmatch != None:
-        f_unmatch.close()
-    if f_res != None:
-        f_res.close()
+    if f_match != None: f_match.close()
+    if f_ambig != None: f_ambig.close()
+    if f_unmatch != None: f_unmatch.close()
+    if f_res != None: f_res.close()
 
+    # Get finish time
     stats.time = time.time() - start_time
     return stats
 
-
-
 cdef list demultiplex_record(object rec):
     """
-    Demultiplexes a record and returns a list of match objects (only more than one if ambiguous).
+    Demultiplexes a record and returns a list of match objects 
+    (only more than one if ambiguous).
     """
-
-    cdef str read_barcode = None
-    cdef dict candidates = None
-    cdef list qual_hits = None
-    cdef list top_hits = None
+    # Define local variables to speed up
     cdef str bcseq = None
     cdef int dist = 0
-    cdef int last_pos = -1
-    cdef int a = -1
-    cdef int b = -1
     cdef list mtch = list()
-    cdef object mtch_amb = None
     cdef bool homo = False
 
     # Try perfect hit first.
-    read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+    cdef read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
     if read_barcode in true_barcodes:
-        mtch.append(match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0, 1, 1, -1, barcode_length-1, 0, 0))
+        mtch.append(match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0))
         return mtch
 
     # Homopolymer filter.
-    homo = False
     for filter in homopolymers:
         if filter in read_barcode:
             homo = True
             break
     if homo:
-        # Record   Match type   Barcode
-        # [Edit distance, Ambiguous top hits, Qualified candidates,
-        # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1, 0, -1, -1, -1, -1, -1))
+        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1))
         return mtch
 
     # Include overhang.
@@ -247,38 +220,22 @@ cdef list demultiplex_record(object rec):
                         (start_position + barcode_length + post_overhang))]
 
     # Narrow down hits.
-    candidates = srch.get_candidates(read_barcode)
-    qual_hits = srch.get_distances(read_barcode, candidates)
-    top_hits = srch.get_top_hits(qual_hits)
-
+    cdef list candidates = srch.get_candidates(read_barcode)
+    cdef qual_hits = srch.get_distances(read_barcode, candidates)
+    cdef top_hits = srch.get_top_hits(qual_hits)
+    
     if not top_hits:
-        # NO MATCH.
-        # Record   Match type   Barcode
-        # [Edit distance, Ambiguous top hits, Qualified candidates,
-        # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1, 0, len(qual_hits), len(candidates), -1, -1, -1))
+        # UNMATCHED
+        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1))
         return mtch
-
-    if len(top_hits) == 1:
-        # UNAMBIGUOUS MATCH.
-        bcseq, dist, last_pos, a, b = top_hits[0]
-        # Record   Match type   Barcode
-        # [Edit distance, Ambiguous top hits, Qualified candidates,
-        # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch.append(match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist, len(top_hits), len(qual_hits),
-                           len(candidates), last_pos, a, b))
-        return mtch
-
-    # AMBIGUOUS MATCHES.
-    # Multiple best hits. Shuffle results to avoid biases.
-
 
     random.shuffle(top_hits)
-    for (bcseq, dist, last_pos, a, b) in top_hits:
-        # Record   Match type   Barcode
-        # [Edit distance, Ambiguous top hits, Qualified candidates,
-        # Raw candidates, Last_pos, Insertions read, Insertions true]
-        mtch_amb = match.Match(rec, match_type.MATCHED_AMBIGUOUSLY, bcseq, dist, len(top_hits),
-                len(qual_hits), len(candidates), last_pos, a, b)
-        mtch.append(mtch_amb)
+    if len(top_hits) == 1 or multiple_hits_keep_one:
+        # Unambiguous match
+        bcseq, dist = top_hits[0]
+        mtch.append(match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist))
+    else:
+        # Add the rest as ambiguous match
+        for bcseq, dist in top_hits:
+            mtch.append(match.Match(rec, match_type.MATCHED_AMBIGUOUSLY, bcseq, dist))
     return mtch

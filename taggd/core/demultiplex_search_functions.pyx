@@ -15,8 +15,8 @@ cdef int post_overhang
 cdef float ambiguity_factor
 cdef bool no_offset_speedup
 
-# Dictionary
-cdef dict kmer2seq = None
+# Dictionary of kmer to sequences
+cdef object kmer2seq = None
 
 # Metrics
 cdef int SUBGLOBAL
@@ -24,15 +24,14 @@ cdef int LEVENSHTEIN
 cdef int HAMMING
 cdef int metric_choice
 
-
-def init(dict true_barcodes_,\
-        int k_,\
-        int max_edit_distance_,\
-        str metric_,\
-        int slider_increment_,\
-        int pre_overhang_,\
-        int post_overhang_,\
-        float ambiguity_factor_,\
+def init(dict true_barcodes_,
+        int k_,
+        int max_edit_distance_,
+        str metric_,
+        int slider_increment_,
+        int pre_overhang_,
+        int post_overhang_,
+        float ambiguity_factor_,
         bool no_offset_speedup_):
     """
     Initializes settings (global variables).
@@ -57,8 +56,8 @@ def init(dict true_barcodes_,\
 
     # Create k-mer mappings with ALL kmers
     global kmer2seq
-    seq2kmer, kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False, 1)
-
+    kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False)
+    print "Numer of kmers " + str(len(kmer2seq.keys()))
     # Metrics
     global SUBGLOBAL
     global LEVENSHTEIN
@@ -74,135 +73,106 @@ def init(dict true_barcodes_,\
     else:
         raise ValueError("Invalid distance metric specified")
 
-
-cdef dict get_candidates(str read_barcode):
+cdef list get_candidates(str read_barcode):
     """
     Returns candidate barcodes for a read barcode
-    as a dict with <barcode, read kmer hits>.
+    as a list of barcodes
+    First, split the barcode in kmers and then
+    finds all the candidate barcodes of the kmers
+    :param read_barcode the barcode from which to get candidates
+    :return a list of candidates barcodes
     """
+    # NOTE probably faster to keep kmer_offsets in memory as we will call
+    #      this function several times with the same barcode but we get a penalty in memory use
     cdef dict candidates = dict()
     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
-    cdef str kmer
-    cdef int offset
-    cdef dict hits
-    cdef str hit
-    cdef list hit_offsets
-    cdef int hit_offset
     cdef int penalty = 0
     cdef int min_penalty = 0
-
-    # NON-OPTIMIZED CASE
-    # For each kmer in read (typically incremented by k positions at a time).
-    if no_offset_speedup:
-        for kmer, offset in kmers_offsets:
-            try:
-                hits = kmer2seq[kmer]
-            except KeyError:
-                continue
-            # For each true barcode containing read's kmer.
-            for hit, hit_offsets in hits.iteritems():
-                candidates[hit] = 0
-        return candidates
-
-    # OPTIMIZED CASE
-    # For each kmer in read (typically incremented by k positions at a time).
+    cdef str kmer
+    cdef int offset
+    cdef object hits
+    cdef int hit_offset
+    cdef str hit
+    cdef list hit_offsets
+    
+    # Iterate all the kmer-offset combinations found in the input barcode
     for kmer, offset in kmers_offsets:
-        # Obtain all the barcodes for a given kmer
+        # Obtain all the barcodes that matched for the current kmer
         try:
             hits = kmer2seq[kmer]
         except KeyError:
             continue
-
         # For each true barcode containing read's kmer.
+        # Hit refers to barcode and hit_offsets to where the kmer was in the barcode
         for hit, hit_offsets in hits.iteritems():
+            if no_offset_speedup:
+                # NON-OPTIMIZED CASE
+                # For each kmer in read (typically incremented by k positions at a time).
+                candidates[hit] = 0
+                continue
+            # OPTIMIZED CASE
+            # For each kmer in read (typically incremented by k positions at a time).
             min_penalty = 100000000
             # For each position that kmer occurred in the true barcode.
+            # Get the minimum penalty
             for hit_offset in hit_offsets:
                 # Kmer may be shifted overhang positions without penalty, due to subglobal alignment.
                 penalty = max(0, abs(offset - hit_offset) - pre_overhang - post_overhang)
-                if penalty < min_penalty:
-                    min_penalty = penalty
-            #catching KeyError is faster than makin look-ups
+                if penalty < min_penalty: min_penalty = penalty
+            # Assign the min penalty to the candidate (if exists already take max)
+            # TODO if there are several equal barcode candidates for different kmers,
+            #      why keep the max penalty and not an average?
             try:
                 candidates[hit] = max(min_penalty, candidates[hit])
             except KeyError:
                 candidates[hit] = min_penalty
-
-    # Assure we remove the kmers
-    del kmers_offsets
+    # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
+    return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
     
-    # Clear out all candidates with a forced offset penalty greater than the max edit distance:
-    for hit in candidates.keys():
-        if candidates[hit] > max_edit_distance:
-            del candidates[hit]
-    return candidates
-
-
-cdef list get_distances(str read_barcode, dict candidates):
+cdef list get_distances(str read_barcode, list candidates):
     """
     Returns all qualified hits ordered by distance as
-    a list of tuples, (barcode,distance,lastpos,ins,del).
+    a list of tuples, (barcode,distance).
+    :param read_barcode the original barcode
+    :param candidates a list of possible candidates
+    :return a list of (candidate, distance score)
     """
     cdef list qual_hits = []
-    cdef str candidate = None
-    cdef int penalty = 0
     cdef int dist = 0
     cdef int max_lim = 0
     cdef int read_last_pos = -1
     cdef int a = -1
     cdef int b = -1
-
-    append = qual_hits.append
-    for candidate, penalty in candidates.iteritems():
+    cdef str candidate
+    cdef int length_barcode = len(read_barcode)
+    # Iterate candidates, compute distance with the original barcode
+    # and create a list of candidate hits
+    for candidate in candidates:
         if metric_choice == SUBGLOBAL:
             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
         elif metric_choice == LEVENSHTEIN:
             # Account for the added overhang!
             # Note: This does NOT equate subglobal and may miss cases subglobal would catch!
-            max_lim = max_edit_distance + max(0, len(read_barcode) - len(candidate))
+            max_lim = max_edit_distance + max(0, length_barcode - len(candidate))
             dist = dm.levenshtein_distance(read_barcode, candidate, max_lim)
-            read_last_pos = -1
-            a = -1
-            b = -1
-        elif metric_choice == HAMMING:
-            dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)
-            read_last_pos = -1
-            a = -1
-            b = -1
         else:
-            raise ValueError("Invalid distance metric specified")
-        
-        if dist <= max_edit_distance:
-            append((candidate, dist, read_last_pos, a, b))
-                
+            dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)
+        # Only add if distance is good
+        if dist <= max_edit_distance: 
+            qual_hits.append((candidate, dist))
     return qual_hits
-
 
 cdef list get_top_hits(list qual_hits):
     """
-    Returns the top hits.
+    Returns the top hits candidates filtering by minimum distance
+    :param qual_hits the list of possible candidate tuples (barcode,distance)
+    :return the filtered list
     """
-    if len(qual_hits) == 0:
-        return None
-    
-    #TODO this can be optimized
-    
-    # Find smallest.
-    cdef int mini = 10000000
-    cdef str cand = None
-    cdef int dist = 0
-    cdef int last_pos = -1
-    cdef int a = -1
-    cdef int b = -1
-    for cand, dist, last_pos, a, b in qual_hits:
-        if dist < mini:
-            mini = dist
-    mini = round(mini * ambiguity_factor)
-
-    # Filter out the smallest
-    cdef list top_hits = []
-    append = top_hits.append
-    for cand, dist, last_pos, a, b in qual_hits:
-        if dist <= mini:
-            append((cand, dist, last_pos, a, b))
-    return top_hits
+    if len(qual_hits) == 0: return None
+ 
+    # Find smallest distance
+    from operator import itemgetter
+    sorted_qual_hits = sorted(qual_hits, key=itemgetter(1), reverse=False)
+    cdef int mini = round(sorted_qual_hits[0][1] * ambiguity_factor)
+    # Filter out elements with similar or lower distance than the min*ambiguity_factor
+    return [candidate for candidate in qual_hits if candidate[1] <= mini]
