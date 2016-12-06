@@ -1,6 +1,6 @@
-TagGD barcode demultiplexing utilities for Spatial Transcriptomics data.
+#TagGD barcode demultiplexing utilities for Spatial Transcriptomics data.
 
-This is the Python version, which is a generalized and more
+This is the Python version, which is a generalized, optimized and more
 up-to-date version of the C++ demultiplexer named "findIndexes"
 which you can find here https://github.com/pelinakan/UBD.
 
@@ -27,13 +27,13 @@ TagGD requires PySam and Numpy.
 (Assuming that you have a virtual environment
 installed such as Anaconda 2.7)
 
-cd <taggd demultiplexer root>
-python setup.py build
-python setup.py install
+    cd <taggd demultiplexer root>
+    python setup.py build
+    python setup.py install
 
 ##Run:
 
-taggd_demultiplex.py -h
+    taggd_demultiplex.py -h
 
 
 ##Contact: 
