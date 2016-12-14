@@ -1023,7 +1023,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
  *     for seq in seqs:
  *         # Adjust barcode if round robin
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq             # <<<<<<<<<<<<<<
- *         # Create the Kmers of length k with slider increment of 1
+ *         # Create the Kmers of length k with slider increment
  *         for i in xrange(0, len(seqq)-k+1, slider_increment):
  */
     __pyx_t_7 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_round_robin)); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1048,7 +1048,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 
     /* "taggd/misc/kmer_utils.pyx":31
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq
- *         # Create the Kmers of length k with slider increment of 1
+ *         # Create the Kmers of length k with slider increment
  *         for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *             kmer = seqq[i:i+k]
  *             kmer2seq[kmer][seq].append(i)
@@ -1117,7 +1117,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
       __pyx_v_i = __pyx_t_10;
 
       /* "taggd/misc/kmer_utils.pyx":32
- *         # Create the Kmers of length k with slider increment of 1
+ *         # Create the Kmers of length k with slider increment
  *         for i in xrange(0, len(seqq)-k+1, slider_increment):
  *             kmer = seqq[i:i+k]             # <<<<<<<<<<<<<<
  *             kmer2seq[kmer][seq].append(i)
@@ -1152,7 +1152,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 
       /* "taggd/misc/kmer_utils.pyx":31
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq
- *         # Create the Kmers of length k with slider increment of 1
+ *         # Create the Kmers of length k with slider increment
  *         for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *             kmer = seqq[i:i+k]
  *             kmer2seq[kmer][seq].append(i)

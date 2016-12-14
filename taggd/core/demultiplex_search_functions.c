@@ -460,17 +460,18 @@ struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers;
 /* "taggd/misc/kmer_utils.pxd":3
  * from cpython cimport bool
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?)             # <<<<<<<<<<<<<<
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?, int slider_increment=?)             # <<<<<<<<<<<<<<
  * cdef list get_kmers(str seq, int k, bool round_robin=?, int slider_increment=?)
  */
 struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts {
   int __pyx_n;
   PyBoolObject *round_robin;
+  int slider_increment;
 };
 
 /* "taggd/misc/kmer_utils.pxd":4
  * 
- * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?)
+ * cdef object get_kmers_dicts(list seqs, int k, bool round_robin=?, int slider_increment=?)
  * cdef list get_kmers(str seq, int k, bool round_robin=?, int slider_increment=?)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers {
@@ -485,7 +486,7 @@ struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance;
  * from cpython cimport bool
  * 
  * cdef int hamming_distance(str seq1, str seq2, int limit=?)             # <<<<<<<<<<<<<<
- * cdef list subglobal_distance(str, str)
+ * cdef int subglobal_distance(str, str)
  * cdef int levenshtein_distance(str seq1, str seq2, int limit=?)
  */
 struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance {
@@ -495,7 +496,7 @@ struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance {
 
 /* "taggd/misc/distance_metrics.pxd":5
  * cdef int hamming_distance(str seq1, str seq2, int limit=?)
- * cdef list subglobal_distance(str, str)
+ * cdef int subglobal_distance(str, str)
  * cdef int levenshtein_distance(str seq1, str seq2, int limit=?)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance {
@@ -623,18 +624,6 @@ static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObje
 #define __Pyx_CallUnboundCMethod0(cfunc, self)  __Pyx__CallUnboundCMethod0(cfunc, self)
 #endif
 
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
-#endif
-
 static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
 
 static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
@@ -660,10 +649,24 @@ static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyOb
 
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
 static CYTHON_INLINE void __Pyx_ExceptionSave(PyObject **type, PyObject **value, PyObject **tb);
 static void __Pyx_ExceptionReset(PyObject *type, PyObject *value, PyObject *tb);
 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
 
 static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
 
@@ -684,26 +687,6 @@ static CYTHON_INLINE unsigned int __Pyx_abs_int(int x) {
         return ((unsigned int)INT_MAX) + 1U;
     return (unsigned int) abs(x);
 }
-
-#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
-static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
-    PyObject *value;
-    value = PyDict_GetItemWithError(d, key);
-    if (unlikely(!value)) {
-        if (!PyErr_Occurred()) {
-            PyObject* args = PyTuple_Pack(1, key);
-            if (likely(args))
-                PyErr_SetObject(PyExc_KeyError, args);
-            Py_XDECREF(args);
-        }
-        return NULL;
-    }
-    Py_INCREF(value);
-    return value;
-}
-#else
-    #define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
-#endif
 
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
@@ -780,14 +763,6 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
-
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
@@ -905,7 +880,7 @@ static PyObject *(*__pyx_f_5taggd_4misc_10kmer_utils_get_kmers)(PyObject *, int,
 
 /* Module declarations from 'taggd.misc.distance_metrics' */
 static int (*__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance)(PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args); /*proto*/
-static PyObject *(*__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance)(PyObject *, PyObject *); /*proto*/
+static int (*__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance)(PyObject *, PyObject *); /*proto*/
 static int (*__pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance)(PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance *__pyx_optional_args); /*proto*/
 
 /* Module declarations from 'taggd.core.demultiplex_search_functions' */
@@ -932,14 +907,11 @@ static PyObject *__pyx_builtin_KeyError;
 static PyObject *__pyx_builtin_sorted;
 static PyObject *__pyx_builtin_round;
 static char __pyx_k_k[] = "k_";
-static char __pyx_k_end[] = "end";
 static char __pyx_k_key[] = "key";
-static char __pyx_k_file[] = "file";
 static char __pyx_k_init[] = "init";
 static char __pyx_k_keys[] = "keys";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_test[] = "__test__";
-static char __pyx_k_print[] = "print";
 static char __pyx_k_range[] = "range";
 static char __pyx_k_round[] = "round";
 static char __pyx_k_import[] = "__import__";
@@ -954,10 +926,11 @@ static char __pyx_k_iteritems[] = "iteritems";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_itemgetter[] = "itemgetter";
 static char __pyx_k_Levenshtein[] = "Levenshtein";
+static char __pyx_k_collections[] = "collections";
+static char __pyx_k_defaultdict[] = "defaultdict";
 static char __pyx_k_pre_overhang[] = "pre_overhang_";
 static char __pyx_k_post_overhang[] = "post_overhang_";
 static char __pyx_k_true_barcodes[] = "true_barcodes_";
-static char __pyx_k_Numer_of_kmers[] = "Numer of kmers ";
 static char __pyx_k_ambiguity_factor[] = "ambiguity_factor_";
 static char __pyx_k_slider_increment[] = "slider_increment_";
 static char __pyx_k_max_edit_distance[] = "max_edit_distance_";
@@ -970,13 +943,12 @@ static PyObject *__pyx_n_s_Hamming;
 static PyObject *__pyx_kp_s_Invalid_distance_metric_specifie;
 static PyObject *__pyx_n_s_KeyError;
 static PyObject *__pyx_n_s_Levenshtein;
-static PyObject *__pyx_kp_s_Numer_of_kmers;
 static PyObject *__pyx_n_s_Subglobal;
 static PyObject *__pyx_kp_s_Users_josefernandeznavarro_Proj;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_ambiguity_factor;
-static PyObject *__pyx_n_s_end;
-static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_collections;
+static PyObject *__pyx_n_s_defaultdict;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_itemgetter;
@@ -991,7 +963,6 @@ static PyObject *__pyx_n_s_no_offset_speedup;
 static PyObject *__pyx_n_s_operator;
 static PyObject *__pyx_n_s_post_overhang;
 static PyObject *__pyx_n_s_pre_overhang;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reverse;
 static PyObject *__pyx_n_s_round;
@@ -1011,7 +982,7 @@ static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_codeobj__5;
 
-/* "taggd/core/demultiplex_search_functions.pyx":27
+/* "taggd/core/demultiplex_search_functions.pyx":28
  * cdef int metric_choice
  * 
  * def init(dict true_barcodes_,             # <<<<<<<<<<<<<<
@@ -1066,46 +1037,46 @@ static PyObject *__pyx_pw_5taggd_4core_28demultiplex_search_functions_1init(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_max_edit_distance)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_metric)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_slider_increment)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pre_overhang)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_post_overhang)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ambiguity_factor)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_no_offset_speedup)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 9) {
       goto __pyx_L5_argtuple_error;
@@ -1121,26 +1092,26 @@ static PyObject *__pyx_pw_5taggd_4core_28demultiplex_search_functions_1init(PyOb
       values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
     }
     __pyx_v_true_barcodes_ = ((PyObject*)values[0]);
-    __pyx_v_k_ = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_max_edit_distance_ = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_max_edit_distance_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_k_ = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_max_edit_distance_ = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_max_edit_distance_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_metric_ = ((PyObject*)values[3]);
-    __pyx_v_slider_increment_ = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_slider_increment_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_pre_overhang_ = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_pre_overhang_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_post_overhang_ = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_post_overhang_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_ambiguity_factor_ = __pyx_PyFloat_AsFloat(values[7]); if (unlikely((__pyx_v_ambiguity_factor_ == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_slider_increment_ = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_slider_increment_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_pre_overhang_ = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_pre_overhang_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_post_overhang_ = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_post_overhang_ == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_ambiguity_factor_ = __pyx_PyFloat_AsFloat(values[7]); if (unlikely((__pyx_v_ambiguity_factor_ == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_no_offset_speedup_ = ((PyBoolObject *)values[8]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("init", 1, 9, 9, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("taggd.core.demultiplex_search_functions.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_true_barcodes_), (&PyDict_Type), 1, "true_barcodes_", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_metric_), (&PyString_Type), 1, "metric_", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_no_offset_speedup_), __pyx_ptype_7cpython_4bool_bool, 1, "no_offset_speedup_", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_true_barcodes_), (&PyDict_Type), 1, "true_barcodes_", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_metric_), (&PyString_Type), 1, "metric_", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_no_offset_speedup_), __pyx_ptype_7cpython_4bool_bool, 1, "no_offset_speedup_", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5taggd_4core_28demultiplex_search_functions_init(__pyx_self, __pyx_v_true_barcodes_, __pyx_v_k_, __pyx_v_max_edit_distance_, __pyx_v_metric_, __pyx_v_slider_increment_, __pyx_v_pre_overhang_, __pyx_v_post_overhang_, __pyx_v_ambiguity_factor_, __pyx_v_no_offset_speedup_);
 
   /* function exit code */
@@ -1159,21 +1130,20 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
   PyObject *__pyx_t_2 = NULL;
   struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers_dicts __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  Py_ssize_t __pyx_t_5;
+  PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *(*__pyx_t_8)(PyObject *);
+  PyObject *(*__pyx_t_7)(PyObject *);
+  int __pyx_t_8;
   int __pyx_t_9;
   int __pyx_t_10;
   int __pyx_t_11;
   int __pyx_t_12;
-  int __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":41
+  /* "taggd/core/demultiplex_search_functions.pyx":42
  * 
  *     global k
  *     k = k_             # <<<<<<<<<<<<<<
@@ -1182,7 +1152,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
   __pyx_v_5taggd_4core_28demultiplex_search_functions_k = __pyx_v_k_;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":43
+  /* "taggd/core/demultiplex_search_functions.pyx":44
  *     k = k_
  *     global max_edit_distance
  *     max_edit_distance = max_edit_distance_             # <<<<<<<<<<<<<<
@@ -1191,7 +1161,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
   __pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance = __pyx_v_max_edit_distance_;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":45
+  /* "taggd/core/demultiplex_search_functions.pyx":46
  *     max_edit_distance = max_edit_distance_
  *     global metric
  *     metric = metric_             # <<<<<<<<<<<<<<
@@ -1203,7 +1173,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
   __Pyx_DECREF_SET(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_v_metric_);
   __Pyx_GIVEREF(__pyx_v_metric_);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":47
+  /* "taggd/core/demultiplex_search_functions.pyx":48
  *     metric = metric_
  *     global slider_increment
  *     slider_increment = slider_increment_             # <<<<<<<<<<<<<<
@@ -1212,7 +1182,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
   __pyx_v_5taggd_4core_28demultiplex_search_functions_slider_increment = __pyx_v_slider_increment_;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":49
+  /* "taggd/core/demultiplex_search_functions.pyx":50
  *     slider_increment = slider_increment_
  *     global pre_overhang
  *     pre_overhang = pre_overhang_             # <<<<<<<<<<<<<<
@@ -1221,7 +1191,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
   __pyx_v_5taggd_4core_28demultiplex_search_functions_pre_overhang = __pyx_v_pre_overhang_;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":51
+  /* "taggd/core/demultiplex_search_functions.pyx":52
  *     pre_overhang = pre_overhang_
  *     global post_overhang
  *     post_overhang = post_overhang_             # <<<<<<<<<<<<<<
@@ -1230,7 +1200,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
   __pyx_v_5taggd_4core_28demultiplex_search_functions_post_overhang = __pyx_v_post_overhang_;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":53
+  /* "taggd/core/demultiplex_search_functions.pyx":54
  *     post_overhang = post_overhang_
  *     global ambiguity_factor
  *     ambiguity_factor = ambiguity_factor_             # <<<<<<<<<<<<<<
@@ -1239,7 +1209,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
   __pyx_v_5taggd_4core_28demultiplex_search_functions_ambiguity_factor = __pyx_v_ambiguity_factor_;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":55
+  /* "taggd/core/demultiplex_search_functions.pyx":56
  *     ambiguity_factor = ambiguity_factor_
  *     global no_offset_speedup
  *     no_offset_speedup = no_offset_speedup_             # <<<<<<<<<<<<<<
@@ -1251,23 +1221,23 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
   __Pyx_DECREF_SET(__pyx_v_5taggd_4core_28demultiplex_search_functions_no_offset_speedup, __pyx_v_no_offset_speedup_);
   __Pyx_GIVEREF(((PyObject *)__pyx_v_no_offset_speedup_));
 
-  /* "taggd/core/demultiplex_search_functions.pyx":59
+  /* "taggd/core/demultiplex_search_functions.pyx":60
  *     # Create k-mer mappings with ALL kmers
  *     global kmer2seq
  *     kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False)             # <<<<<<<<<<<<<<
- *     print "Numer of kmers " + str(len(kmer2seq.keys()))
+ * 
  *     # Metrics
  */
   if (unlikely(__pyx_v_true_barcodes_ == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "keys");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_true_barcodes_); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_true_barcodes_); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_3.__pyx_n = 1;
   __pyx_t_3.round_robin = ((PyBoolObject *)Py_False);
-  __pyx_t_2 = __pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(((PyObject*)__pyx_t_1), __pyx_v_5taggd_4core_28demultiplex_search_functions_k, &__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(((PyObject*)__pyx_t_1), __pyx_v_5taggd_4core_28demultiplex_search_functions_k, &__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_XGOTREF(__pyx_v_5taggd_4core_28demultiplex_search_functions_kmer2seq);
@@ -1275,62 +1245,17 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":60
- *     global kmer2seq
- *     kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False)
- *     print "Numer of kmers " + str(len(kmer2seq.keys()))             # <<<<<<<<<<<<<<
- *     # Metrics
- *     global SUBGLOBAL
- */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_5taggd_4core_28demultiplex_search_functions_kmer2seq, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-    }
-  }
-  if (__pyx_t_4) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
-  __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_Numer_of_kmers, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "taggd/core/demultiplex_search_functions.pyx":65
+  /* "taggd/core/demultiplex_search_functions.pyx":66
  *     global LEVENSHTEIN
  *     global HAMMING
  *     SUBGLOBAL, LEVENSHTEIN, HAMMING = range(0, 3)             # <<<<<<<<<<<<<<
  *     global metric_choice
  *     if metric == "Subglobal":
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-    PyObject* sequence = __pyx_t_1;
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
+    PyObject* sequence = __pyx_t_2;
     #if CYTHON_COMPILING_IN_CPYTHON
     Py_ssize_t size = Py_SIZE(sequence);
     #else
@@ -1339,75 +1264,75 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
     if (unlikely(size != 3)) {
       if (size > 3) __Pyx_RaiseTooManyValuesError(3);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     #if CYTHON_COMPILING_IN_CPYTHON
     if (likely(PyTuple_CheckExact(sequence))) {
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+      __pyx_t_1 = PyTuple_GET_ITEM(sequence, 0); 
       __pyx_t_4 = PyTuple_GET_ITEM(sequence, 1); 
-      __pyx_t_6 = PyTuple_GET_ITEM(sequence, 2); 
+      __pyx_t_5 = PyTuple_GET_ITEM(sequence, 2); 
     } else {
-      __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
+      __pyx_t_1 = PyList_GET_ITEM(sequence, 0); 
       __pyx_t_4 = PyList_GET_ITEM(sequence, 1); 
-      __pyx_t_6 = PyList_GET_ITEM(sequence, 2); 
+      __pyx_t_5 = PyList_GET_ITEM(sequence, 2); 
     }
-    __Pyx_INCREF(__pyx_t_2);
+    __Pyx_INCREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_t_4);
-    __Pyx_INCREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx_t_5);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
     #endif
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
-    index = 0; __pyx_t_2 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_2)) goto __pyx_L3_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_2);
-    index = 1; __pyx_t_4 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_4)) goto __pyx_L3_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_4);
-    index = 2; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L3_unpacking_failed;
+    __pyx_t_6 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_8 = NULL;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_7 = Py_TYPE(__pyx_t_6)->tp_iternext;
+    index = 0; __pyx_t_1 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_1)) goto __pyx_L3_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_1);
+    index = 1; __pyx_t_4 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_4)) goto __pyx_L3_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_4);
+    index = 2; __pyx_t_5 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_5)) goto __pyx_L3_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_7(__pyx_t_6), 3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = NULL;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     goto __pyx_L4_unpacking_done;
     __pyx_L3_unpacking_failed:;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_8 = NULL;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_7 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_L4_unpacking_done:;
   }
-  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_5taggd_4core_28demultiplex_search_functions_SUBGLOBAL = __pyx_t_9;
-  __pyx_v_5taggd_4core_28demultiplex_search_functions_LEVENSHTEIN = __pyx_t_10;
-  __pyx_v_5taggd_4core_28demultiplex_search_functions_HAMMING = __pyx_t_11;
+  __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_5taggd_4core_28demultiplex_search_functions_SUBGLOBAL = __pyx_t_8;
+  __pyx_v_5taggd_4core_28demultiplex_search_functions_LEVENSHTEIN = __pyx_t_9;
+  __pyx_v_5taggd_4core_28demultiplex_search_functions_HAMMING = __pyx_t_10;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":67
+  /* "taggd/core/demultiplex_search_functions.pyx":68
  *     SUBGLOBAL, LEVENSHTEIN, HAMMING = range(0, 3)
  *     global metric_choice
  *     if metric == "Subglobal":             # <<<<<<<<<<<<<<
  *         metric_choice = SUBGLOBAL
  *     elif metric == "Levenshtein":
  */
-  __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_n_s_Subglobal, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_13 = (__pyx_t_12 != 0);
-  if (__pyx_t_13) {
+  __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_n_s_Subglobal, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_12 = (__pyx_t_11 != 0);
+  if (__pyx_t_12) {
 
-    /* "taggd/core/demultiplex_search_functions.pyx":68
+    /* "taggd/core/demultiplex_search_functions.pyx":69
  *     global metric_choice
  *     if metric == "Subglobal":
  *         metric_choice = SUBGLOBAL             # <<<<<<<<<<<<<<
@@ -1416,7 +1341,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
     __pyx_v_5taggd_4core_28demultiplex_search_functions_metric_choice = __pyx_v_5taggd_4core_28demultiplex_search_functions_SUBGLOBAL;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":67
+    /* "taggd/core/demultiplex_search_functions.pyx":68
  *     SUBGLOBAL, LEVENSHTEIN, HAMMING = range(0, 3)
  *     global metric_choice
  *     if metric == "Subglobal":             # <<<<<<<<<<<<<<
@@ -1426,18 +1351,18 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
     goto __pyx_L5;
   }
 
-  /* "taggd/core/demultiplex_search_functions.pyx":69
+  /* "taggd/core/demultiplex_search_functions.pyx":70
  *     if metric == "Subglobal":
  *         metric_choice = SUBGLOBAL
  *     elif metric == "Levenshtein":             # <<<<<<<<<<<<<<
  *         metric_choice = LEVENSHTEIN
  *     elif metric == "Hamming":
  */
-  __pyx_t_13 = (__Pyx_PyString_Equals(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_n_s_Levenshtein, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_12 = (__pyx_t_13 != 0);
-  if (__pyx_t_12) {
+  __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_n_s_Levenshtein, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = (__pyx_t_12 != 0);
+  if (__pyx_t_11) {
 
-    /* "taggd/core/demultiplex_search_functions.pyx":70
+    /* "taggd/core/demultiplex_search_functions.pyx":71
  *         metric_choice = SUBGLOBAL
  *     elif metric == "Levenshtein":
  *         metric_choice = LEVENSHTEIN             # <<<<<<<<<<<<<<
@@ -1446,7 +1371,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
     __pyx_v_5taggd_4core_28demultiplex_search_functions_metric_choice = __pyx_v_5taggd_4core_28demultiplex_search_functions_LEVENSHTEIN;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":69
+    /* "taggd/core/demultiplex_search_functions.pyx":70
  *     if metric == "Subglobal":
  *         metric_choice = SUBGLOBAL
  *     elif metric == "Levenshtein":             # <<<<<<<<<<<<<<
@@ -1456,18 +1381,18 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
     goto __pyx_L5;
   }
 
-  /* "taggd/core/demultiplex_search_functions.pyx":71
+  /* "taggd/core/demultiplex_search_functions.pyx":72
  *     elif metric == "Levenshtein":
  *         metric_choice = LEVENSHTEIN
  *     elif metric == "Hamming":             # <<<<<<<<<<<<<<
  *         metric_choice = HAMMING
  *     else:
  */
-  __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_n_s_Hamming, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_13 = (__pyx_t_12 != 0);
-  if (__pyx_t_13) {
+  __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_v_5taggd_4core_28demultiplex_search_functions_metric, __pyx_n_s_Hamming, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_12 = (__pyx_t_11 != 0);
+  if (__pyx_t_12) {
 
-    /* "taggd/core/demultiplex_search_functions.pyx":72
+    /* "taggd/core/demultiplex_search_functions.pyx":73
  *         metric_choice = LEVENSHTEIN
  *     elif metric == "Hamming":
  *         metric_choice = HAMMING             # <<<<<<<<<<<<<<
@@ -1476,7 +1401,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  */
     __pyx_v_5taggd_4core_28demultiplex_search_functions_metric_choice = __pyx_v_5taggd_4core_28demultiplex_search_functions_HAMMING;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":71
+    /* "taggd/core/demultiplex_search_functions.pyx":72
  *     elif metric == "Levenshtein":
  *         metric_choice = LEVENSHTEIN
  *     elif metric == "Hamming":             # <<<<<<<<<<<<<<
@@ -1486,7 +1411,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
     goto __pyx_L5;
   }
 
-  /* "taggd/core/demultiplex_search_functions.pyx":74
+  /* "taggd/core/demultiplex_search_functions.pyx":75
  *         metric_choice = HAMMING
  *     else:
  *         raise ValueError("Invalid distance metric specified")             # <<<<<<<<<<<<<<
@@ -1494,15 +1419,15 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
  * cdef list get_candidates(str read_barcode):
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_L5:;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":27
+  /* "taggd/core/demultiplex_search_functions.pyx":28
  * cdef int metric_choice
  * 
  * def init(dict true_barcodes_,             # <<<<<<<<<<<<<<
@@ -1517,8 +1442,8 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("taggd.core.demultiplex_search_functions.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1527,7 +1452,7 @@ static PyObject *__pyx_pf_5taggd_4core_28demultiplex_search_functions_init(CYTHO
   return __pyx_r;
 }
 
-/* "taggd/core/demultiplex_search_functions.pyx":76
+/* "taggd/core/demultiplex_search_functions.pyx":77
  *         raise ValueError("Invalid distance metric specified")
  * 
  * cdef list get_candidates(str read_barcode):             # <<<<<<<<<<<<<<
@@ -1550,11 +1475,11 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
+  struct __pyx_opt_args_5taggd_4misc_10kmer_utils_get_kmers __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *(*__pyx_t_8)(PyObject *);
   int __pyx_t_9;
@@ -1576,35 +1501,60 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_candidates", 0);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":87
+  /* "taggd/core/demultiplex_search_functions.pyx":88
  *     # NOTE probably faster to keep kmer_offsets in memory as we will call
  *     #      this function several times with the same barcode but we get a penalty in memory use
- *     cdef dict candidates = dict()             # <<<<<<<<<<<<<<
+ *     cdef object candidates = defaultdict(int)             # <<<<<<<<<<<<<<
  *     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
  *     cdef int penalty = 0
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_candidates = ((PyObject*)__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)(&PyInt_Type))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
+    __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
+    PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)(&PyInt_Type)));
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_candidates = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":88
+  /* "taggd/core/demultiplex_search_functions.pyx":89
  *     #      this function several times with the same barcode but we get a penalty in memory use
- *     cdef dict candidates = dict()
+ *     cdef object candidates = defaultdict(int)
  *     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)             # <<<<<<<<<<<<<<
  *     cdef int penalty = 0
  *     cdef int min_penalty = 0
  */
-  __pyx_t_2.__pyx_n = 2;
-  __pyx_t_2.round_robin = ((PyBoolObject *)Py_False);
-  __pyx_t_2.slider_increment = __pyx_v_5taggd_4core_28demultiplex_search_functions_slider_increment;
-  __pyx_t_1 = __pyx_f_5taggd_4misc_10kmer_utils_get_kmers(__pyx_v_read_barcode, __pyx_v_5taggd_4core_28demultiplex_search_functions_k, &__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5.__pyx_n = 2;
+  __pyx_t_5.round_robin = ((PyBoolObject *)Py_False);
+  __pyx_t_5.slider_increment = __pyx_v_5taggd_4core_28demultiplex_search_functions_slider_increment;
+  __pyx_t_1 = __pyx_f_5taggd_4misc_10kmer_utils_get_kmers(__pyx_v_read_barcode, __pyx_v_5taggd_4core_28demultiplex_search_functions_k, &__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_kmers_offsets = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":89
- *     cdef dict candidates = dict()
+  /* "taggd/core/demultiplex_search_functions.pyx":90
+ *     cdef object candidates = defaultdict(int)
  *     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
  *     cdef int penalty = 0             # <<<<<<<<<<<<<<
  *     cdef int min_penalty = 0
@@ -1612,7 +1562,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
   __pyx_v_penalty = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":90
+  /* "taggd/core/demultiplex_search_functions.pyx":91
  *     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
  *     cdef int penalty = 0
  *     cdef int min_penalty = 0             # <<<<<<<<<<<<<<
@@ -1621,7 +1571,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
   __pyx_v_min_penalty = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":99
+  /* "taggd/core/demultiplex_search_functions.pyx":100
  * 
  *     # Iterate all the kmer-offset combinations found in the input barcode
  *     for kmer, offset in kmers_offsets:             # <<<<<<<<<<<<<<
@@ -1630,19 +1580,19 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
   if (unlikely(__pyx_v_kmers_offsets == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_1 = __pyx_v_kmers_offsets; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
+  __pyx_t_1 = __pyx_v_kmers_offsets; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
   for (;;) {
-    if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
+    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if ((likely(PyTuple_CheckExact(__pyx_t_4))) || (PyList_CheckExact(__pyx_t_4))) {
-      PyObject* sequence = __pyx_t_4;
+    if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
+      PyObject* sequence = __pyx_t_2;
       #if CYTHON_COMPILING_IN_CPYTHON
       Py_ssize_t size = Py_SIZE(sequence);
       #else
@@ -1651,36 +1601,36 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       #if CYTHON_COMPILING_IN_CPYTHON
       if (likely(PyTuple_CheckExact(sequence))) {
-        __pyx_t_5 = PyTuple_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyTuple_GET_ITEM(sequence, 1); 
+        __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
       } else {
-        __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyList_GET_ITEM(sequence, 1); 
+        __pyx_t_4 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_3 = PyList_GET_ITEM(sequence, 1); 
       }
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
       #endif
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
-      index = 0; __pyx_t_5 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_5)) goto __pyx_L5_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_5);
-      index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L5_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      index = 0; __pyx_t_4 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_4)) goto __pyx_L5_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_4);
+      index = 1; __pyx_t_3 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_3)) goto __pyx_L5_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_3);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L6_unpacking_done;
@@ -1688,17 +1638,17 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __pyx_L6_unpacking_done:;
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_kmer, ((PyObject*)__pyx_t_5));
-    __pyx_t_5 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_kmer, ((PyObject*)__pyx_t_4));
+    __pyx_t_4 = 0;
     __pyx_v_offset = __pyx_t_9;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":101
+    /* "taggd/core/demultiplex_search_functions.pyx":102
  *     for kmer, offset in kmers_offsets:
  *         # Obtain all the barcodes that matched for the current kmer
  *         try:             # <<<<<<<<<<<<<<
@@ -1712,19 +1662,19 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
       __Pyx_XGOTREF(__pyx_t_12);
       /*try:*/ {
 
-        /* "taggd/core/demultiplex_search_functions.pyx":102
+        /* "taggd/core/demultiplex_search_functions.pyx":103
  *         # Obtain all the barcodes that matched for the current kmer
  *         try:
  *             hits = kmer2seq[kmer]             # <<<<<<<<<<<<<<
  *         except KeyError:
  *             continue
  */
-        __pyx_t_4 = PyObject_GetItem(__pyx_v_5taggd_4core_28demultiplex_search_functions_kmer2seq, __pyx_v_kmer); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_XDECREF_SET(__pyx_v_hits, __pyx_t_4);
-        __pyx_t_4 = 0;
+        __pyx_t_2 = PyObject_GetItem(__pyx_v_5taggd_4core_28demultiplex_search_functions_kmer2seq, __pyx_v_kmer); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L7_error;};
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_XDECREF_SET(__pyx_v_hits, __pyx_t_2);
+        __pyx_t_2 = 0;
 
-        /* "taggd/core/demultiplex_search_functions.pyx":101
+        /* "taggd/core/demultiplex_search_functions.pyx":102
  *     for kmer, offset in kmers_offsets:
  *         # Obtain all the barcodes that matched for the current kmer
  *         try:             # <<<<<<<<<<<<<<
@@ -1738,11 +1688,11 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
       goto __pyx_L14_try_end;
       __pyx_L7_error:;
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "taggd/core/demultiplex_search_functions.pyx":103
+      /* "taggd/core/demultiplex_search_functions.pyx":104
  *         try:
  *             hits = kmer2seq[kmer]
  *         except KeyError:             # <<<<<<<<<<<<<<
@@ -1752,12 +1702,12 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
       __pyx_t_9 = PyErr_ExceptionMatches(__pyx_builtin_KeyError);
       if (__pyx_t_9) {
         __Pyx_AddTraceback("taggd.core.demultiplex_search_functions.get_candidates", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_6, &__pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_3, &__pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GOTREF(__pyx_t_5);
 
-        /* "taggd/core/demultiplex_search_functions.pyx":104
+        /* "taggd/core/demultiplex_search_functions.pyx":105
  *             hits = kmer2seq[kmer]
  *         except KeyError:
  *             continue             # <<<<<<<<<<<<<<
@@ -1766,15 +1716,15 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
         goto __pyx_L16_except_continue;
         __pyx_L16_except_continue:;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         goto __pyx_L13_try_continue;
       }
       goto __pyx_L9_except_error;
       __pyx_L9_except_error:;
 
-      /* "taggd/core/demultiplex_search_functions.pyx":101
+      /* "taggd/core/demultiplex_search_functions.pyx":102
  *     for kmer, offset in kmers_offsets:
  *         # Obtain all the barcodes that matched for the current kmer
  *         try:             # <<<<<<<<<<<<<<
@@ -1795,7 +1745,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
       __pyx_L14_try_end:;
     }
 
-    /* "taggd/core/demultiplex_search_functions.pyx":107
+    /* "taggd/core/demultiplex_search_functions.pyx":108
  *         # For each true barcode containing read's kmer.
  *         # Hit refers to barcode and hit_offsets to where the kmer was in the barcode
  *         for hit, hit_offsets in hits.iteritems():             # <<<<<<<<<<<<<<
@@ -1805,46 +1755,46 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
     __pyx_t_13 = 0;
     if (unlikely(__pyx_v_hits == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "iteritems");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_6 = __Pyx_dict_iterator(__pyx_v_hits, 0, __pyx_n_s_iteritems, (&__pyx_t_14), (&__pyx_t_9)); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_5);
-    __pyx_t_5 = __pyx_t_6;
-    __pyx_t_6 = 0;
+    __pyx_t_3 = __Pyx_dict_iterator(__pyx_v_hits, 0, __pyx_n_s_iteritems, (&__pyx_t_14), (&__pyx_t_9)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_4);
+    __pyx_t_4 = __pyx_t_3;
+    __pyx_t_3 = 0;
     while (1) {
-      __pyx_t_15 = __Pyx_dict_iter_next(__pyx_t_5, __pyx_t_14, &__pyx_t_13, &__pyx_t_6, &__pyx_t_4, NULL, __pyx_t_9);
+      __pyx_t_15 = __Pyx_dict_iter_next(__pyx_t_4, __pyx_t_14, &__pyx_t_13, &__pyx_t_3, &__pyx_t_2, NULL, __pyx_t_9);
       if (unlikely(__pyx_t_15 == 0)) break;
-      if (unlikely(__pyx_t_15 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_GOTREF(__pyx_t_4);
-      if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_4)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_XDECREF_SET(__pyx_v_hit, ((PyObject*)__pyx_t_6));
-      __pyx_t_6 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_hit_offsets, ((PyObject*)__pyx_t_4));
-      __pyx_t_4 = 0;
+      if (unlikely(__pyx_t_15 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_GOTREF(__pyx_t_2);
+      if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_XDECREF_SET(__pyx_v_hit, ((PyObject*)__pyx_t_3));
+      __pyx_t_3 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_hit_offsets, ((PyObject*)__pyx_t_2));
+      __pyx_t_2 = 0;
 
-      /* "taggd/core/demultiplex_search_functions.pyx":108
+      /* "taggd/core/demultiplex_search_functions.pyx":109
  *         # Hit refers to barcode and hit_offsets to where the kmer was in the barcode
  *         for hit, hit_offsets in hits.iteritems():
  *             if no_offset_speedup:             # <<<<<<<<<<<<<<
  *                 # NON-OPTIMIZED CASE
  *                 # For each kmer in read (typically incremented by k positions at a time).
  */
-      __pyx_t_16 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_5taggd_4core_28demultiplex_search_functions_no_offset_speedup)); if (unlikely(__pyx_t_16 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_5taggd_4core_28demultiplex_search_functions_no_offset_speedup)); if (unlikely(__pyx_t_16 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_16) {
 
-        /* "taggd/core/demultiplex_search_functions.pyx":111
+        /* "taggd/core/demultiplex_search_functions.pyx":112
  *                 # NON-OPTIMIZED CASE
  *                 # For each kmer in read (typically incremented by k positions at a time).
  *                 candidates[hit] = 0             # <<<<<<<<<<<<<<
  *                 continue
  *             # OPTIMIZED CASE
  */
-        if (unlikely(PyDict_SetItem(__pyx_v_candidates, __pyx_v_hit, __pyx_int_0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (unlikely(PyObject_SetItem(__pyx_v_candidates, __pyx_v_hit, __pyx_int_0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "taggd/core/demultiplex_search_functions.pyx":112
+        /* "taggd/core/demultiplex_search_functions.pyx":113
  *                 # For each kmer in read (typically incremented by k positions at a time).
  *                 candidates[hit] = 0
  *                 continue             # <<<<<<<<<<<<<<
@@ -1853,7 +1803,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
         goto __pyx_L17_continue;
 
-        /* "taggd/core/demultiplex_search_functions.pyx":108
+        /* "taggd/core/demultiplex_search_functions.pyx":109
  *         # Hit refers to barcode and hit_offsets to where the kmer was in the barcode
  *         for hit, hit_offsets in hits.iteritems():
  *             if no_offset_speedup:             # <<<<<<<<<<<<<<
@@ -1862,7 +1812,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
       }
 
-      /* "taggd/core/demultiplex_search_functions.pyx":115
+      /* "taggd/core/demultiplex_search_functions.pyx":116
  *             # OPTIMIZED CASE
  *             # For each kmer in read (typically incremented by k positions at a time).
  *             min_penalty = 100000000             # <<<<<<<<<<<<<<
@@ -1871,7 +1821,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
       __pyx_v_min_penalty = 0x5F5E100;
 
-      /* "taggd/core/demultiplex_search_functions.pyx":118
+      /* "taggd/core/demultiplex_search_functions.pyx":119
  *             # For each position that kmer occurred in the true barcode.
  *             # Get the minimum penalty
  *             for hit_offset in hit_offsets:             # <<<<<<<<<<<<<<
@@ -1880,22 +1830,22 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  */
       if (unlikely(__pyx_v_hit_offsets == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
-      __pyx_t_4 = __pyx_v_hit_offsets; __Pyx_INCREF(__pyx_t_4); __pyx_t_17 = 0;
+      __pyx_t_2 = __pyx_v_hit_offsets; __Pyx_INCREF(__pyx_t_2); __pyx_t_17 = 0;
       for (;;) {
-        if (__pyx_t_17 >= PyList_GET_SIZE(__pyx_t_4)) break;
+        if (__pyx_t_17 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_17); __Pyx_INCREF(__pyx_t_6); __pyx_t_17++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_17); __Pyx_INCREF(__pyx_t_3); __pyx_t_17++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_3);
         #endif
-        __pyx_t_15 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __pyx_t_15 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_v_hit_offset = __pyx_t_15;
 
-        /* "taggd/core/demultiplex_search_functions.pyx":120
+        /* "taggd/core/demultiplex_search_functions.pyx":121
  *             for hit_offset in hit_offsets:
  *                 # Kmer may be shifted overhang positions without penalty, due to subglobal alignment.
  *                 penalty = max(0, abs(offset - hit_offset) - pre_overhang - post_overhang)             # <<<<<<<<<<<<<<
@@ -1912,7 +1862,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
         }
         __pyx_v_penalty = __pyx_t_21;
 
-        /* "taggd/core/demultiplex_search_functions.pyx":121
+        /* "taggd/core/demultiplex_search_functions.pyx":122
  *                 # Kmer may be shifted overhang positions without penalty, due to subglobal alignment.
  *                 penalty = max(0, abs(offset - hit_offset) - pre_overhang - post_overhang)
  *                 if penalty < min_penalty: min_penalty = penalty             # <<<<<<<<<<<<<<
@@ -1924,7 +1874,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
           __pyx_v_min_penalty = __pyx_v_penalty;
         }
 
-        /* "taggd/core/demultiplex_search_functions.pyx":118
+        /* "taggd/core/demultiplex_search_functions.pyx":119
  *             # For each position that kmer occurred in the true barcode.
  *             # Get the minimum penalty
  *             for hit_offset in hit_offsets:             # <<<<<<<<<<<<<<
@@ -1932,130 +1882,44 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
  *                 penalty = max(0, abs(offset - hit_offset) - pre_overhang - post_overhang)
  */
       }
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "taggd/core/demultiplex_search_functions.pyx":125
+      /* "taggd/core/demultiplex_search_functions.pyx":126
  *             # TODO if there are several equal barcode candidates for different kmers,
  *             #      why keep the max penalty and not an average?
- *             try:             # <<<<<<<<<<<<<<
- *                 candidates[hit] = max(min_penalty, candidates[hit])
- *             except KeyError:
- */
-      {
-        __Pyx_ExceptionSave(&__pyx_t_12, &__pyx_t_11, &__pyx_t_10);
-        __Pyx_XGOTREF(__pyx_t_12);
-        __Pyx_XGOTREF(__pyx_t_11);
-        __Pyx_XGOTREF(__pyx_t_10);
-        /*try:*/ {
-
-          /* "taggd/core/demultiplex_search_functions.pyx":126
- *             #      why keep the max penalty and not an average?
- *             try:
- *                 candidates[hit] = max(min_penalty, candidates[hit])             # <<<<<<<<<<<<<<
- *             except KeyError:
- *                 candidates[hit] = min_penalty
- */
-          __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_candidates, __pyx_v_hit); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L23_error;};
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_15 = __pyx_v_min_penalty;
-          __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_t_15); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L23_error;}
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_22 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_22); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L23_error;}
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_22); if (unlikely(__pyx_t_16 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L23_error;}
-          __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-          if (__pyx_t_16) {
-            __Pyx_INCREF(__pyx_t_4);
-            __pyx_t_6 = __pyx_t_4;
-          } else {
-            __pyx_t_22 = __Pyx_PyInt_From_int(__pyx_t_15); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L23_error;}
-            __Pyx_GOTREF(__pyx_t_22);
-            __pyx_t_6 = __pyx_t_22;
-            __pyx_t_22 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = __pyx_t_6;
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_candidates, __pyx_v_hit, __pyx_t_4) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L23_error;}
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-          /* "taggd/core/demultiplex_search_functions.pyx":125
- *             # TODO if there are several equal barcode candidates for different kmers,
- *             #      why keep the max penalty and not an average?
- *             try:             # <<<<<<<<<<<<<<
- *                 candidates[hit] = max(min_penalty, candidates[hit])
- *             except KeyError:
- */
-        }
-        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-        __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-        goto __pyx_L30_try_end;
-        __pyx_L23_error:;
-        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
-        __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-        /* "taggd/core/demultiplex_search_functions.pyx":127
- *             try:
- *                 candidates[hit] = max(min_penalty, candidates[hit])
- *             except KeyError:             # <<<<<<<<<<<<<<
- *                 candidates[hit] = min_penalty
+ *             candidates[hit] = max(min_penalty, candidates[hit])             # <<<<<<<<<<<<<<
+ * 
  *     # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
  */
-        __pyx_t_15 = PyErr_ExceptionMatches(__pyx_builtin_KeyError);
-        if (__pyx_t_15) {
-          __Pyx_AddTraceback("taggd.core.demultiplex_search_functions.get_candidates", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_6, &__pyx_t_22) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L25_except_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_GOTREF(__pyx_t_22);
-
-          /* "taggd/core/demultiplex_search_functions.pyx":128
- *                 candidates[hit] = max(min_penalty, candidates[hit])
- *             except KeyError:
- *                 candidates[hit] = min_penalty             # <<<<<<<<<<<<<<
- *     # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
- *     return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
- */
-          __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_min_penalty); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L25_except_error;}
-          __Pyx_GOTREF(__pyx_t_7);
-          if (unlikely(PyDict_SetItem(__pyx_v_candidates, __pyx_v_hit, __pyx_t_7) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L25_except_error;}
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-          goto __pyx_L24_exception_handled;
-        }
-        goto __pyx_L25_except_error;
-        __pyx_L25_except_error:;
-
-        /* "taggd/core/demultiplex_search_functions.pyx":125
- *             # TODO if there are several equal barcode candidates for different kmers,
- *             #      why keep the max penalty and not an average?
- *             try:             # <<<<<<<<<<<<<<
- *                 candidates[hit] = max(min_penalty, candidates[hit])
- *             except KeyError:
- */
-        __Pyx_XGIVEREF(__pyx_t_12);
-        __Pyx_XGIVEREF(__pyx_t_11);
-        __Pyx_XGIVEREF(__pyx_t_10);
-        __Pyx_ExceptionReset(__pyx_t_12, __pyx_t_11, __pyx_t_10);
-        goto __pyx_L1_error;
-        __pyx_L24_exception_handled:;
-        __Pyx_XGIVEREF(__pyx_t_12);
-        __Pyx_XGIVEREF(__pyx_t_11);
-        __Pyx_XGIVEREF(__pyx_t_10);
-        __Pyx_ExceptionReset(__pyx_t_12, __pyx_t_11, __pyx_t_10);
-        __pyx_L30_try_end:;
+      __pyx_t_2 = PyObject_GetItem(__pyx_v_candidates, __pyx_v_hit); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_15 = __pyx_v_min_penalty;
+      __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_t_15); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_22 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_22); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_22); if (unlikely(__pyx_t_16 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
+      if (__pyx_t_16) {
+        __Pyx_INCREF(__pyx_t_2);
+        __pyx_t_3 = __pyx_t_2;
+      } else {
+        __pyx_t_22 = __Pyx_PyInt_From_int(__pyx_t_15); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_22);
+        __pyx_t_3 = __pyx_t_22;
+        __pyx_t_22 = 0;
       }
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __pyx_t_3;
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (unlikely(PyObject_SetItem(__pyx_v_candidates, __pyx_v_hit, __pyx_t_2) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_L17_continue:;
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":99
+    /* "taggd/core/demultiplex_search_functions.pyx":100
  * 
  *     # Iterate all the kmer-offset combinations found in the input barcode
  *     for kmer, offset in kmers_offsets:             # <<<<<<<<<<<<<<
@@ -2066,49 +1930,53 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":130
- *                 candidates[hit] = min_penalty
+  /* "taggd/core/demultiplex_search_functions.pyx":129
+ * 
  *     # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
  *     return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]             # <<<<<<<<<<<<<<
  * 
  * cdef list get_distances(str read_barcode, list candidates):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = 0;
-  __pyx_t_22 = __Pyx_dict_iterator(__pyx_v_candidates, 1, __pyx_n_s_iteritems, (&__pyx_t_14), (&__pyx_t_9)); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_22);
-  __Pyx_XDECREF(__pyx_t_5);
-  __pyx_t_5 = __pyx_t_22;
-  __pyx_t_22 = 0;
+  __pyx_t_6 = 0;
+  if (unlikely(__pyx_v_candidates == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "iteritems");
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_2 = __Pyx_dict_iterator(__pyx_v_candidates, 0, __pyx_n_s_iteritems, (&__pyx_t_14), (&__pyx_t_9)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
+  __pyx_t_4 = __pyx_t_2;
+  __pyx_t_2 = 0;
   while (1) {
-    __pyx_t_15 = __Pyx_dict_iter_next(__pyx_t_5, __pyx_t_14, &__pyx_t_3, &__pyx_t_22, &__pyx_t_6, NULL, __pyx_t_9);
+    __pyx_t_15 = __Pyx_dict_iter_next(__pyx_t_4, __pyx_t_14, &__pyx_t_6, &__pyx_t_2, &__pyx_t_3, NULL, __pyx_t_9);
     if (unlikely(__pyx_t_15 == 0)) break;
-    if (unlikely(__pyx_t_15 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_22);
-    __Pyx_GOTREF(__pyx_t_6);
-    if (!(likely(PyString_CheckExact(__pyx_t_22))||((__pyx_t_22) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_22)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_XDECREF_SET(__pyx_v_hit, ((PyObject*)__pyx_t_22));
-    __pyx_t_22 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_penal, __pyx_t_6);
-    __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_22 = PyObject_RichCompare(__pyx_v_penal, __pyx_t_6, Py_LE); __Pyx_XGOTREF(__pyx_t_22); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_22); if (unlikely(__pyx_t_16 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
+    if (unlikely(__pyx_t_15 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_GOTREF(__pyx_t_3);
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_XDECREF_SET(__pyx_v_hit, ((PyObject*)__pyx_t_2));
+    __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_penal, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_2 = PyObject_RichCompare(__pyx_v_penal, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_16 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_16) {
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_v_hit))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_v_hit))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":76
+  /* "taggd/core/demultiplex_search_functions.pyx":77
  *         raise ValueError("Invalid distance metric specified")
  * 
  * cdef list get_candidates(str read_barcode):             # <<<<<<<<<<<<<<
@@ -2119,9 +1987,9 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_22);
   __Pyx_AddTraceback("taggd.core.demultiplex_search_functions.get_candidates", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -2139,7 +2007,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_candida
   return __pyx_r;
 }
 
-/* "taggd/core/demultiplex_search_functions.pyx":132
+/* "taggd/core/demultiplex_search_functions.pyx":131
  *     return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
  * 
  * cdef list get_distances(str read_barcode, list candidates):             # <<<<<<<<<<<<<<
@@ -2162,38 +2030,32 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
   Py_ssize_t __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  int __pyx_t_10;
-  int __pyx_t_11;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  long __pyx_t_7;
+  int __pyx_t_8;
+  struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance __pyx_t_9;
+  struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance __pyx_t_10;
+  PyObject *__pyx_t_11 = NULL;
   int __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  Py_ssize_t __pyx_t_14;
-  long __pyx_t_15;
-  struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance __pyx_t_16;
-  struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance __pyx_t_17;
-  int __pyx_t_18;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_distances", 0);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":140
+  /* "taggd/core/demultiplex_search_functions.pyx":139
  *     :return a list of (candidate, distance score)
  *     """
  *     cdef list qual_hits = []             # <<<<<<<<<<<<<<
  *     cdef int dist = 0
  *     cdef int max_lim = 0
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_qual_hits = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":141
+  /* "taggd/core/demultiplex_search_functions.pyx":140
  *     """
  *     cdef list qual_hits = []
  *     cdef int dist = 0             # <<<<<<<<<<<<<<
@@ -2202,7 +2064,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
  */
   __pyx_v_dist = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":142
+  /* "taggd/core/demultiplex_search_functions.pyx":141
  *     cdef list qual_hits = []
  *     cdef int dist = 0
  *     cdef int max_lim = 0             # <<<<<<<<<<<<<<
@@ -2211,7 +2073,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
  */
   __pyx_v_max_lim = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":143
+  /* "taggd/core/demultiplex_search_functions.pyx":142
  *     cdef int dist = 0
  *     cdef int max_lim = 0
  *     cdef int read_last_pos = -1             # <<<<<<<<<<<<<<
@@ -2220,7 +2082,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
  */
   __pyx_v_read_last_pos = -1;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":144
+  /* "taggd/core/demultiplex_search_functions.pyx":143
  *     cdef int max_lim = 0
  *     cdef int read_last_pos = -1
  *     cdef int a = -1             # <<<<<<<<<<<<<<
@@ -2229,7 +2091,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
  */
   __pyx_v_a = -1;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":145
+  /* "taggd/core/demultiplex_search_functions.pyx":144
  *     cdef int read_last_pos = -1
  *     cdef int a = -1
  *     cdef int b = -1             # <<<<<<<<<<<<<<
@@ -2238,121 +2100,72 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
  */
   __pyx_v_b = -1;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":147
+  /* "taggd/core/demultiplex_search_functions.pyx":146
  *     cdef int b = -1
  *     cdef str candidate
  *     cdef int length_barcode = len(read_barcode)             # <<<<<<<<<<<<<<
  *     # Iterate candidates, compute distance with the original barcode
  *     # and create a list of candidate hits
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_read_barcode); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_Length(__pyx_v_read_barcode); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_length_barcode = __pyx_t_2;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":150
+  /* "taggd/core/demultiplex_search_functions.pyx":149
  *     # Iterate candidates, compute distance with the original barcode
  *     # and create a list of candidate hits
  *     for candidate in candidates:             # <<<<<<<<<<<<<<
  *         if metric_choice == SUBGLOBAL:
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+ *             dist = dm.subglobal_distance(read_barcode, candidate)
  */
   if (unlikely(__pyx_v_candidates == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_1 = __pyx_v_candidates; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_XDECREF_SET(__pyx_v_candidate, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":151
+    /* "taggd/core/demultiplex_search_functions.pyx":150
  *     # and create a list of candidate hits
  *     for candidate in candidates:
  *         if metric_choice == SUBGLOBAL:             # <<<<<<<<<<<<<<
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+ *             dist = dm.subglobal_distance(read_barcode, candidate)
  *         elif metric_choice == LEVENSHTEIN:
  */
     __pyx_t_4 = ((__pyx_v_5taggd_4core_28demultiplex_search_functions_metric_choice == __pyx_v_5taggd_4core_28demultiplex_search_functions_SUBGLOBAL) != 0);
     if (__pyx_t_4) {
 
-      /* "taggd/core/demultiplex_search_functions.pyx":152
+      /* "taggd/core/demultiplex_search_functions.pyx":151
  *     for candidate in candidates:
  *         if metric_choice == SUBGLOBAL:
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)             # <<<<<<<<<<<<<<
+ *             dist = dm.subglobal_distance(read_barcode, candidate)             # <<<<<<<<<<<<<<
  *         elif metric_choice == LEVENSHTEIN:
  *             # Account for the added overhang!
  */
-      __pyx_t_3 = __pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(__pyx_v_read_barcode, __pyx_v_candidate); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_3);
-      if (likely(__pyx_t_3 != Py_None)) {
-        PyObject* sequence = __pyx_t_3;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        Py_ssize_t size = Py_SIZE(sequence);
-        #else
-        Py_ssize_t size = PySequence_Size(sequence);
-        #endif
-        if (unlikely(size != 4)) {
-          if (size > 4) __Pyx_RaiseTooManyValuesError(4);
-          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        }
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyList_GET_ITEM(sequence, 1); 
-        __pyx_t_7 = PyList_GET_ITEM(sequence, 2); 
-        __pyx_t_8 = PyList_GET_ITEM(sequence, 3); 
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_8);
-        #else
-        {
-          Py_ssize_t i;
-          PyObject** temps[4] = {&__pyx_t_5,&__pyx_t_6,&__pyx_t_7,&__pyx_t_8};
-          for (i=0; i < 4; i++) {
-            PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_GOTREF(item);
-            *(temps[i]) = item;
-          }
-        }
-        #endif
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else {
-        __Pyx_RaiseNoneNotIterableError(); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      }
-      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_12 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_12 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_v_dist = __pyx_t_9;
-      __pyx_v_read_last_pos = __pyx_t_10;
-      __pyx_v_a = __pyx_t_11;
-      __pyx_v_b = __pyx_t_12;
+      __pyx_v_dist = __pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(__pyx_v_read_barcode, __pyx_v_candidate);
 
-      /* "taggd/core/demultiplex_search_functions.pyx":151
+      /* "taggd/core/demultiplex_search_functions.pyx":150
  *     # and create a list of candidate hits
  *     for candidate in candidates:
  *         if metric_choice == SUBGLOBAL:             # <<<<<<<<<<<<<<
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+ *             dist = dm.subglobal_distance(read_barcode, candidate)
  *         elif metric_choice == LEVENSHTEIN:
  */
       goto __pyx_L5;
     }
 
-    /* "taggd/core/demultiplex_search_functions.pyx":153
+    /* "taggd/core/demultiplex_search_functions.pyx":152
  *         if metric_choice == SUBGLOBAL:
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+ *             dist = dm.subglobal_distance(read_barcode, candidate)
  *         elif metric_choice == LEVENSHTEIN:             # <<<<<<<<<<<<<<
  *             # Account for the added overhang!
  *             # Note: This does NOT equate subglobal and may miss cases subglobal would catch!
@@ -2360,38 +2173,38 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
     __pyx_t_4 = ((__pyx_v_5taggd_4core_28demultiplex_search_functions_metric_choice == __pyx_v_5taggd_4core_28demultiplex_search_functions_LEVENSHTEIN) != 0);
     if (__pyx_t_4) {
 
-      /* "taggd/core/demultiplex_search_functions.pyx":156
+      /* "taggd/core/demultiplex_search_functions.pyx":155
  *             # Account for the added overhang!
  *             # Note: This does NOT equate subglobal and may miss cases subglobal would catch!
  *             max_lim = max_edit_distance + max(0, length_barcode - len(candidate))             # <<<<<<<<<<<<<<
  *             dist = dm.levenshtein_distance(read_barcode, candidate, max_lim)
  *         else:
  */
-      __pyx_t_13 = PyObject_Length(__pyx_v_candidate); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_14 = (__pyx_v_length_barcode - __pyx_t_13);
-      __pyx_t_15 = 0;
-      if (((__pyx_t_14 > __pyx_t_15) != 0)) {
-        __pyx_t_13 = __pyx_t_14;
+      __pyx_t_5 = PyObject_Length(__pyx_v_candidate); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = (__pyx_v_length_barcode - __pyx_t_5);
+      __pyx_t_7 = 0;
+      if (((__pyx_t_6 > __pyx_t_7) != 0)) {
+        __pyx_t_5 = __pyx_t_6;
       } else {
-        __pyx_t_13 = __pyx_t_15;
+        __pyx_t_5 = __pyx_t_7;
       }
-      __pyx_v_max_lim = (__pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance + __pyx_t_13);
+      __pyx_v_max_lim = (__pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance + __pyx_t_5);
 
-      /* "taggd/core/demultiplex_search_functions.pyx":157
+      /* "taggd/core/demultiplex_search_functions.pyx":156
  *             # Note: This does NOT equate subglobal and may miss cases subglobal would catch!
  *             max_lim = max_edit_distance + max(0, length_barcode - len(candidate))
  *             dist = dm.levenshtein_distance(read_barcode, candidate, max_lim)             # <<<<<<<<<<<<<<
  *         else:
  *             dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)
  */
-      __pyx_t_16.__pyx_n = 1;
-      __pyx_t_16.limit = __pyx_v_max_lim;
-      __pyx_t_12 = __pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance(__pyx_v_read_barcode, __pyx_v_candidate, &__pyx_t_16); 
-      __pyx_v_dist = __pyx_t_12;
+      __pyx_t_9.__pyx_n = 1;
+      __pyx_t_9.limit = __pyx_v_max_lim;
+      __pyx_t_8 = __pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance(__pyx_v_read_barcode, __pyx_v_candidate, &__pyx_t_9); 
+      __pyx_v_dist = __pyx_t_8;
 
-      /* "taggd/core/demultiplex_search_functions.pyx":153
+      /* "taggd/core/demultiplex_search_functions.pyx":152
  *         if metric_choice == SUBGLOBAL:
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+ *             dist = dm.subglobal_distance(read_barcode, candidate)
  *         elif metric_choice == LEVENSHTEIN:             # <<<<<<<<<<<<<<
  *             # Account for the added overhang!
  *             # Note: This does NOT equate subglobal and may miss cases subglobal would catch!
@@ -2399,73 +2212,57 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
       goto __pyx_L5;
     }
 
-    /* "taggd/core/demultiplex_search_functions.pyx":159
+    /* "taggd/core/demultiplex_search_functions.pyx":158
  *             dist = dm.levenshtein_distance(read_barcode, candidate, max_lim)
  *         else:
  *             dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)             # <<<<<<<<<<<<<<
  *         # Only add if distance is good
- *         if dist <= max_edit_distance:
+ *         if dist <= max_edit_distance: qual_hits.append((candidate, dist))
  */
     /*else*/ {
-      __pyx_t_17.__pyx_n = 1;
-      __pyx_t_17.limit = __pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance;
-      __pyx_t_12 = __pyx_f_5taggd_4misc_16distance_metrics_hamming_distance(__pyx_v_read_barcode, __pyx_v_candidate, &__pyx_t_17); 
-      __pyx_v_dist = __pyx_t_12;
+      __pyx_t_10.__pyx_n = 1;
+      __pyx_t_10.limit = __pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance;
+      __pyx_t_8 = __pyx_f_5taggd_4misc_16distance_metrics_hamming_distance(__pyx_v_read_barcode, __pyx_v_candidate, &__pyx_t_10); 
+      __pyx_v_dist = __pyx_t_8;
     }
     __pyx_L5:;
 
-    /* "taggd/core/demultiplex_search_functions.pyx":161
+    /* "taggd/core/demultiplex_search_functions.pyx":160
  *             dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)
  *         # Only add if distance is good
- *         if dist <= max_edit_distance:             # <<<<<<<<<<<<<<
- *             qual_hits.append((candidate, dist))
- *     return qual_hits
- */
-    __pyx_t_4 = ((__pyx_v_dist <= __pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance) != 0);
-    if (__pyx_t_4) {
-
-      /* "taggd/core/demultiplex_search_functions.pyx":162
- *         # Only add if distance is good
- *         if dist <= max_edit_distance:
- *             qual_hits.append((candidate, dist))             # <<<<<<<<<<<<<<
+ *         if dist <= max_edit_distance: qual_hits.append((candidate, dist))             # <<<<<<<<<<<<<<
  *     return qual_hits
  * 
  */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dist); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = ((__pyx_v_dist <= __pyx_v_5taggd_4core_28demultiplex_search_functions_max_edit_distance) != 0);
+    if (__pyx_t_4) {
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dist); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_11);
       __Pyx_INCREF(__pyx_v_candidate);
       __Pyx_GIVEREF(__pyx_v_candidate);
-      PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_candidate);
+      PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_v_candidate);
       __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_18 = __Pyx_PyList_Append(__pyx_v_qual_hits, __pyx_t_8); if (unlikely(__pyx_t_18 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-      /* "taggd/core/demultiplex_search_functions.pyx":161
- *             dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)
- *         # Only add if distance is good
- *         if dist <= max_edit_distance:             # <<<<<<<<<<<<<<
- *             qual_hits.append((candidate, dist))
- *     return qual_hits
- */
+      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_qual_hits, __pyx_t_11); if (unlikely(__pyx_t_12 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
 
-    /* "taggd/core/demultiplex_search_functions.pyx":150
+    /* "taggd/core/demultiplex_search_functions.pyx":149
  *     # Iterate candidates, compute distance with the original barcode
  *     # and create a list of candidate hits
  *     for candidate in candidates:             # <<<<<<<<<<<<<<
  *         if metric_choice == SUBGLOBAL:
- *             dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+ *             dist = dm.subglobal_distance(read_barcode, candidate)
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":163
- *         if dist <= max_edit_distance:
- *             qual_hits.append((candidate, dist))
+  /* "taggd/core/demultiplex_search_functions.pyx":161
+ *         # Only add if distance is good
+ *         if dist <= max_edit_distance: qual_hits.append((candidate, dist))
  *     return qual_hits             # <<<<<<<<<<<<<<
  * 
  * cdef list get_top_hits(list qual_hits):
@@ -2475,7 +2272,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
   __pyx_r = __pyx_v_qual_hits;
   goto __pyx_L0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":132
+  /* "taggd/core/demultiplex_search_functions.pyx":131
  *     return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
  * 
  * cdef list get_distances(str read_barcode, list candidates):             # <<<<<<<<<<<<<<
@@ -2487,10 +2284,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_11);
   __Pyx_AddTraceback("taggd.core.demultiplex_search_functions.get_distances", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -2501,7 +2295,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_distanc
   return __pyx_r;
 }
 
-/* "taggd/core/demultiplex_search_functions.pyx":165
+/* "taggd/core/demultiplex_search_functions.pyx":163
  *     return qual_hits
  * 
  * cdef list get_top_hits(list qual_hits):             # <<<<<<<<<<<<<<
@@ -2529,7 +2323,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_top_hit
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_top_hits", 0);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":171
+  /* "taggd/core/demultiplex_search_functions.pyx":169
  *     :return the filtered list
  *     """
  *     if len(qual_hits) == 0: return None             # <<<<<<<<<<<<<<
@@ -2538,9 +2332,9 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_top_hit
  */
   if (unlikely(__pyx_v_qual_hits == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_qual_hits); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_qual_hits); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_2 = ((__pyx_t_1 == 0) != 0);
   if (__pyx_t_2) {
     __Pyx_XDECREF(__pyx_r);
@@ -2549,118 +2343,118 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_top_hit
     goto __pyx_L0;
   }
 
-  /* "taggd/core/demultiplex_search_functions.pyx":174
+  /* "taggd/core/demultiplex_search_functions.pyx":172
  * 
  *     # Find smallest distance
  *     from operator import itemgetter             # <<<<<<<<<<<<<<
  *     sorted_qual_hits = sorted(qual_hits, key=itemgetter(1), reverse=False)
  *     cdef int mini = round(sorted_qual_hits[0][1] * ambiguity_factor)
  */
-  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_n_s_itemgetter);
   __Pyx_GIVEREF(__pyx_n_s_itemgetter);
   PyList_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_itemgetter);
-  __pyx_t_4 = __Pyx_Import(__pyx_n_s_operator, __pyx_t_3, -1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_Import(__pyx_n_s_operator, __pyx_t_3, -1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_ImportFrom(__pyx_t_4, __pyx_n_s_itemgetter); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_ImportFrom(__pyx_t_4, __pyx_n_s_itemgetter); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_t_3);
   __pyx_v_itemgetter = __pyx_t_3;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":175
+  /* "taggd/core/demultiplex_search_functions.pyx":173
  *     # Find smallest distance
  *     from operator import itemgetter
  *     sorted_qual_hits = sorted(qual_hits, key=itemgetter(1), reverse=False)             # <<<<<<<<<<<<<<
  *     cdef int mini = round(sorted_qual_hits[0][1] * ambiguity_factor)
  *     # Filter out elements with similar or lower distance than the min*ambiguity_factor
  */
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_v_qual_hits);
   __Pyx_GIVEREF(__pyx_v_qual_hits);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_qual_hits);
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_v_itemgetter, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_v_itemgetter, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_key, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_key, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_reverse, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_reverse, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_sorted_qual_hits = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":176
+  /* "taggd/core/demultiplex_search_functions.pyx":174
  *     from operator import itemgetter
  *     sorted_qual_hits = sorted(qual_hits, key=itemgetter(1), reverse=False)
  *     cdef int mini = round(sorted_qual_hits[0][1] * ambiguity_factor)             # <<<<<<<<<<<<<<
  *     # Filter out elements with similar or lower distance than the min*ambiguity_factor
  *     return [candidate for candidate in qual_hits if candidate[1] <= mini]
  */
-  __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_sorted_qual_hits, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_sorted_qual_hits, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_5taggd_4core_28demultiplex_search_functions_ambiguity_factor); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_5taggd_4core_28demultiplex_search_functions_ambiguity_factor); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_mini = __pyx_t_6;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":178
+  /* "taggd/core/demultiplex_search_functions.pyx":176
  *     cdef int mini = round(sorted_qual_hits[0][1] * ambiguity_factor)
  *     # Filter out elements with similar or lower distance than the min*ambiguity_factor
  *     return [candidate for candidate in qual_hits if candidate[1] <= mini]             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (unlikely(__pyx_v_qual_hits == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_5 = __pyx_v_qual_hits; __Pyx_INCREF(__pyx_t_5); __pyx_t_1 = 0;
   for (;;) {
     if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_5)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_candidate, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_candidate, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_candidate, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_mini); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_mini); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = PyObject_RichCompare(__pyx_t_3, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = PyObject_RichCompare(__pyx_t_3, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_2) {
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_v_candidate))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_v_candidate))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2668,7 +2462,7 @@ static PyObject *__pyx_f_5taggd_4core_28demultiplex_search_functions_get_top_hit
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "taggd/core/demultiplex_search_functions.pyx":165
+  /* "taggd/core/demultiplex_search_functions.pyx":163
  *     return qual_hits
  * 
  * cdef list get_top_hits(list qual_hits):             # <<<<<<<<<<<<<<
@@ -2721,13 +2515,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Invalid_distance_metric_specifie, __pyx_k_Invalid_distance_metric_specifie, sizeof(__pyx_k_Invalid_distance_metric_specifie), 0, 0, 1, 0},
   {&__pyx_n_s_KeyError, __pyx_k_KeyError, sizeof(__pyx_k_KeyError), 0, 0, 1, 1},
   {&__pyx_n_s_Levenshtein, __pyx_k_Levenshtein, sizeof(__pyx_k_Levenshtein), 0, 0, 1, 1},
-  {&__pyx_kp_s_Numer_of_kmers, __pyx_k_Numer_of_kmers, sizeof(__pyx_k_Numer_of_kmers), 0, 0, 1, 0},
   {&__pyx_n_s_Subglobal, __pyx_k_Subglobal, sizeof(__pyx_k_Subglobal), 0, 0, 1, 1},
   {&__pyx_kp_s_Users_josefernandeznavarro_Proj, __pyx_k_Users_josefernandeznavarro_Proj, sizeof(__pyx_k_Users_josefernandeznavarro_Proj), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_ambiguity_factor, __pyx_k_ambiguity_factor, sizeof(__pyx_k_ambiguity_factor), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
+  {&__pyx_n_s_defaultdict, __pyx_k_defaultdict, sizeof(__pyx_k_defaultdict), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_itemgetter, __pyx_k_itemgetter, sizeof(__pyx_k_itemgetter), 0, 0, 1, 1},
@@ -2742,7 +2535,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_operator, __pyx_k_operator, sizeof(__pyx_k_operator), 0, 0, 1, 1},
   {&__pyx_n_s_post_overhang, __pyx_k_post_overhang, sizeof(__pyx_k_post_overhang), 0, 0, 1, 1},
   {&__pyx_n_s_pre_overhang, __pyx_k_pre_overhang, sizeof(__pyx_k_pre_overhang), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reverse, __pyx_k_reverse, sizeof(__pyx_k_reverse), 0, 0, 1, 1},
   {&__pyx_n_s_round, __pyx_k_round, sizeof(__pyx_k_round), 0, 0, 1, 1},
@@ -2754,11 +2546,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_sorted = __Pyx_GetBuiltinName(__pyx_n_s_sorted); if (!__pyx_builtin_sorted) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_sorted = __Pyx_GetBuiltinName(__pyx_n_s_sorted); if (!__pyx_builtin_sorted) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2768,50 +2560,50 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":65
+  /* "taggd/core/demultiplex_search_functions.pyx":66
  *     global LEVENSHTEIN
  *     global HAMMING
  *     SUBGLOBAL, LEVENSHTEIN, HAMMING = range(0, 3)             # <<<<<<<<<<<<<<
  *     global metric_choice
  *     if metric == "Subglobal":
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":74
+  /* "taggd/core/demultiplex_search_functions.pyx":75
  *         metric_choice = HAMMING
  *     else:
  *         raise ValueError("Invalid distance metric specified")             # <<<<<<<<<<<<<<
  * 
  * cdef list get_candidates(str read_barcode):
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Invalid_distance_metric_specifie); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Invalid_distance_metric_specifie); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":175
+  /* "taggd/core/demultiplex_search_functions.pyx":173
  *     # Find smallest distance
  *     from operator import itemgetter
  *     sorted_qual_hits = sorted(qual_hits, key=itemgetter(1), reverse=False)             # <<<<<<<<<<<<<<
  *     cdef int mini = round(sorted_qual_hits[0][1] * ambiguity_factor)
  *     # Filter out elements with similar or lower distance than the min*ambiguity_factor
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":27
+  /* "taggd/core/demultiplex_search_functions.pyx":28
  * cdef int metric_choice
  * 
  * def init(dict true_barcodes_,             # <<<<<<<<<<<<<<
  *         int k_,
  *         int max_edit_distance_,
  */
-  __pyx_tuple__4 = PyTuple_Pack(9, __pyx_n_s_true_barcodes, __pyx_n_s_k, __pyx_n_s_max_edit_distance, __pyx_n_s_metric, __pyx_n_s_slider_increment, __pyx_n_s_pre_overhang, __pyx_n_s_post_overhang, __pyx_n_s_ambiguity_factor, __pyx_n_s_no_offset_speedup); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__4 = PyTuple_Pack(9, __pyx_n_s_true_barcodes, __pyx_n_s_k, __pyx_n_s_max_edit_distance, __pyx_n_s_metric, __pyx_n_s_slider_increment, __pyx_n_s_pre_overhang, __pyx_n_s_post_overhang, __pyx_n_s_ambiguity_factor, __pyx_n_s_no_offset_speedup); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(9, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_josefernandeznavarro_Proj, __pyx_n_s_init, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(9, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_josefernandeznavarro_Proj, __pyx_n_s_init, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2841,6 +2633,7 @@ PyMODINIT_FUNC PyInit_demultiplex_search_functions(void)
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2942,7 +2735,7 @@ PyMODINIT_FUNC PyInit_demultiplex_search_functions(void)
   Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_2 = __Pyx_ImportModule("taggd.misc.distance_metrics"); if (!__pyx_t_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ImportFunction(__pyx_t_2, "hamming_distance", (void (**)(void))&__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance, "int (PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ImportFunction(__pyx_t_2, "subglobal_distance", (void (**)(void))&__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance, "PyObject *(PyObject *, PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "subglobal_distance", (void (**)(void))&__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance, "int (PyObject *, PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ImportFunction(__pyx_t_2, "levenshtein_distance", (void (**)(void))&__pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance, "int (PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   Py_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   /*--- Execution code ---*/
@@ -2950,7 +2743,28 @@ PyMODINIT_FUNC PyInit_demultiplex_search_functions(void)
   if (__Pyx_patch_abc() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
 
-  /* "taggd/core/demultiplex_search_functions.pyx":19
+  /* "taggd/core/demultiplex_search_functions.pyx":7
+ * cimport taggd.misc.distance_metrics as dm
+ * from cpython cimport bool
+ * from collections import defaultdict             # <<<<<<<<<<<<<<
+ * 
+ * # User options
+ */
+  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_INCREF(__pyx_n_s_defaultdict);
+  __Pyx_GIVEREF(__pyx_n_s_defaultdict);
+  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_defaultdict);
+  __pyx_t_4 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_3, -1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_ImportFrom(__pyx_t_4, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_defaultdict, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "taggd/core/demultiplex_search_functions.pyx":20
  * 
  * # Dictionary of kmer to sequences
  * cdef object kmer2seq = None             # <<<<<<<<<<<<<<
@@ -2962,27 +2776,27 @@ PyMODINIT_FUNC PyInit_demultiplex_search_functions(void)
   __Pyx_DECREF_SET(__pyx_v_5taggd_4core_28demultiplex_search_functions_kmer2seq, Py_None);
   __Pyx_GIVEREF(Py_None);
 
-  /* "taggd/core/demultiplex_search_functions.pyx":27
+  /* "taggd/core/demultiplex_search_functions.pyx":28
  * cdef int metric_choice
  * 
  * def init(dict true_barcodes_,             # <<<<<<<<<<<<<<
  *         int k_,
  *         int max_edit_distance_,
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_5taggd_4core_28demultiplex_search_functions_1init, NULL, __pyx_n_s_taggd_core_demultiplex_search_fu); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_init, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_4 = PyCFunction_NewEx(&__pyx_mdef_5taggd_4core_28demultiplex_search_functions_1init, NULL, __pyx_n_s_taggd_core_demultiplex_search_fu); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_init, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "taggd/core/demultiplex_search_functions.pyx":1
  * """             # <<<<<<<<<<<<<<
  * Main functions for barcodes, like search and find matches
  * """
  */
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -2991,6 +2805,7 @@ PyMODINIT_FUNC PyInit_demultiplex_search_functions(void)
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init taggd.core.demultiplex_search_functions", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -3265,74 +3080,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyDict_Keys(PyObject* d) {
     else
         return PyDict_Keys(d);
 }
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_New(1);
-    if (unlikely(!args)) return NULL;
-    Py_INCREF(arg);
-    PyTuple_SET_ITEM(args, 0, arg);
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
-            return __Pyx_PyObject_CallMethO(func, arg);
-        }
-    }
-    return __Pyx__PyObject_CallOneArg(func, arg);
-}
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_Pack(1, arg);
-    if (unlikely(!args)) return NULL;
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
 
 static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
     PyErr_Format(PyExc_ValueError,
@@ -3701,6 +3448,76 @@ bad:
 }
 #endif
 
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
+    PyObject *result;
+#if CYTHON_COMPILING_IN_CPYTHON
+    result = PyDict_GetItem(__pyx_d, name);
+    if (likely(result)) {
+        Py_INCREF(result);
+    } else {
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    if (!result) {
+        PyErr_Clear();
+#endif
+        result = __Pyx_GetBuiltinName(name);
+    }
+    return result;
+}
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+#endif
+
 static CYTHON_INLINE void __Pyx_ExceptionSave(PyObject **type, PyObject **value, PyObject **tb) {
 #if CYTHON_COMPILING_IN_CPYTHON
     PyThreadState *tstate = PyThreadState_GET();
@@ -3788,6 +3605,21 @@ bad:
     Py_XDECREF(local_tb);
     return -1;
 }
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
 
 static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
     PyObject *method, *result = NULL;
@@ -4499,147 +4331,6 @@ raise_neg_overflow:
         "can't convert negative value to int");
     return (int) -1;
 }
-
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     const int neg_one = (int) -1, const_zero = (int) 0;

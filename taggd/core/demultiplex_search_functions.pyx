@@ -4,6 +4,7 @@ Main functions for barcodes, like search and find matches
 cimport taggd.misc.kmer_utils as ku
 cimport taggd.misc.distance_metrics as dm
 from cpython cimport bool
+from collections import defaultdict
 
 # User options
 cdef int k
@@ -57,7 +58,7 @@ def init(dict true_barcodes_,
     # Create k-mer mappings with ALL kmers
     global kmer2seq
     kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False)
-    print "Numer of kmers " + str(len(kmer2seq.keys()))
+
     # Metrics
     global SUBGLOBAL
     global LEVENSHTEIN
@@ -84,7 +85,7 @@ cdef list get_candidates(str read_barcode):
     """
     # NOTE probably faster to keep kmer_offsets in memory as we will call
     #      this function several times with the same barcode but we get a penalty in memory use
-    cdef dict candidates = dict()
+    cdef object candidates = defaultdict(int)
     cdef list kmers_offsets = ku.get_kmers(read_barcode, k, False, slider_increment)
     cdef int penalty = 0
     cdef int min_penalty = 0
@@ -122,10 +123,8 @@ cdef list get_candidates(str read_barcode):
             # Assign the min penalty to the candidate (if exists already take max)
             # TODO if there are several equal barcode candidates for different kmers,
             #      why keep the max penalty and not an average?
-            try:
-                candidates[hit] = max(min_penalty, candidates[hit])
-            except KeyError:
-                candidates[hit] = min_penalty
+            candidates[hit] = max(min_penalty, candidates[hit])
+            
     # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
     return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
     
@@ -149,7 +148,7 @@ cdef list get_distances(str read_barcode, list candidates):
     # and create a list of candidate hits
     for candidate in candidates:
         if metric_choice == SUBGLOBAL:
-            dist, read_last_pos, a, b = dm.subglobal_distance(read_barcode, candidate)
+            dist = dm.subglobal_distance(read_barcode, candidate)
         elif metric_choice == LEVENSHTEIN:
             # Account for the added overhang!
             # Note: This does NOT equate subglobal and may miss cases subglobal would catch!
@@ -158,8 +157,7 @@ cdef list get_distances(str read_barcode, list candidates):
         else:
             dist = dm.hamming_distance(read_barcode, candidate, max_edit_distance)
         # Only add if distance is good
-        if dist <= max_edit_distance: 
-            qual_hits.append((candidate, dist))
+        if dist <= max_edit_distance: qual_hits.append((candidate, dist))
     return qual_hits
 
 cdef list get_top_hits(list qual_hits):

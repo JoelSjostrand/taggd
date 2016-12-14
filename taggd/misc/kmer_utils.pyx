@@ -27,7 +27,7 @@ cdef object get_kmers_dicts(list seqs, int k, bool round_robin=False, int slider
     for seq in seqs:
         # Adjust barcode if round robin
         seqq = seq + seq[0:(k-1)] if round_robin else seq
-        # Create the Kmers of length k with slider increment of 1
+        # Create the Kmers of length k with slider increment
         for i in xrange(0, len(seqq)-k+1, slider_increment):
             kmer = seqq[i:i+k]
             kmer2seq[kmer][seq].append(i)
