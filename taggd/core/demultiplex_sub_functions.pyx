@@ -70,10 +70,12 @@ def init(dict true_barcodes_,
     multiple_hits_keep_one = multiple_hits_keep_one_
     global trim_sequences
     trim_sequences = trim_sequences_
+    # Adjust the barcode length and the overhang if 
+    # we want to trim away helpers from the barcode
     if trim_sequences is not None:
         for start,end in trim_sequences:
             barcode_length += (end - start)
-    
+   
 def demultiplex_lines_wrapper(str filename_reads,
                               str filename_matched,
                               str filename_ambig,
@@ -224,7 +226,7 @@ cdef list demultiplex_record(object rec):
             return [match.Match(rec, match_type.UNMATCHED, "-", -1)]
             
     # Include overhang.
-    if pre_overhang != 0 and post_overhang != 0:
+    if pre_overhang != 0 or post_overhang != 0:
         read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
                                     (start_position + barcode_length + post_overhang))]
         #TODO duplicated code
@@ -233,10 +235,11 @@ cdef list demultiplex_record(object rec):
             prev_end = 0
             for start,end in trim_sequences:
                 offset = prev_end - prev_start
-                read_barcode = read_barcode[:start-offset+post_overhang] + read_barcode[end-offset-pre_overhang:]
+                read_barcode = read_barcode[:start-offset+post_overhang] 
+                + read_barcode[end-offset-pre_overhang:]
                 prev_start = start
                 prev_end = end
-            
+          
     # Narrow down hits.
     cdef list candidates = srch.get_candidates(read_barcode)
     cdef qual_hits = srch.get_distances(read_barcode, candidates)

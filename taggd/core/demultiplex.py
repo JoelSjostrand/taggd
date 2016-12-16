@@ -219,8 +219,9 @@ def main(argv=None):
     if options.trim_sequences is not None:
         trim_sequences = list()
         for i in xrange(len(options.trim_sequences) - 1):
-            trim_sequences.append((options.trim_sequences[i], 
-                                  options.trim_sequences[i+1]))
+            if i % 2 == 0:
+                trim_sequences.append((options.trim_sequences[i], 
+                                       options.trim_sequences[i+1]))
     
     # Initialize main components
     sub.init(true_barcodes,
