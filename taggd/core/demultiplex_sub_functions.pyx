@@ -198,6 +198,18 @@ cdef object demultiplex_lines(str filename_reads,
     stats.time = time.time() - start_time
     return stats
 
+cdef str trim_helpers(str seq):
+    """Simply helper function to remove
+    helper sequences from a barcode"""
+    cdef int prev_start = 0
+    cdef int prev_end = 0
+    for start,end in trim_sequences:
+        offset = prev_end - prev_start
+        seq = seq[:(start-offset)] + seq[(end-offset):]
+        prev_start = start
+        prev_end = end
+    return seq
+            
 cdef list demultiplex_record(object rec):
     """
     Demultiplexes a record and returns a list of match objects 
@@ -206,17 +218,11 @@ cdef list demultiplex_record(object rec):
     # Define local variables to speed up
     cdef str bcseq = None
     cdef int dist = 0
-
+    
     # Try perfect hit first.
     cdef read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
-    if trim_sequences is not None:
-        prev_start = 0
-        prev_end = 0
-        for start,end in trim_sequences:
-            offset = prev_end - prev_start
-            read_barcode = read_barcode[:start-offset] + read_barcode[end-offset:]
-            prev_start = start
-            prev_end = end
+    if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
+
     if read_barcode in true_barcodes:
         return [match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0)]
 
@@ -229,16 +235,8 @@ cdef list demultiplex_record(object rec):
     if pre_overhang != 0 or post_overhang != 0:
         read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
                                     (start_position + barcode_length + post_overhang))]
-        #TODO duplicated code
-        if trim_sequences is not None:
-            prev_start = 0
-            prev_end = 0
-            for start,end in trim_sequences:
-                offset = prev_end - prev_start
-                read_barcode = read_barcode[:start-offset+post_overhang] 
-                + read_barcode[end-offset-pre_overhang:]
-                prev_start = start
-                prev_end = end
+        # NOTE should take care of overhang bases more carefully here
+        if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
           
     # Narrow down hits.
     cdef list candidates = srch.get_candidates(read_barcode)
