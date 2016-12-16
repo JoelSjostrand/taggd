@@ -4904,6 +4904,7 @@ PyMODINIT_FUNC PyInit_demultiplex_sub_functions(void)
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("demultiplex_lines", (void (*)(void))__pyx_f_5taggd_4core_25demultiplex_sub_functions_demultiplex_lines, "PyObject *(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int, int)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ExportFunction("demultiplex_record", (void (*)(void))__pyx_f_5taggd_4core_25demultiplex_sub_functions_demultiplex_record, "PyObject *(PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("trim_helpers", (void (*)(void))__pyx_f_5taggd_4core_25demultiplex_sub_functions_trim_helpers, "PyObject *(PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Type init code ---*/
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
