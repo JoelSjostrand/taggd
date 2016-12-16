@@ -28,6 +28,7 @@ cdef int homopolymer_filter
 cdef list homopolymers
 cdef str seed
 cdef bool multiple_hits_keep_one
+cdef list trim_sequences
 
 def init(dict true_barcodes_,
          int start_position_,
@@ -36,7 +37,8 @@ def init(dict true_barcodes_,
          int max_edit_distance_,
          int homopolymer_filter_,
          str seed_,
-         bool multiple_hits_keep_one_):
+         bool multiple_hits_keep_one_,
+         list trim_sequences_):
     """
     Initializes global variables for matching.
     """
@@ -66,7 +68,14 @@ def init(dict true_barcodes_,
     seed = seed_
     global multiple_hits_keep_one
     multiple_hits_keep_one = multiple_hits_keep_one_
-
+    global trim_sequences
+    trim_sequences = trim_sequences_
+    # Adjust the barcode length and the overhang if 
+    # we want to trim away helpers from the barcode
+    if trim_sequences is not None:
+        for start,end in trim_sequences:
+            barcode_length += (end - start)
+   
 def demultiplex_lines_wrapper(str filename_reads,
                               str filename_matched,
                               str filename_ambig,
@@ -189,6 +198,18 @@ cdef object demultiplex_lines(str filename_reads,
     stats.time = time.time() - start_time
     return stats
 
+cdef str trim_helpers(str seq):
+    """Simply helper function to remove
+    helper sequences from a barcode"""
+    cdef int prev_start = 0
+    cdef int prev_end = 0
+    for start,end in trim_sequences:
+        offset = prev_end - prev_start
+        seq = seq[:(start-offset)] + seq[(end-offset):]
+        prev_start = start
+        prev_end = end
+    return seq
+            
 cdef list demultiplex_record(object rec):
     """
     Demultiplexes a record and returns a list of match objects 
@@ -197,28 +218,26 @@ cdef list demultiplex_record(object rec):
     # Define local variables to speed up
     cdef str bcseq = None
     cdef int dist = 0
-    cdef list mtch = list()
-    cdef bool homo = False
-
+    
     # Try perfect hit first.
     cdef read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+    if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
+
     if read_barcode in true_barcodes:
-        mtch.append(match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0))
-        return mtch
+        return [match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0)]
 
     # Homopolymer filter.
     for filter in homopolymers:
         if filter in read_barcode:
-            homo = True
-            break
-    if homo:
-        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1))
-        return mtch
-
+            return [match.Match(rec, match_type.UNMATCHED, "-", -1)]
+            
     # Include overhang.
-    read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
-                        (start_position + barcode_length + post_overhang))]
-
+    if pre_overhang != 0 or post_overhang != 0:
+        read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
+                                    (start_position + barcode_length + post_overhang))]
+        # NOTE should take care of overhang bases more carefully here
+        if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
+          
     # Narrow down hits.
     cdef list candidates = srch.get_candidates(read_barcode)
     cdef qual_hits = srch.get_distances(read_barcode, candidates)
@@ -226,16 +245,14 @@ cdef list demultiplex_record(object rec):
     
     if not top_hits:
         # UNMATCHED
-        mtch.append(match.Match(rec, match_type.UNMATCHED, "-", -1))
-        return mtch
+        return [match.Match(rec, match_type.UNMATCHED, "-", -1)]
 
     random.shuffle(top_hits)
     if len(top_hits) == 1 or multiple_hits_keep_one:
         # Unambiguous match
         bcseq, dist = top_hits[0]
-        mtch.append(match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist))
-    else:
-        # Add the rest as ambiguous match
-        for bcseq, dist in top_hits:
-            mtch.append(match.Match(rec, match_type.MATCHED_AMBIGUOUSLY, bcseq, dist))
-    return mtch
+        return [match.Match(rec, match_type.MATCHED_UNAMBIGUOUSLY, bcseq, dist)]
+    
+    # Add the rest as ambiguous match
+    return [match.Match(rec, match_type.MATCHED_AMBIGUOUSLY, bcseq, dist) \
+            for bcseq,dist in top_hits]

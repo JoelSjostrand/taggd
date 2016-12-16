@@ -73,7 +73,7 @@ def main(argv=None):
     parser.add_argument('--max-edit-distance', 
                         type=int, 
                         help='The max edit distance for allowing hits (default: %(default)d)', 
-                        default=5, metavar="[int]")
+                        default=2, metavar="[int]")
     parser.add_argument('--metric', 
                         help= "Distance metric: Subglobal, Levenshtein or Hamming (default: %(default)s)", 
                         default="Subglobal", metavar="[string]")
@@ -82,7 +82,7 @@ def main(argv=None):
                         help='Top matches within this factor from the best match are considered ambiguous,\n'
                              'for instance with factor=1.5, having one match with distance 2 and two matches\n'
                              'with distance 4 yields all three matches as ambiguous hits. Perfect hits are always\n'
-                             ' considered non-ambiguous, irrespective of factor. (default: %(default)d)',
+                             'considered non-ambiguous, irrespective of factor. (default: %(default)d)',
                         default=1.0, metavar="[int]")
     parser.add_argument('--slider-increment',
                         type=int, help="Space between kmer searches, " \
@@ -120,7 +120,12 @@ def main(argv=None):
                         help="When multiple kmer hits are found for a record\n" \
                         "keep one as unambiguous and the rest as ambiguous",
                         default=False, action='store_true')
-    parser.add_argument('--version', action='version', version='%(prog)s ' + "0.3.0")
+    parser.add_argument('--trim-sequences', nargs='+', type=int, default=None, 
+                        help="Trims from the barcodes in the input file\n" \
+                        "The bases given in the list of tuples as START END START END .. where\n" \
+                        "START is the integer position of the first base (0 based) and END is the integer\n" \
+                        "position of the last base.\nTrimmng sequences can be given several times.")
+    parser.add_argument('--version', action='version', version='%(prog)s ' + "0.3.1")
 
     # Parse
     if argv == None:
@@ -163,7 +168,12 @@ def main(argv=None):
         raise ValueError("Invalid no. of subprocesses. Must be >= 0.")
     if options.ambiguity_factor < 1.0:
         raise ValueError("Invalid ambiguity factor. Must be >= 1.")
-
+    # Check the the trimming sequences given are valid
+    if options.trim_sequences is not None \
+    and (len(options.trim_sequences) % 2 != 0 or min(options.trim_sequences)) < 0:
+        raise ValueError("Invalid trimming sequences given " \
+                         "The number of positions given must be even and they must fit into the barcode length.")
+        
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
 
@@ -193,7 +203,7 @@ def main(argv=None):
     print "# Barcode length: " + str(lngth)
     print "# Barcode length when overhang added: " + \
     str(lngth + min(options.start_position, options.overhang) + options.overhang)
-
+        
     # Check barcodes file.
     if options.estimate_min_edit_distance > 0:
         min_dist = estimate_min_edit_distance(true_barcodes, options.estimate_min_edit_distance)
@@ -204,7 +214,15 @@ def main(argv=None):
     else:
         print "# Estimate of minimum edit distance between true barcodes (may be less): Not estimated"
 
-
+    # Make the input trim coordinates a list of tuples
+    trim_sequences = None
+    if options.trim_sequences is not None:
+        trim_sequences = list()
+        for i in xrange(len(options.trim_sequences) - 1):
+            if i % 2 == 0:
+                trim_sequences.append((options.trim_sequences[i], 
+                                       options.trim_sequences[i+1]))
+    
     # Initialize main components
     sub.init(true_barcodes,
              options.start_position,
@@ -213,7 +231,8 @@ def main(argv=None):
              options.max_edit_distance,
              options.homopolymer_filter,
              options.seed,
-             options.multiple_hits_keep_one)
+             options.multiple_hits_keep_one,
+             trim_sequences)
 
     srch.init(true_barcodes,
               options.k,

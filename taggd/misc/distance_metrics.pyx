@@ -54,16 +54,14 @@ cdef int levenshtein_distance(str seq1, str seq2, int limit=0):
             return limit + 1
     return this_row[len(seq2) - 1]
 
-cdef list subglobal_distance(str s1, str s2):
+cdef int subglobal_distance(str s1, str s2):
     """
     Computes the edit distance for a sub-global alignment
     of a sequence s2 against a sequence s1.
     Mismatches and indels both score as 1. Overhanging parts of s1 do not count.
     :param s1: the longer (probe) sequence.
     :param s2: the shorter sought sequence.
-    :return: [edit distance, last probe pos, s1 insertions, s2 insertions], 
-    where indels are estimates from a
-    a minimal alignment, but indel counts are not necessarily minimal.
+    :return: the minimum edit distance
     """
 
     cdef int xLen = len(s1)
@@ -97,28 +95,5 @@ cdef list subglobal_distance(str s1, str s2):
             mini = d[i,yLen]
             iPos = i
         i -= 1
-
-    # Compute backtracking for indels.
-    cdef int s2ins = 0
-    cdef int s1ins = 0
-
-    # Last elements of alignment.
-    i = iPos
-    j = yLen
-
-    # Backtrack.
-    while (i > 0) and (j > 0):
-        if d[i,j] == d[i-1,j-1] + int(s1[i-1] != s2[j-1]):
-            # Subst.
-            i -= 1
-            j -= 1
-        elif d[i,j] == d[i-1,j] + 1:
-            # Add probe insertion. NOTE: Heavier weighting since this elif appears before below elif.
-            s1ins += 1
-            i -= 1
-        else:
-            # Add sought insertion.
-            s2ins += 1
-            j -= 1
-
-    return [mini, iPos-1, s1ins, s2ins]   # Indexed from 1...
+    # Return min distance
+    return mini

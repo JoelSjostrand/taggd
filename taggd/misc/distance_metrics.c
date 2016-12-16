@@ -766,7 +766,7 @@ struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance;
  * from cpython cimport bool
  * 
  * cdef int hamming_distance(str seq1, str seq2, int limit=?)             # <<<<<<<<<<<<<<
- * cdef list subglobal_distance(str, str)
+ * cdef int subglobal_distance(str, str)
  * cdef int levenshtein_distance(str seq1, str seq2, int limit=?)
  */
 struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance {
@@ -776,7 +776,7 @@ struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance {
 
 /* "taggd/misc/distance_metrics.pxd":5
  * cdef int hamming_distance(str seq1, str seq2, int limit=?)
- * cdef list subglobal_distance(str, str)
+ * cdef int subglobal_distance(str, str)
  * cdef int levenshtein_distance(str seq1, str seq2, int limit=?)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance {
@@ -1763,7 +1763,7 @@ static int __pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance(PyObject
  *             return limit + 1
  *     return this_row[len(seq2) - 1]             # <<<<<<<<<<<<<<
  * 
- * cdef list subglobal_distance(str s1, str s2):
+ * cdef int subglobal_distance(str s1, str s2):
  */
   if (unlikely(__pyx_v_this_row == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -1800,26 +1800,23 @@ static int __pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance(PyObject
 /* "taggd/misc/distance_metrics.pyx":57
  *     return this_row[len(seq2) - 1]
  * 
- * cdef list subglobal_distance(str s1, str s2):             # <<<<<<<<<<<<<<
+ * cdef int subglobal_distance(str s1, str s2):             # <<<<<<<<<<<<<<
  *     """
  *     Computes the edit distance for a sub-global alignment
  */
 
-static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyObject *__pyx_v_s1, PyObject *__pyx_v_s2) {
+static int __pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyObject *__pyx_v_s1, PyObject *__pyx_v_s2) {
   int __pyx_v_xLen;
   int __pyx_v_yLen;
   int __pyx_v_x;
   int __pyx_v_y;
   PyArrayObject *__pyx_v_d = 0;
   int __pyx_v_mini;
-  int __pyx_v_iPos;
+  CYTHON_UNUSED int __pyx_v_iPos;
   int __pyx_v_i;
-  int __pyx_v_j;
-  int __pyx_v_s2ins;
-  int __pyx_v_s1ins;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_d;
   __Pyx_Buffer __pyx_pybuffer_d;
-  PyObject *__pyx_r = NULL;
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -1853,15 +1850,6 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   Py_ssize_t __pyx_t_30;
   Py_ssize_t __pyx_t_31;
   Py_ssize_t __pyx_t_32;
-  int __pyx_t_33;
-  Py_ssize_t __pyx_t_34;
-  Py_ssize_t __pyx_t_35;
-  Py_ssize_t __pyx_t_36;
-  Py_ssize_t __pyx_t_37;
-  Py_ssize_t __pyx_t_38;
-  Py_ssize_t __pyx_t_39;
-  Py_ssize_t __pyx_t_40;
-  Py_ssize_t __pyx_t_41;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1871,27 +1859,27 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   __pyx_pybuffernd_d.data = NULL;
   __pyx_pybuffernd_d.rcbuffer = &__pyx_pybuffer_d;
 
-  /* "taggd/misc/distance_metrics.pyx":69
+  /* "taggd/misc/distance_metrics.pyx":67
  *     """
  * 
  *     cdef int xLen = len(s1)             # <<<<<<<<<<<<<<
  *     cdef int yLen = len(s2)
  *     if xLen < yLen:
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_s1); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_Length(__pyx_v_s1); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_xLen = __pyx_t_1;
 
-  /* "taggd/misc/distance_metrics.pyx":70
+  /* "taggd/misc/distance_metrics.pyx":68
  * 
  *     cdef int xLen = len(s1)
  *     cdef int yLen = len(s2)             # <<<<<<<<<<<<<<
  *     if xLen < yLen:
  *         raise ValueError("Sub-global edit distance is undefined for sequences " \
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_s2); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_Length(__pyx_v_s2); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_yLen = __pyx_t_1;
 
-  /* "taggd/misc/distance_metrics.pyx":71
+  /* "taggd/misc/distance_metrics.pyx":69
  *     cdef int xLen = len(s1)
  *     cdef int yLen = len(s2)
  *     if xLen < yLen:             # <<<<<<<<<<<<<<
@@ -1901,20 +1889,20 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   __pyx_t_2 = ((__pyx_v_xLen < __pyx_v_yLen) != 0);
   if (__pyx_t_2) {
 
-    /* "taggd/misc/distance_metrics.pyx":72
+    /* "taggd/misc/distance_metrics.pyx":70
  *     cdef int yLen = len(s2)
  *     if xLen < yLen:
  *         raise ValueError("Sub-global edit distance is undefined for sequences " \             # <<<<<<<<<<<<<<
  *                          "where the probe is shorter than the aligned sequence.")
  *     cdef int x
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "taggd/misc/distance_metrics.pyx":71
+    /* "taggd/misc/distance_metrics.pyx":69
  *     cdef int xLen = len(s1)
  *     cdef int yLen = len(s2)
  *     if xLen < yLen:             # <<<<<<<<<<<<<<
@@ -1923,23 +1911,23 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
  */
   }
 
-  /* "taggd/misc/distance_metrics.pyx":76
+  /* "taggd/misc/distance_metrics.pyx":74
  *     cdef int x
  *     cdef int y
  *     cdef np.ndarray[np.uint32_t, ndim=2] d = np.empty([xLen+1, yLen+1], dtype=np.uint32)             # <<<<<<<<<<<<<<
  *     # Initialize array
  *     for x in xrange(0, xLen+1):
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_xLen + 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_xLen + 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_yLen + 1)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_yLen + 1)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyList_New(2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyList_New(2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_3);
   PyList_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
@@ -1947,32 +1935,32 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   PyList_SET_ITEM(__pyx_t_6, 1, __pyx_t_5);
   __pyx_t_3 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_uint32); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_uint32); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_7);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_d.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_5numpy_uint32_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) {
       __pyx_v_d = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_d.rcbuffer->pybuffer.buf = NULL;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     } else {__pyx_pybuffernd_d.diminfo[0].strides = __pyx_pybuffernd_d.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_d.diminfo[0].shape = __pyx_pybuffernd_d.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_d.diminfo[1].strides = __pyx_pybuffernd_d.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_d.diminfo[1].shape = __pyx_pybuffernd_d.rcbuffer->pybuffer.shape[1];
     }
   }
@@ -1980,7 +1968,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   __pyx_v_d = ((PyArrayObject *)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "taggd/misc/distance_metrics.pyx":78
+  /* "taggd/misc/distance_metrics.pyx":76
  *     cdef np.ndarray[np.uint32_t, ndim=2] d = np.empty([xLen+1, yLen+1], dtype=np.uint32)
  *     # Initialize array
  *     for x in xrange(0, xLen+1):             # <<<<<<<<<<<<<<
@@ -1991,7 +1979,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_x = __pyx_t_10;
 
-    /* "taggd/misc/distance_metrics.pyx":79
+    /* "taggd/misc/distance_metrics.pyx":77
  *     # Initialize array
  *     for x in xrange(0, xLen+1):
  *         d[x,0] = 0             # <<<<<<<<<<<<<<
@@ -2003,7 +1991,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_12, __pyx_pybuffernd_d.diminfo[1].strides) = 0;
   }
 
-  /* "taggd/misc/distance_metrics.pyx":80
+  /* "taggd/misc/distance_metrics.pyx":78
  *     for x in xrange(0, xLen+1):
  *         d[x,0] = 0
  *     for y in xrange(1, yLen+1):             # <<<<<<<<<<<<<<
@@ -2014,7 +2002,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   for (__pyx_t_10 = 1; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_y = __pyx_t_10;
 
-    /* "taggd/misc/distance_metrics.pyx":81
+    /* "taggd/misc/distance_metrics.pyx":79
  *         d[x,0] = 0
  *     for y in xrange(1, yLen+1):
  *         d[0,y] = y # To ensure all of s2 is spanned.             # <<<<<<<<<<<<<<
@@ -2026,7 +2014,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_14, __pyx_pybuffernd_d.diminfo[1].strides) = __pyx_v_y;
   }
 
-  /* "taggd/misc/distance_metrics.pyx":84
+  /* "taggd/misc/distance_metrics.pyx":82
  * 
  *     # Perform DP.
  *     for x in xrange(1, xLen+1):             # <<<<<<<<<<<<<<
@@ -2037,7 +2025,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
   for (__pyx_t_10 = 1; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_x = __pyx_t_10;
 
-    /* "taggd/misc/distance_metrics.pyx":86
+    /* "taggd/misc/distance_metrics.pyx":84
  *     for x in xrange(1, xLen+1):
  *         # Fill matrix.
  *         for y in xrange(1, yLen+1):             # <<<<<<<<<<<<<<
@@ -2048,7 +2036,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     for (__pyx_t_16 = 1; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
       __pyx_v_y = __pyx_t_16;
 
-      /* "taggd/misc/distance_metrics.pyx":87
+      /* "taggd/misc/distance_metrics.pyx":85
  *         # Fill matrix.
  *         for y in xrange(1, yLen+1):
  *             d[x,y] = min( min(d[x-1,y]+1, d[x,y-1]+1), d[x-1,y-1] + int(s1[x-1] != s2[y-1]) )             # <<<<<<<<<<<<<<
@@ -2057,21 +2045,21 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
  */
       __pyx_t_17 = (__pyx_v_x - 1);
       __pyx_t_18 = (__pyx_v_y - 1);
-      __pyx_t_7 = __Pyx_PyInt_From_npy_uint32((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_18, __pyx_pybuffernd_d.diminfo[1].strides))); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = __Pyx_PyInt_From_npy_uint32((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_18, __pyx_pybuffernd_d.diminfo[1].strides))); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_19 = (__pyx_v_x - 1);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_19, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_19, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_19 = (__pyx_v_y - 1);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_19, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_19, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Int(__pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyNumber_Int(__pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2087,23 +2075,23 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
         __pyx_t_25 = __pyx_t_24;
       }
       __pyx_t_19 = __pyx_t_25;
-      __pyx_t_7 = __Pyx_PyInt_From_long(__pyx_t_19); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = __Pyx_PyInt_From_long(__pyx_t_19); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       if (__pyx_t_2) {
         __Pyx_INCREF(__pyx_t_4);
         __pyx_t_5 = __pyx_t_4;
       } else {
-        __pyx_t_6 = __Pyx_PyInt_From_long(__pyx_t_19); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_6 = __Pyx_PyInt_From_long(__pyx_t_19); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_6);
         __pyx_t_5 = __pyx_t_6;
         __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_26 = __Pyx_PyInt_As_npy_uint32(__pyx_t_5); if (unlikely((__pyx_t_26 == (npy_uint32)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_26 = __Pyx_PyInt_As_npy_uint32(__pyx_t_5); if (unlikely((__pyx_t_26 == (npy_uint32)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_27 = __pyx_v_x;
       __pyx_t_28 = __pyx_v_y;
@@ -2111,7 +2099,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     }
   }
 
-  /* "taggd/misc/distance_metrics.pyx":91
+  /* "taggd/misc/distance_metrics.pyx":89
  *     # Find min for sub-global alignment so that all of s2 is covered,
  *     # but not necessarily all of s1 sequence.
  *     cdef int mini = 1000000             # <<<<<<<<<<<<<<
@@ -2120,7 +2108,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
  */
   __pyx_v_mini = 0xF4240;
 
-  /* "taggd/misc/distance_metrics.pyx":92
+  /* "taggd/misc/distance_metrics.pyx":90
  *     # but not necessarily all of s1 sequence.
  *     cdef int mini = 1000000
  *     cdef int iPos = 0             # <<<<<<<<<<<<<<
@@ -2129,7 +2117,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
  */
   __pyx_v_iPos = 0;
 
-  /* "taggd/misc/distance_metrics.pyx":93
+  /* "taggd/misc/distance_metrics.pyx":91
  *     cdef int mini = 1000000
  *     cdef int iPos = 0
  *     cdef int i = xLen             # <<<<<<<<<<<<<<
@@ -2138,7 +2126,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
  */
   __pyx_v_i = __pyx_v_xLen;
 
-  /* "taggd/misc/distance_metrics.pyx":95
+  /* "taggd/misc/distance_metrics.pyx":93
  *     cdef int i = xLen
  *     cdef int j
  *     while i > 0:             # <<<<<<<<<<<<<<
@@ -2149,7 +2137,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     __pyx_t_2 = ((__pyx_v_i > 0) != 0);
     if (!__pyx_t_2) break;
 
-    /* "taggd/misc/distance_metrics.pyx":96
+    /* "taggd/misc/distance_metrics.pyx":94
  *     cdef int j
  *     while i > 0:
  *         if d[i,yLen] < mini:             # <<<<<<<<<<<<<<
@@ -2161,7 +2149,7 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     __pyx_t_2 = (((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_30, __pyx_pybuffernd_d.diminfo[1].strides)) < __pyx_v_mini) != 0);
     if (__pyx_t_2) {
 
-      /* "taggd/misc/distance_metrics.pyx":97
+      /* "taggd/misc/distance_metrics.pyx":95
  *     while i > 0:
  *         if d[i,yLen] < mini:
  *             mini = d[i,yLen]             # <<<<<<<<<<<<<<
@@ -2172,16 +2160,16 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
       __pyx_t_32 = __pyx_v_yLen;
       __pyx_v_mini = (*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_32, __pyx_pybuffernd_d.diminfo[1].strides));
 
-      /* "taggd/misc/distance_metrics.pyx":98
+      /* "taggd/misc/distance_metrics.pyx":96
  *         if d[i,yLen] < mini:
  *             mini = d[i,yLen]
  *             iPos = i             # <<<<<<<<<<<<<<
  *         i -= 1
- * 
+ *     # Return min distance
  */
       __pyx_v_iPos = __pyx_v_i;
 
-      /* "taggd/misc/distance_metrics.pyx":96
+      /* "taggd/misc/distance_metrics.pyx":94
  *     cdef int j
  *     while i > 0:
  *         if d[i,yLen] < mini:             # <<<<<<<<<<<<<<
@@ -2190,237 +2178,28 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
  */
     }
 
-    /* "taggd/misc/distance_metrics.pyx":99
+    /* "taggd/misc/distance_metrics.pyx":97
  *             mini = d[i,yLen]
  *             iPos = i
  *         i -= 1             # <<<<<<<<<<<<<<
- * 
- *     # Compute backtracking for indels.
+ *     # Return min distance
+ *     return mini
  */
     __pyx_v_i = (__pyx_v_i - 1);
   }
 
-  /* "taggd/misc/distance_metrics.pyx":102
- * 
- *     # Compute backtracking for indels.
- *     cdef int s2ins = 0             # <<<<<<<<<<<<<<
- *     cdef int s1ins = 0
- * 
+  /* "taggd/misc/distance_metrics.pyx":99
+ *         i -= 1
+ *     # Return min distance
+ *     return mini             # <<<<<<<<<<<<<<
  */
-  __pyx_v_s2ins = 0;
-
-  /* "taggd/misc/distance_metrics.pyx":103
- *     # Compute backtracking for indels.
- *     cdef int s2ins = 0
- *     cdef int s1ins = 0             # <<<<<<<<<<<<<<
- * 
- *     # Last elements of alignment.
- */
-  __pyx_v_s1ins = 0;
-
-  /* "taggd/misc/distance_metrics.pyx":106
- * 
- *     # Last elements of alignment.
- *     i = iPos             # <<<<<<<<<<<<<<
- *     j = yLen
- * 
- */
-  __pyx_v_i = __pyx_v_iPos;
-
-  /* "taggd/misc/distance_metrics.pyx":107
- *     # Last elements of alignment.
- *     i = iPos
- *     j = yLen             # <<<<<<<<<<<<<<
- * 
- *     # Backtrack.
- */
-  __pyx_v_j = __pyx_v_yLen;
-
-  /* "taggd/misc/distance_metrics.pyx":110
- * 
- *     # Backtrack.
- *     while (i > 0) and (j > 0):             # <<<<<<<<<<<<<<
- *         if d[i,j] == d[i-1,j-1] + int(s1[i-1] != s2[j-1]):
- *             # Subst.
- */
-  while (1) {
-    __pyx_t_33 = ((__pyx_v_i > 0) != 0);
-    if (__pyx_t_33) {
-    } else {
-      __pyx_t_2 = __pyx_t_33;
-      goto __pyx_L17_bool_binop_done;
-    }
-    __pyx_t_33 = ((__pyx_v_j > 0) != 0);
-    __pyx_t_2 = __pyx_t_33;
-    __pyx_L17_bool_binop_done:;
-    if (!__pyx_t_2) break;
-
-    /* "taggd/misc/distance_metrics.pyx":111
- *     # Backtrack.
- *     while (i > 0) and (j > 0):
- *         if d[i,j] == d[i-1,j-1] + int(s1[i-1] != s2[j-1]):             # <<<<<<<<<<<<<<
- *             # Subst.
- *             i -= 1
- */
-    __pyx_t_34 = __pyx_v_i;
-    __pyx_t_35 = __pyx_v_j;
-    __pyx_t_5 = __Pyx_PyInt_From_npy_uint32((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_35, __pyx_pybuffernd_d.diminfo[1].strides))); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_36 = (__pyx_v_i - 1);
-    __pyx_t_37 = (__pyx_v_j - 1);
-    __pyx_t_4 = __Pyx_PyInt_From_npy_uint32((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_36, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_37, __pyx_pybuffernd_d.diminfo[1].strides))); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = (__pyx_v_i - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_9, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_9 = (__pyx_v_j - 1);
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_9, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_7 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_3 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (__pyx_t_2) {
-
-      /* "taggd/misc/distance_metrics.pyx":113
- *         if d[i,j] == d[i-1,j-1] + int(s1[i-1] != s2[j-1]):
- *             # Subst.
- *             i -= 1             # <<<<<<<<<<<<<<
- *             j -= 1
- *         elif d[i,j] == d[i-1,j] + 1:
- */
-      __pyx_v_i = (__pyx_v_i - 1);
-
-      /* "taggd/misc/distance_metrics.pyx":114
- *             # Subst.
- *             i -= 1
- *             j -= 1             # <<<<<<<<<<<<<<
- *         elif d[i,j] == d[i-1,j] + 1:
- *             # Add probe insertion. NOTE: Heavier weighting since this elif appears before below elif.
- */
-      __pyx_v_j = (__pyx_v_j - 1);
-
-      /* "taggd/misc/distance_metrics.pyx":111
- *     # Backtrack.
- *     while (i > 0) and (j > 0):
- *         if d[i,j] == d[i-1,j-1] + int(s1[i-1] != s2[j-1]):             # <<<<<<<<<<<<<<
- *             # Subst.
- *             i -= 1
- */
-      goto __pyx_L19;
-    }
-
-    /* "taggd/misc/distance_metrics.pyx":115
- *             i -= 1
- *             j -= 1
- *         elif d[i,j] == d[i-1,j] + 1:             # <<<<<<<<<<<<<<
- *             # Add probe insertion. NOTE: Heavier weighting since this elif appears before below elif.
- *             s1ins += 1
- */
-    __pyx_t_38 = __pyx_v_i;
-    __pyx_t_39 = __pyx_v_j;
-    __pyx_t_40 = (__pyx_v_i - 1);
-    __pyx_t_41 = __pyx_v_j;
-    __pyx_t_2 = (((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_39, __pyx_pybuffernd_d.diminfo[1].strides)) == ((*__Pyx_BufPtrStrided2d(__pyx_t_5numpy_uint32_t *, __pyx_pybuffernd_d.rcbuffer->pybuffer.buf, __pyx_t_40, __pyx_pybuffernd_d.diminfo[0].strides, __pyx_t_41, __pyx_pybuffernd_d.diminfo[1].strides)) + 1)) != 0);
-    if (__pyx_t_2) {
-
-      /* "taggd/misc/distance_metrics.pyx":117
- *         elif d[i,j] == d[i-1,j] + 1:
- *             # Add probe insertion. NOTE: Heavier weighting since this elif appears before below elif.
- *             s1ins += 1             # <<<<<<<<<<<<<<
- *             i -= 1
- *         else:
- */
-      __pyx_v_s1ins = (__pyx_v_s1ins + 1);
-
-      /* "taggd/misc/distance_metrics.pyx":118
- *             # Add probe insertion. NOTE: Heavier weighting since this elif appears before below elif.
- *             s1ins += 1
- *             i -= 1             # <<<<<<<<<<<<<<
- *         else:
- *             # Add sought insertion.
- */
-      __pyx_v_i = (__pyx_v_i - 1);
-
-      /* "taggd/misc/distance_metrics.pyx":115
- *             i -= 1
- *             j -= 1
- *         elif d[i,j] == d[i-1,j] + 1:             # <<<<<<<<<<<<<<
- *             # Add probe insertion. NOTE: Heavier weighting since this elif appears before below elif.
- *             s1ins += 1
- */
-      goto __pyx_L19;
-    }
-
-    /* "taggd/misc/distance_metrics.pyx":121
- *         else:
- *             # Add sought insertion.
- *             s2ins += 1             # <<<<<<<<<<<<<<
- *             j -= 1
- * 
- */
-    /*else*/ {
-      __pyx_v_s2ins = (__pyx_v_s2ins + 1);
-
-      /* "taggd/misc/distance_metrics.pyx":122
- *             # Add sought insertion.
- *             s2ins += 1
- *             j -= 1             # <<<<<<<<<<<<<<
- * 
- *     return [mini, iPos-1, s1ins, s2ins]   # Indexed from 1...
- */
-      __pyx_v_j = (__pyx_v_j - 1);
-    }
-    __pyx_L19:;
-  }
-
-  /* "taggd/misc/distance_metrics.pyx":124
- *             j -= 1
- * 
- *     return [mini, iPos-1, s1ins, s2ins]   # Indexed from 1...             # <<<<<<<<<<<<<<
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_mini); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_iPos - 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_s1ins); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_s2ins); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = PyList_New(4); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyList_SET_ITEM(__pyx_t_6, 0, __pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyList_SET_ITEM(__pyx_t_6, 1, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyList_SET_ITEM(__pyx_t_6, 2, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyList_SET_ITEM(__pyx_t_6, 3, __pyx_t_4);
-  __pyx_t_7 = 0;
-  __pyx_t_3 = 0;
-  __pyx_t_5 = 0;
-  __pyx_t_4 = 0;
-  __pyx_r = ((PyObject*)__pyx_t_6);
-  __pyx_t_6 = 0;
+  __pyx_r = __pyx_v_mini;
   goto __pyx_L0;
 
   /* "taggd/misc/distance_metrics.pyx":57
  *     return this_row[len(seq2) - 1]
  * 
- * cdef list subglobal_distance(str s1, str s2):             # <<<<<<<<<<<<<<
+ * cdef int subglobal_distance(str s1, str s2):             # <<<<<<<<<<<<<<
  *     """
  *     Computes the edit distance for a sub-global alignment
  */
@@ -2436,14 +2215,13 @@ static PyObject *__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance(PyOb
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_d.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("taggd.misc.distance_metrics.subglobal_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_WriteUnraisable("taggd.misc.distance_metrics.subglobal_distance", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_d.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XDECREF((PyObject *)__pyx_v_d);
-  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4644,7 +4422,7 @@ static int __Pyx_InitCachedBuiltins(void) {
   #endif
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_min = __Pyx_GetBuiltinName(__pyx_n_s_min); if (!__pyx_builtin_min) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -4655,14 +4433,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "taggd/misc/distance_metrics.pyx":72
+  /* "taggd/misc/distance_metrics.pyx":70
  *     cdef int yLen = len(s2)
  *     if xLen < yLen:
  *         raise ValueError("Sub-global edit distance is undefined for sequences " \             # <<<<<<<<<<<<<<
  *                          "where the probe is shorter than the aligned sequence.")
  *     cdef int x
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Sub_global_edit_distance_is_unde); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Sub_global_edit_distance_is_unde); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -4833,7 +4611,7 @@ PyMODINIT_FUNC PyInit_distance_metrics(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("hamming_distance", (void (*)(void))__pyx_f_5taggd_4misc_16distance_metrics_hamming_distance, "int (PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_hamming_distance *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ExportFunction("subglobal_distance", (void (*)(void))__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance, "PyObject *(PyObject *, PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("subglobal_distance", (void (*)(void))__pyx_f_5taggd_4misc_16distance_metrics_subglobal_distance, "int (PyObject *, PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ExportFunction("levenshtein_distance", (void (*)(void))__pyx_f_5taggd_4misc_16distance_metrics_levenshtein_distance, "int (PyObject *, PyObject *, struct __pyx_opt_args_5taggd_4misc_16distance_metrics_levenshtein_distance *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Type init code ---*/
   /*--- Type import code ---*/
