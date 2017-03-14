@@ -1,5 +1,7 @@
 #TagGD barcode demultiplexing utilities for Spatial Transcriptomics data.
 
+[![Build Status](https://travis-ci.org/JoelSjostrand/taggd.svg?branch=master)](https://travis-ci.org/JoelSjostrand/taggd)
+
 This is the Python version, which is a generalized, optimized and more
 up-to-date version of the C++ demultiplexer named "findIndexes"
 which you can find here https://github.com/pelinakan/UBD.
@@ -39,6 +41,3 @@ installed such as Anaconda 2.7)
 ##Contact: 
 
 {joel.sjostrand, jose.fernandez.navarro}@scilifelab.se.
-
-
-[![Build Status](https://travis-ci.org/JoelSjostrand/taggd.svg?branch=master)](https://travis-ci.org/JoelSjostrand/taggd)
