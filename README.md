@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/JoelSjostrand/taggd.svg?branch=master)](https://travis-ci.org/JoelSjostrand/taggd)
+
 #TagGD barcode demultiplexing utilities for Spatial Transcriptomics data.
 
 This is the Python version, which is a generalized, optimized and more
@@ -13,6 +15,16 @@ try to find a match in a file with a list
 of reference barcodes using a kmer-based approach.
 All the reads that match will be outputted and the barcode
 and spatial information will be added to each record.
+
+TagGD requires a file containing the indexes(barcodes)
+to be used to demultiple. The file should look like this:
+
+BARCODE X Y
+
+TagGD could potentially be used to demultiplex any type of index
+if the refered file is provided (one culd just create fake X,Y coordinates).
+
+TagGD allows to demultiplex reads that contain several indexes.
 
 ##Manual
 
@@ -38,6 +50,4 @@ installed such as Anaconda 2.7)
 
 ##Contact: 
 
-{joel.sjostrand, jose.fernandez.navarro}@scilifelab.se.
-
-[![Build Status](https://travis-ci.org/JoelSjostrand/taggd.svg?branch=master)](https://travis-ci.org/JoelSjostrand/taggd)
+jose.fernandez.navarro@scilifelab.se.
