@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/JoelSjostrand/taggd.svg?branch=master)](https://travis-ci.org/JoelSjostrand/taggd)
 
-#TagGD barcode demultiplexing utilities for Spatial Transcriptomics data.
+# TagGD barcode demultiplexing utilities for Spatial Transcriptomics data.
 
 This is the Python version, which is a generalized, optimized and more
 up-to-date version of the C++ demultiplexer named "findIndexes"
@@ -26,15 +26,15 @@ if the refered file is provided (one culd just create fake X,Y coordinates).
 
 TagGD allows to demultiplex reads that contain several indexes.
 
-##Manual
+## Manual
 
 See Wiki section
 
-##Requirements:
+## Requirements:
 
 TagGD requires PySam and Numpy.
 
-##Installation:
+## Installation:
 
 (Assuming that you have a virtual environment
 installed such as Anaconda 2.7)
@@ -43,11 +43,11 @@ installed such as Anaconda 2.7)
     python setup.py build
     python setup.py install
 
-##Run:
+## Run:
 
     taggd_demultiplex.py -h
 
 
-##Contact: 
+## Contact: 
 
 jose.fernandez.navarro@scilifelab.se.
