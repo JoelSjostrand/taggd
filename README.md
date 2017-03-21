@@ -42,6 +42,10 @@ installed such as Anaconda 2.7)
     cd <taggd demultiplexer root>
     python setup.py build
     python setup.py install
+    
+Alternatively, you can use PIP:
+ 
+    pip install taggd  
 
 ## Run:
 
