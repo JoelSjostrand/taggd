@@ -125,6 +125,12 @@ def main(argv=None):
                         "The bases given in the list of tuples as START END START END .. where\n" \
                         "START is the integer position of the first base (0 based) and END is the integer\n" \
                         "position of the last base.\nTrimmng sequences can be given several times.")
+    parser.add_argument('--barcode-tag', 
+                        type=str, 
+                        help='Use the sequence in specified tag instead of the read sequence for the barcode demultiplexing.\n' \
+                        'The tag must be a two-letter string and be present for all records in the input file.\n' \
+                        'Can only be used with SAM or BAM formatted input files.', 
+                        default='', metavar="[str]")
     parser.add_argument('--version', action='version', version='%(prog)s ' + "0.3.1")
 
     # Parse
@@ -173,6 +179,11 @@ def main(argv=None):
     and (len(options.trim_sequences) % 2 != 0 or min(options.trim_sequences)) < 0:
         raise ValueError("Invalid trimming sequences given " \
                          "The number of positions given must be even and they must fit into the barcode length.")
+    if options.barcode_tag:
+        if len(options.barcode_tag) != 2:
+            raise ValueError("Invalid the \"--barcode-tag\" option must specify a two-letter string, current length is "+str(len(options.barcode_tag))+" letters (\""+options.barcode_tag+"\").\n")
+        if not (options.reads_infile.upper().endswith(".SAM") or options.reads_infile.upper().endswith(".BAM")):
+            raise ValueError("Invalid the \"--barcode-tag\" option can only be used with SAM or BAM formatted input files.\n")
         
     # Read barcodes file
     true_barcodes = bu.read_barcode_file(options.barcodes_infile)
@@ -232,7 +243,8 @@ def main(argv=None):
              options.homopolymer_filter,
              options.seed,
              options.multiple_hits_keep_one,
-             trim_sequences)
+             trim_sequences,
+             options.barcode_tag)
 
     srch.init(true_barcodes,
               options.k,

@@ -38,7 +38,8 @@ def init(dict true_barcodes_,
          int homopolymer_filter_,
          str seed_,
          bool multiple_hits_keep_one_,
-         list trim_sequences_):
+         list trim_sequences_,
+         str barcode_tag_):
     """
     Initializes global variables for matching.
     """
@@ -70,6 +71,8 @@ def init(dict true_barcodes_,
     multiple_hits_keep_one = multiple_hits_keep_one_
     global trim_sequences
     trim_sequences = trim_sequences_
+    global barcode_tag
+    barcode_tag = barcode_tag_
     # Adjust the barcode length and the overhang if 
     # we want to trim away helpers from the barcode
     if trim_sequences is not None:
@@ -218,9 +221,16 @@ cdef list demultiplex_record(object rec):
     # Define local variables to speed up
     cdef str bcseq = None
     cdef int dist = 0
+    cdef str read_barcode
     
     # Try perfect hit first.
-    cdef read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+    if not barcode_tag:
+        read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+    else:
+        try:
+            read_barcode = {tag:value for tag,value in rec.attributes["tags"]}[barcode_tag]
+        except KeyError:
+            raise ValueError('Error: cannot demultiplex, the specified SAM/BAM tag ("'+barcode_tag+'") is not present for record '+rec.annotation+'.\n')
     if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
 
     if read_barcode in true_barcodes:
