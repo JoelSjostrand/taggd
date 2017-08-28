@@ -130,7 +130,7 @@ def main(argv=None):
                         help='Use the sequence in specified tag instead of the read sequence for the barcode demultiplexing.\n' \
                         'The tag must be a two-letter string and be present for all records in the input file.\n' \
                         'Can only be used with SAM or BAM formatted input files.', 
-                        default='', metavar="[str]")
+                        default=None, metavar="[str]")
     parser.add_argument('--version', action='version', version='%(prog)s ' + "0.3.1")
 
     # Parse
