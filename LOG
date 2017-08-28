@@ -32,3 +32,5 @@
 0.3.0   - Formatted code and added option to include one match when there are 
 		  multiple hits. Speed improvements and small refactoring.
 0.3.1 	- Added option to trim sequences in the barcodes
+0.3.2   -  Added option to enable demultiplexing of BAM or SAM formatted input
+           files using a barcode sequence from a tag field.
