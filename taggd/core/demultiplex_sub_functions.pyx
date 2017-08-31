@@ -225,12 +225,13 @@ cdef list demultiplex_record(object rec):
     
     # Try perfect hit first.
     if not barcode_tag:
-        read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+        sequence = rec.sequence
     else:
         try:
-            read_barcode = {tag:value for tag,value in rec.attributes["tags"]}[barcode_tag]
+            sequence = {tag:value for tag,value in rec.attributes["tags"]}[barcode_tag]
         except KeyError:
             raise ValueError('Error: cannot demultiplex, the specified SAM/BAM tag ("'+barcode_tag+'") is not present for record '+rec.annotation+'.\n')
+    read_barcode = sequence[start_position:(start_position+barcode_length)]
     if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
 
     if read_barcode in true_barcodes:
@@ -243,7 +244,7 @@ cdef list demultiplex_record(object rec):
             
     # Include overhang.
     if pre_overhang != 0 or post_overhang != 0:
-        read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
+        read_barcode = sequence[(start_position - pre_overhang):min(len(sequence), \
                                     (start_position + barcode_length + post_overhang))]
         # NOTE should take care of overhang bases more carefully here
         if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
