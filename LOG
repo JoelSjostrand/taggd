@@ -34,3 +34,4 @@
 0.3.1 	- Added option to trim sequences in the barcodes
 0.3.2   - Added option to enable demultiplexing of BAM or SAM formatted input
           files using a barcode sequence from a tag field.
+0.3.3 	- Buf fixes relatesd to BAM input.

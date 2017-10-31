@@ -54,8 +54,8 @@ else:
 
 setup(
 	name = "taggd",
-	version = '0.3.2',
-	author = 'Joel Sjostrand',
+	version = '0.3.3',
+	author = 'Joel Sjostrand, Jose Fernandez',
 	author_email = 'joel.sjostrand@scilifelab.se, jose.fernandez.navarro@scilifelab.se',
 	license = 'Open BSD',
     description = 'Bioinformatics genetic barcode demultiplexing',
