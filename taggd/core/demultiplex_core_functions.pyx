@@ -123,7 +123,8 @@ cdef merge_files(str filename, list part_names):
 
     # Delete parts
     for part in part_names:
-        if os.path.isfile(part): os.remove(part)
+        if os.path.isfile(part): 
+            os.remove(part)
 
 cdef merge_stats(list statss):
     """
