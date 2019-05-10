@@ -1309,7 +1309,7 @@ extern int __pyx_module_is_main_taggd__misc__kmer_utils;
 int __pyx_module_is_main_taggd__misc__kmer_utils = 0;
 
 /* Implementation of 'taggd.misc.kmer_utils' */
-static PyObject *__pyx_builtin_xrange;
+static PyObject *__pyx_builtin_range;
 static const char __pyx_k_add[] = "add";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
@@ -1317,7 +1317,6 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_append[] = "append";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_xrange[] = "xrange";
 static const char __pyx_k_collections[] = "collections";
 static const char __pyx_k_defaultdict[] = "defaultdict";
 static const char __pyx_k_default_factory[] = "default_factory";
@@ -1338,7 +1337,6 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_taggd_misc_kmer_utils;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_xrange;
 static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_int_0;
 /* Late includes */
@@ -1505,7 +1503,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
  *         # Adjust barcode if round robin
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq             # <<<<<<<<<<<<<<
  *         # Create the Kmers of length k with slider increment
- *         for i in xrange(0, len(seqq)-k+1, slider_increment):
+ *         for i in range(0, len(seqq)-k+1, slider_increment):
  */
     __pyx_t_6 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_round_robin)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 29, __pyx_L1_error)
     if (__pyx_t_6) {
@@ -1530,7 +1528,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
     /* "taggd/misc/kmer_utils.pyx":31
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq
  *         # Create the Kmers of length k with slider increment
- *         for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
+ *         for i in range(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *             kmer = seqq[i:i+k]
  *             kmer2seq[kmer][seq].append(i)
  */
@@ -1550,7 +1548,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
     PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_t_4);
     __pyx_t_2 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_xrange, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
@@ -1599,7 +1597,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
 
       /* "taggd/misc/kmer_utils.pyx":32
  *         # Create the Kmers of length k with slider increment
- *         for i in xrange(0, len(seqq)-k+1, slider_increment):
+ *         for i in range(0, len(seqq)-k+1, slider_increment):
  *             kmer = seqq[i:i+k]             # <<<<<<<<<<<<<<
  *             kmer2seq[kmer][seq].append(i)
  *         # Special treatment of last in case we would skip it during incrementation
@@ -1614,7 +1612,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
       __pyx_t_4 = 0;
 
       /* "taggd/misc/kmer_utils.pyx":33
- *         for i in xrange(0, len(seqq)-k+1, slider_increment):
+ *         for i in range(0, len(seqq)-k+1, slider_increment):
  *             kmer = seqq[i:i+k]
  *             kmer2seq[kmer][seq].append(i)             # <<<<<<<<<<<<<<
  *         # Special treatment of last in case we would skip it during incrementation
@@ -1634,7 +1632,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers_dicts(PyObject *__p
       /* "taggd/misc/kmer_utils.pyx":31
  *         seqq = seq + seq[0:(k-1)] if round_robin else seq
  *         # Create the Kmers of length k with slider increment
- *         for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
+ *         for i in range(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *             kmer = seqq[i:i+k]
  *             kmer2seq[kmer][seq].append(i)
  */
@@ -1858,7 +1856,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   /* "taggd/misc/kmer_utils.pyx":59
  *     # Simply compute kmers for the sequence
  *     #TODO this function could be used in get_kmers_dictst to avoid code duplication
- *     for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
+ *     for i in range(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *         kmer = seqq[i:i+k]
  *         kmer_list.append((kmer, i))
  */
@@ -1878,7 +1876,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
   PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_t_4);
   __pyx_t_1 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_xrange, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
@@ -1927,7 +1925,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
 
     /* "taggd/misc/kmer_utils.pyx":60
  *     #TODO this function could be used in get_kmers_dictst to avoid code duplication
- *     for i in xrange(0, len(seqq)-k+1, slider_increment):
+ *     for i in range(0, len(seqq)-k+1, slider_increment):
  *         kmer = seqq[i:i+k]             # <<<<<<<<<<<<<<
  *         kmer_list.append((kmer, i))
  *     # Special treatment of last
@@ -1942,7 +1940,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
     __pyx_t_4 = 0;
 
     /* "taggd/misc/kmer_utils.pyx":61
- *     for i in xrange(0, len(seqq)-k+1, slider_increment):
+ *     for i in range(0, len(seqq)-k+1, slider_increment):
  *         kmer = seqq[i:i+k]
  *         kmer_list.append((kmer, i))             # <<<<<<<<<<<<<<
  *     # Special treatment of last
@@ -1964,7 +1962,7 @@ static PyObject *__pyx_f_5taggd_4misc_10kmer_utils_get_kmers(PyObject *__pyx_v_s
     /* "taggd/misc/kmer_utils.pyx":59
  *     # Simply compute kmers for the sequence
  *     #TODO this function could be used in get_kmers_dictst to avoid code duplication
- *     for i in xrange(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
+ *     for i in range(0, len(seqq)-k+1, slider_increment):             # <<<<<<<<<<<<<<
  *         kmer = seqq[i:i+k]
  *         kmer_list.append((kmer, i))
  */
@@ -2130,15 +2128,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_taggd_misc_kmer_utils, __pyx_k_taggd_misc_kmer_utils, sizeof(__pyx_k_taggd_misc_kmer_utils), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_xrange, __pyx_k_xrange, sizeof(__pyx_k_xrange), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  #if PY_MAJOR_VERSION >= 3
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 31, __pyx_L1_error)
-  #else
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 31, __pyx_L1_error)
-  #endif
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 31, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;

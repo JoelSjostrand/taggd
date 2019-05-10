@@ -28,7 +28,6 @@ class TestDemultiplexer(unittest.TestCase):
         assert (os.path.exists(self.infq))
         assert (os.path.exists(self.infa))
 
-
     def test_normal_sam_run(self):
         """
         Tests taggd demultiplexer on a variety of small files.

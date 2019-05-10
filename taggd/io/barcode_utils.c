@@ -2427,7 +2427,7 @@ static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObjec
   /* "taggd/io/barcode_utils.pyx":54
  *     # Compute minimum edit distance.
  *     # Get the barcodes and shuffle them
- *     cdef list seqslist = true_barcodes.keys()             # <<<<<<<<<<<<<<
+ *     cdef list seqslist = list(true_barcodes.keys())             # <<<<<<<<<<<<<<
  *     random.shuffle(seqslist)
  *     # Iterate the barcodes to see if the comply the min distance requirement
  */
@@ -2437,38 +2437,40 @@ static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObjec
   }
   __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_true_barcodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 54, __pyx_L1_error)
-  __pyx_v_seqslist = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_t_2 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_seqslist = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "taggd/io/barcode_utils.pyx":55
  *     # Get the barcodes and shuffle them
- *     cdef list seqslist = true_barcodes.keys()
+ *     cdef list seqslist = list(true_barcodes.keys())
  *     random.shuffle(seqslist)             # <<<<<<<<<<<<<<
  *     # Iterate the barcodes to see if the comply the min distance requirement
  *     cdef int min_dist = 1000000000
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 55, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_1)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_seqslist) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_seqslist);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 55, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_v_seqslist) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_seqslist);
+  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "taggd/io/barcode_utils.pyx":57
  *     random.shuffle(seqslist)
@@ -2496,13 +2498,13 @@ static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObjec
  *             dist = hamming_distance(barcode1, barcode2, min_dist)
  */
   __pyx_t_4 = 0;
-  __pyx_t_1 = __pyx_v_seqslist; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
+  __pyx_t_2 = __pyx_v_seqslist; __Pyx_INCREF(__pyx_t_2); __pyx_t_5 = 0;
   for (;;) {
-    if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
+    if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(1, 63, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(1, 63, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 63, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 63, __pyx_L1_error)
@@ -2518,20 +2520,16 @@ static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObjec
  *             dist = hamming_distance(barcode1, barcode2, min_dist)
  *             if dist < min_dist: min_dist = dist
  */
-    if (unlikely(__pyx_v_seqslist == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 64, __pyx_L1_error)
-    }
     __pyx_t_3 = __Pyx_PyList_GetSlice(__pyx_v_seqslist, (__pyx_v_i + 1), PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
+    __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
-      if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
+      if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(1, 64, __pyx_L1_error)
+      __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(1, 64, __pyx_L1_error)
       #else
-      __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 64, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 64, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 64, __pyx_L1_error)
@@ -2609,7 +2607,7 @@ static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObjec
  *             if dist < min_dist: min_dist = dist
  */
     }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "taggd/io/barcode_utils.pyx":63
  *     cdef int dist
@@ -2619,7 +2617,7 @@ static int __pyx_f_5taggd_2io_13barcode_utils_estimate_min_edit_distance(PyObjec
  *             dist = hamming_distance(barcode1, barcode2, min_dist)
  */
   }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "taggd/io/barcode_utils.pyx":70
  *             if iter >= max_iters:

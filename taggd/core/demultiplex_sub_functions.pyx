@@ -55,7 +55,7 @@ def init(dict true_barcodes_,
     global post_overhang
     post_overhang = post_overhang_
     global barcode_length
-    barcode_length = len(true_barcodes.keys()[0])
+    barcode_length = len(list(true_barcodes.keys())[0])
     global max_edit_distance
     max_edit_distance = max_edit_distance_
     global homopolymer_filter
@@ -163,8 +163,8 @@ cdef object demultiplex_lines(str filename_reads,
                 bc = true_barcodes[mt.barcode]
                 tags = list()
                 # To avoid duplicated B0 tag when input is BAM/SAM we set instead of add
-                # tags.append(("B0:Z", mt.barcode))
-                mt.record.set_tag("B0:Z", mt.barcode)
+                tags.append(("B0:Z", mt.barcode))
+                #mt.record.set_tag("B0:Z", mt.barcode)
                 for j in xrange(len(bc.attributes)):
                     tags.append(("B{}:Z".format(j+1), bc.attributes[j]))
                 mt.record.add_tags(tags)

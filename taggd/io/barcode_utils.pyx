@@ -51,7 +51,7 @@ cpdef int estimate_min_edit_distance(dict true_barcodes, int max_iters):
     """
     # Compute minimum edit distance.
     # Get the barcodes and shuffle them
-    cdef list seqslist = true_barcodes.keys()
+    cdef list seqslist = list(true_barcodes.keys())
     random.shuffle(seqslist)
     # Iterate the barcodes to see if the comply the min distance requirement
     cdef int min_dist = 1000000000
