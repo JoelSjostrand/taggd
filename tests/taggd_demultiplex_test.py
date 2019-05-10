@@ -35,7 +35,7 @@ class TestDemultiplexer(unittest.TestCase):
         """
 
         outdir = tempfile.mkdtemp(prefix="taggd_demultiplex_test_out_sam_")
-        print "# Demultiplexer test output directory: " + outdir
+        print("# Demultiplexer test output directory: " + outdir)
 
         args = ["--k", "7", "--max-edit-distance", "7", "--overhang", "2", 
                 "--subprocesses", "3", "--seed", "dsfiogwhgfsaeadsgfADSgsagaagd"]
@@ -43,13 +43,12 @@ class TestDemultiplexer(unittest.TestCase):
 
         # Start the demultiplexer
         try:
-            print "\n# Running SAM test with parameters: " + " ".join(args)
+            print("\n# Running SAM test with parameters: " + " ".join(args))
             deplex.main(args)
             self.validate_output_data("Normal SAM test", "sam", outdir)
         except Exception as e:
-            print e
+            print(e)
             self.assertTrue(0, "Running Normal SAM test failed\n")
-
 
     def test_normal_bam_run(self):
         """
@@ -62,13 +61,12 @@ class TestDemultiplexer(unittest.TestCase):
 
         # Start the demultiplexer
         try:
-            print "\n# Running BAM test with parameters: " + " ".join(args)
+            print("\n# Running BAM test with parameters: " + " ".join(args))
             deplex.main(args)
             self.validate_output_data("Normal BAM test", "bam", outdir)
         except Exception as e:
-            print e
+            print(e)
             self.assertTrue(0, "Running Normal BAM test failed\n")
-
 
     def test_normal_fq_run(self):
         """
@@ -81,13 +79,12 @@ class TestDemultiplexer(unittest.TestCase):
 
         # Start the demultiplexer
         try:
-            print "\n# Running Fastq test with parameters: " + " ".join(args)
+            print("\n# Running Fastq test with parameters: " + " ".join(args))
             deplex.main(args)
             self.validate_output_data("Normal Fastq test", "fq", outdir)
         except Exception as e:
-            print e
+            print(e)
             self.assertTrue(0, "Running Normal Fastq test failed\n")
-
 
     def test_normal_fa_run(self):
         """
@@ -100,11 +97,11 @@ class TestDemultiplexer(unittest.TestCase):
 
         # Start the demultiplexer
         try:
-            print "\n# Running Fasta test with parameters: " + " ".join(args)
+            print("\n# Running Fasta test with parameters: " + " ".join(args))
             deplex.main(args)
             self.validate_output_data("Normal Fasta test", "fa", outdir)
         except Exception as e:
-            print e
+            print(e)
             self.assertTrue(0, "Running Normal Fasta test failed\n")
 
 
@@ -120,7 +117,7 @@ class TestDemultiplexer(unittest.TestCase):
         self.assertTrue(comp, file_description + " has the expected contents")
 
     def validate_output_data(self, expName, suffix, outdir):
-        print "# Validating test " + expName
+        print("# Validating test " + expName)
 
         # Verify existence of output files and temp files
         self.assertNotEqual(os.listdir(outdir), [], "Output folder is not empty")
@@ -130,7 +127,6 @@ class TestDemultiplexer(unittest.TestCase):
         self.compare_to_expected_results(suffix, "outfile_unmatched." + suffix, "Unmatched file", outdir)
         self.compare_to_expected_results(suffix, "outfile_ambiguous." + suffix, "Ambiguous file", outdir)
         self.compare_to_expected_results(suffix, "outfile_results.tsv", "Results file", outdir)
-
 
 if __name__ == '__main__':
     unittest.main()
