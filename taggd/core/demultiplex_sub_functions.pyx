@@ -148,7 +148,8 @@ cdef object demultiplex_lines(str filename_reads,
             for mt in mtch:
 
                 # Write to results file.
-                if f_res != None: f_res.write("{}\n".format(mt))
+                if f_res != None: 
+                    f_res.write("{}\n".format(mt))
 
                 # No match.
                 if mt.match_type == match_type.UNMATCHED:
@@ -161,7 +162,9 @@ cdef object demultiplex_lines(str filename_reads,
                 # Append record with properties. B0:Z:Barcode, B1:Z:Prop1, B2:Z:prop3 ...
                 bc = true_barcodes[mt.barcode]
                 tags = list()
-                tags.append(("B0:Z", mt.barcode))
+                # To avoid duplicated B0 tag when input is BAM/SAM we set instead of add
+                # tags.append(("B0:Z", mt.barcode))
+                mt.record.set_tag("B0:Z", mt.barcode)
                 for j in xrange(len(bc.attributes)):
                     tags.append(("B{}:Z".format(j+1), bc.attributes[j]))
                 mt.record.add_tags(tags)
@@ -176,13 +179,11 @@ cdef object demultiplex_lines(str filename_reads,
                 elif mt.match_type == match_type.MATCHED_UNAMBIGUOUSLY:
                     if f_match != None:
                         re_wr.write_record(f_match, mt.record)
-                        stats.total_reads_wr += 1
                     stats.imperfect_unambiguous_matches += 1
                     stats.edit_distance_counts[mt.edit_distance] += 1
                 elif mt.match_type == match_type.MATCHED_AMBIGUOUSLY:
                     if f_ambig != None:
                         re_wr.write_record(f_ambig, mt.record)
-                        stats.total_reads_wr += 1
                     stats.imperfect_ambiguous_matches += 1
                 else:
                     raise ValueError("Invalid match type")
@@ -192,10 +193,14 @@ cdef object demultiplex_lines(str filename_reads,
 
     # Close files.
     re_wr.reader_close()
-    if f_match != None: f_match.close()
-    if f_ambig != None: f_ambig.close()
-    if f_unmatch != None: f_unmatch.close()
-    if f_res != None: f_res.close()
+    if f_match != None: 
+        f_match.close()
+    if f_ambig != None: 
+        f_ambig.close()
+    if f_unmatch != None: 
+        f_unmatch.close()
+    if f_res != None: 
+        f_res.close()
 
     # Get finish time
     stats.time = time.time() - start_time
@@ -225,13 +230,16 @@ cdef list demultiplex_record(object rec):
     
     # Try perfect hit first.
     if not barcode_tag:
-        read_barcode = rec.sequence[start_position:(start_position+barcode_length)]
+        sequence = rec.sequence
     else:
         try:
-            read_barcode = {tag:value for tag,value in rec.attributes["tags"]}[barcode_tag]
+            sequence = {tag:value for tag,value in rec.attributes["tags"]}[barcode_tag]
         except KeyError:
-            raise ValueError('Error: cannot demultiplex, the specified SAM/BAM tag ("'+barcode_tag+'") is not present for record '+rec.annotation+'.\n')
-    if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
+            raise ValueError("Error: cannot demultiplex, "\
+                             "the specified SAM/BAM tag {} is not present for record {}\n".format(barcode_tag,rec.annotation))
+    read_barcode = sequence[start_position:(start_position+barcode_length)]
+    if trim_sequences is not None: 
+        read_barcode = trim_helpers(read_barcode)
 
     if read_barcode in true_barcodes:
         return [match.Match(rec, match_type.MATCHED_PERFECTLY, read_barcode, 0)]
@@ -243,10 +251,11 @@ cdef list demultiplex_record(object rec):
             
     # Include overhang.
     if pre_overhang != 0 or post_overhang != 0:
-        read_barcode = rec.sequence[(start_position - pre_overhang):min(len(rec.sequence), \
+        read_barcode = sequence[(start_position - pre_overhang):min(len(sequence), \
                                     (start_position + barcode_length + post_overhang))]
-        # NOTE should take care of overhang bases more carefully here
-        if trim_sequences is not None: read_barcode = trim_helpers(read_barcode)
+        # NOTE we should take care of overhang bases more carefully here
+        if trim_sequences is not None: 
+            read_barcode = trim_helpers(read_barcode)
           
     # Narrow down hits.
     cdef list candidates = srch.get_candidates(read_barcode)

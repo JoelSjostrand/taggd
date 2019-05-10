@@ -2,19 +2,9 @@ from setuptools import setup, find_packages
 from setuptools.extension import Extension
 from glob import glob
 import numpy
-try:
-    from Cython.Distutils import build_ext
-except ImportError:
-    use_cython = False
-else:
-    use_cython = True
+from Cython.Distutils import build_ext
 
-cmdclass = { }
-ext_modules = [ ]
-
-
-if use_cython:
-    ext_modules += [
+ext_modules = [
     Extension("taggd.core.demultiplex_core_functions",   ["taggd/core/demultiplex_core_functions.pyx"]),
     Extension("taggd.core.demultiplex_sub_functions",    ["taggd/core/demultiplex_sub_functions.pyx"]),
     Extension("taggd.core.demultiplex_search_functions", ["taggd/core/demultiplex_search_functions.pyx"]),
@@ -30,32 +20,13 @@ if use_cython:
     Extension("taggd.io.fasta_record",                   ["taggd/io/fasta_record.pyx"]),
     Extension("taggd.io.fastq_record",                   ["taggd/io/fastq_record.pyx"]),
     Extension("taggd.io.reads_reader_writer",            ["taggd/io/reads_reader_writer.pyx"])
-    ]
-    cmdclass.update({ 'build_ext': build_ext })
-else:
-    ext_modules += [
-    Extension("taggd.core.demultiplex_core_functions",   ["taggd/core/demultiplex_core_functions.c"]),
-    Extension("taggd.core.demultiplex_sub_functions",    ["taggd/core/demultiplex_sub_functions.c"]),
-    Extension("taggd.core.demultiplex_search_functions", ["taggd/core/demultiplex_search_functions.c"]),
-    Extension("taggd.core.match",                        ["taggd/core/match.c"]),
-    Extension("taggd.core.match_type",                   ["taggd/core/match_type.c"]),
-    Extension("taggd.core.statistics",                   ["taggd/core/statistics.c"]),
-    Extension("taggd.misc.distance_metrics",             ["taggd/misc/distance_metrics.c"]),
-    Extension("taggd.misc.kmer_utils",                   ["taggd/misc/kmer_utils.c"]),
-    Extension("taggd.io.fastq_utils",                    ["taggd/io/fastq_utils.c"]),
-    Extension("taggd.io.barcode_utils",                  ["taggd/io/barcode_utils.c"]),
-    Extension("taggd.io.record",                         ["taggd/io/record.c"]),
-    Extension("taggd.io.sam_record",                     ["taggd/io/sam_record.c"]),
-    Extension("taggd.io.fasta_record",                   ["taggd/io/fasta_record.c"]),
-    Extension("taggd.io.fastq_record",                   ["taggd/io/fastq_record.c"]),
-    Extension("taggd.io.reads_reader_writer",            ["taggd/io/reads_reader_writer.c"])
-    ]
-
+]
+cmdclass = { 'build_ext': build_ext }
 
 setup(
 	name = "taggd",
-	version = '0.3.2',
-	author = 'Joel Sjostrand',
+	version = '0.3.5',
+	author = 'Joel Sjostrand, Jose Fernandez',
 	author_email = 'joel.sjostrand@scilifelab.se, jose.fernandez.navarro@scilifelab.se',
 	license = 'Open BSD',
     description = 'Bioinformatics genetic barcode demultiplexing',
@@ -64,6 +35,7 @@ setup(
 	scripts = glob("scripts/*.py"),
     packages = ['taggd', 'taggd.core', 'taggd.io', 'taggd.misc'],
     package_data = {'': ['*.pyx', '*.pxd', '*.h', '*.c'], },
+    setup_requires = ["cython"],
 	install_requires = [
 	    'setuptools',
 	    'pysam',

@@ -166,7 +166,8 @@ cdef list get_top_hits(list qual_hits):
     :param qual_hits the list of possible candidate tuples (barcode,distance)
     :return the filtered list
     """
-    if len(qual_hits) == 0: return None
+    if len(qual_hits) == 0: 
+        return None
  
     # Find smallest distance
     from operator import itemgetter
