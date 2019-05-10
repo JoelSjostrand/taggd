@@ -25,7 +25,7 @@ cmdclass = { 'build_ext': build_ext }
 
 setup(
 	name = "taggd",
-	version = '0.3.5',
+	version = '0.3.6',
 	author = 'Joel Sjostrand, Jose Fernandez',
 	author_email = 'joel.sjostrand@scilifelab.se, jose.fernandez.navarro@scilifelab.se',
 	license = 'Open BSD',

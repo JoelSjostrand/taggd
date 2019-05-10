@@ -57,7 +57,7 @@ def init(dict true_barcodes_,
 
     # Create k-mer mappings with ALL kmers
     global kmer2seq
-    kmer2seq = ku.get_kmers_dicts(true_barcodes_.keys(), k, False)
+    kmer2seq = ku.get_kmers_dicts(list(true_barcodes_.keys()), k, False)
 
     # Metrics
     global SUBGLOBAL
@@ -105,7 +105,7 @@ cdef list get_candidates(str read_barcode):
             continue
         # For each true barcode containing read's kmer.
         # Hit refers to barcode and hit_offsets to where the kmer was in the barcode
-        for hit, hit_offsets in hits.iteritems():
+        for hit, hit_offsets in list(hits.items()):
             if no_offset_speedup:
                 # NON-OPTIMIZED CASE
                 # For each kmer in read (typically incremented by k positions at a time).
@@ -126,7 +126,7 @@ cdef list get_candidates(str read_barcode):
             candidates[hit] = max(min_penalty, candidates[hit])
             
     # Clear out all candidates with a forced offset penalty greater than the max edit distance and return
-    return [hit for hit,penal in candidates.iteritems() if penal <= max_edit_distance]
+    return [hit for hit,penal in list(candidates.items()) if penal <= max_edit_distance]
     
 cdef list get_distances(str read_barcode, list candidates):
     """

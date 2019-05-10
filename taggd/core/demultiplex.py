@@ -202,18 +202,18 @@ def main(argv=None):
     if options.subprocesses == 0:
         options.subprocesses = mp.cpu_count() - 1
 
-    print "# Options: " + str(options).split("Namespace")[-1]
-    print "# Barcodes input file: " + str(fn_bc)
-    print "# Reads input file: " + str(fn_reads)
-    print "# Matched output file: " + str(fn_matched)
-    print "# Ambiguous output file: " + str(fn_ambig)
-    print "# Unmatched output file: " + str(fn_unmatched)
-    print "# Results output file: " + str(fn_results)
-    print "# Number of barcodes in input: " + str(len(true_barcodes))
-    lngth = len(true_barcodes.keys()[0])
-    print "# Barcode length: " + str(lngth)
-    print "# Barcode length when overhang added: " + \
-    str(lngth + min(options.start_position, options.overhang) + options.overhang)
+    print("# Options: " + str(options).split("Namespace")[-1])
+    print("# Barcodes input file: " + str(fn_bc))
+    print("# Reads input file: " + str(fn_reads))
+    print("# Matched output file: " + str(fn_matched))
+    print("# Ambiguous output file: " + str(fn_ambig))
+    print("# Unmatched output file: " + str(fn_unmatched))
+    print("# Results output file: " + str(fn_results))
+    print("# Number of barcodes in input: " + str(len(true_barcodes)))
+    lngth = len(list(true_barcodes.keys())[0])
+    print("# Barcode length: " + str(lngth))
+    print("# Barcode length when overhang added: " + \
+    str(lngth + min(options.start_position, options.overhang) + options.overhang))
         
     # Check barcodes file.
     if options.estimate_min_edit_distance > 0:
@@ -221,15 +221,15 @@ def main(argv=None):
         if min_dist <= options.max_edit_distance:
             raise ValueError("Invalid max edit distance: exceeds or equal " \
                              "to estimated minimum edit distance among true barcodes.")
-        print "# Estimate of minimum edit distance between true barcodes (may be less): " + str(min_dist)
+        print("# Estimate of minimum edit distance between true barcodes (may be less): " + str(min_dist))
     else:
-        print "# Estimate of minimum edit distance between true barcodes (may be less): Not estimated"
+        print("# Estimate of minimum edit distance between true barcodes (may be less): Not estimated")
 
     # Make the input trim coordinates a list of tuples
     trim_sequences = None
     if options.trim_sequences is not None:
         trim_sequences = list()
-        for i in xrange(len(options.trim_sequences) - 1):
+        for i in range(len(options.trim_sequences) - 1):
             if i % 2 == 0:
                 trim_sequences.append((options.trim_sequences[i], 
                                        options.trim_sequences[i+1]))
@@ -257,13 +257,13 @@ def main(argv=None):
               options.no_offset_speedup)
 
     # Demultiplex
-    print "# Starting demultiplexing..."
+    print("# Starting demultiplexing...")
     stats = core.demultiplex(fn_reads,
                              fn_matched,
                              fn_ambig,
                              fn_unmatched,
                              fn_results,
                              options.subprocesses)
-    print "# ...finished demultiplexing"
-    print "# Wall time in secs: " + str(time.time() - start_time)
-    print str(stats)
+    print("# ...finished demultiplexing")
+    print("# Wall time in secs: " + str(time.time() - start_time))
+    print(str(stats))
